@@ -46,5 +46,8 @@
 		"nps": "^5.9.5",
 		"nps-utils": "^1.7.0",
 		"prettier": "^1.15.2"
+	},
+	"dependencies": {
+		"@mitchgillin/reactivecore-fork": "^9.6.19"
 	}
 }
