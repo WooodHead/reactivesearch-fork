@@ -1,12 +1,12 @@
 import React from 'react';
-import types from '@appbaseio/reactivecore/lib/utils/types';
-import { getInternalComponentID } from '@appbaseio/reactivecore/lib/utils/transform';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
+import { getInternalComponentID } from '@mitchgillin/reactivecore/lib/utils/transform';
 
 import {
 	pushToAndClause,
 	checkPropChange,
 	checkSomePropChange,
-} from '@appbaseio/reactivecore/lib/utils/helper';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
 
 import {
 	addComponent,
@@ -15,7 +15,7 @@ import {
 	setQueryListener,
 	setComponentProps,
 	updateComponentProps,
-} from '@appbaseio/reactivecore/lib/actions';
+} from '@mitchgillin/reactivecore/lib/actions';
 
 import { connect, getValidPropsKeys, hasCustomRenderer, getComponent } from '../../utils';
 
@@ -53,7 +53,7 @@ class ComponentWrapper extends React.Component {
 		return hasCustomRenderer(this.props);
 	}
 
-	setReact = (props) => {
+	setReact = props => {
 		const { react } = props;
 		if (this.internalComponent) {
 			if (react) {
@@ -71,15 +71,9 @@ class ComponentWrapper extends React.Component {
 
 	componentDidUpdate(prevProps) {
 		checkSomePropChange(this.props, prevProps, getValidPropsKeys(this.props), () => {
-			this.props.updateComponentProps(
-				this.props.componentId,
-				this.props,
-			);
+			this.props.updateComponentProps(this.props.componentId, this.props);
 			if (this.internalComponent) {
-				this.props.updateComponentProps(
-					this.internalComponent,
-					this.props,
-				);
+				this.props.updateComponentProps(this.internalComponent, this.props);
 			}
 		});
 		checkPropChange(this.props.react, prevProps.react, () => this.setReact(this.props));
@@ -127,7 +121,6 @@ ComponentWrapper.propTypes = {
 	react: types.react,
 	render: types.func,
 };
-
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
 	setComponentProps: (component, options) =>

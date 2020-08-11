@@ -1,6 +1,6 @@
 import React from 'react';
-import { getClassName } from '@appbaseio/reactivecore/lib/utils/helper';
-import types from '@appbaseio/reactivecore/lib/utils/types';
+import { getClassName } from '@mitchgillin/reactivecore/lib/utils/helper';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 
 class Results extends React.Component {
 	render() {

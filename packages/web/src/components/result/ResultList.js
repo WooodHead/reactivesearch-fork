@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import types from '@appbaseio/reactivecore/lib/utils/types';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 import Title from '../../styles/Title';
 import ListItem from '../../styles/ListItem';
 import ResultListImage from './addons/ResultListImage';
@@ -37,9 +37,7 @@ class ResultList extends Component {
 	}
 
 	render() {
-		const {
-			children, href, target, ...props
-		} = this.props;
+		const { children, href, target, ...props } = this.props;
 		const { hasImage, isSmall } = this.state;
 		return (
 			<ListItem

@@ -5,7 +5,7 @@ import {
 	setQueryOptions,
 	setCustomQuery,
 	setDefaultQuery,
-} from '@appbaseio/reactivecore/lib/actions';
+} from '@mitchgillin/reactivecore/lib/actions';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import {
 	checkValueChange,
@@ -18,22 +18,16 @@ import {
 	updateCustomQuery,
 	updateDefaultQuery,
 	updateInternalQuery,
-} from '@appbaseio/reactivecore/lib/utils/helper';
-import { getInternalComponentID } from '@appbaseio/reactivecore/lib/utils/transform';
-import { componentTypes } from '@appbaseio/reactivecore/lib/utils/constants';
-import types from '@appbaseio/reactivecore/lib/utils/types';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
+import { getInternalComponentID } from '@mitchgillin/reactivecore/lib/utils/transform';
+import { componentTypes } from '@mitchgillin/reactivecore/lib/utils/constants';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 
 import Title from '../../styles/Title';
 import Input from '../../styles/Input';
 import Container from '../../styles/Container';
 import { UL, Radio } from '../../styles/FormControlList';
-import {
-	connect,
-	getComponent,
-	hasCustomRenderer,
-	isEvent,
-	isQueryIdentical,
-} from '../../utils';
+import { connect, getComponent, hasCustomRenderer, isEvent, isQueryIdentical } from '../../utils';
 import ComponentWrapper from '../basic/ComponentWrapper';
 
 class SingleDataList extends Component {
@@ -98,8 +92,8 @@ class SingleDataList extends Component {
 		if (this.props.value !== prevProps.value) {
 			this.setValue(this.props.value);
 		} else if (
-			this.state.currentValue !== this.props.selectedValue
-			&& this.props.selectedValue !== prevProps.selectedValue
+			this.state.currentValue !== this.props.selectedValue &&
+			this.props.selectedValue !== prevProps.selectedValue
 		) {
 			const { value, onChange } = this.props;
 			if (value === undefined) {
@@ -170,7 +164,7 @@ class SingleDataList extends Component {
 		checkValueChange(props.componentId, value, props.beforeValueChange, performUpdate);
 	};
 
-	updateDefaultQuery = (queryOptions) => {
+	updateDefaultQuery = queryOptions => {
 		const { currentValue } = this.state;
 		// Update default query for RS API
 		updateDefaultQuery(this.props.componentId, this.props, currentValue);
@@ -218,7 +212,7 @@ class SingleDataList extends Component {
 		return getAggsQuery(state.currentValue, queryOptions, props, includes);
 	}
 
-	updateQueryOptions = (props) => {
+	updateQueryOptions = props => {
 		const queryOptions = SingleDataList.generateQueryOptions(props, this.state);
 		if (props.defaultQuery) {
 			const value = this.state.currentValue;
@@ -233,7 +227,7 @@ class SingleDataList extends Component {
 		}
 	};
 
-	updateStateOptions = (bucket) => {
+	updateStateOptions = bucket => {
 		if (bucket) {
 			const bucketDictionary = bucket.reduce(
 				(obj, item) => ({
@@ -244,7 +238,7 @@ class SingleDataList extends Component {
 			);
 
 			const { options } = this.state;
-			const newOptions = options.map((item) => {
+			const newOptions = options.map(item => {
 				if (bucketDictionary[item.value]) {
 					return {
 						...item,
@@ -261,7 +255,7 @@ class SingleDataList extends Component {
 		}
 	};
 
-	handleInputChange = (e) => {
+	handleInputChange = e => {
 		const { value } = e.target;
 		this.setState({
 			searchTerm: value,
@@ -287,7 +281,7 @@ class SingleDataList extends Component {
 		return null;
 	};
 
-	handleClick = (e) => {
+	handleClick = e => {
 		let currentValue = e;
 		if (isEvent(e)) {
 			currentValue = e.target.value;
@@ -318,7 +312,7 @@ class SingleDataList extends Component {
 	get listItems() {
 		const { options } = this.state;
 
-		const listItems = options.filter((item) => {
+		const listItems = options.filter(item => {
 			if (this.props.showSearch && this.state.searchTerm) {
 				return item.label.toLowerCase().includes(this.state.searchTerm.toLowerCase());
 			}
@@ -488,16 +482,15 @@ SingleDataList.defaultProps = {
 	showCount: false,
 };
 
-
 // Add componentType for SSR
 SingleDataList.componentType = componentTypes.singleDataList;
 
 const mapStateToProps = (state, props) => ({
 	rawData: state.rawData[props.componentId],
 	selectedValue:
-		(state.selectedValues[props.componentId]
-			&& state.selectedValues[props.componentId].value)
-		|| null,
+		(state.selectedValues[props.componentId] &&
+			state.selectedValues[props.componentId].value) ||
+		null,
 	themePreset: state.config.themePreset,
 	options:
 		props.nestedField && state.aggregations[props.componentId]

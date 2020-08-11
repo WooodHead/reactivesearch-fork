@@ -6,10 +6,10 @@ import {
 	loadMore,
 	setCustomQuery,
 	setDefaultQuery,
-} from '@appbaseio/reactivecore/lib/actions';
-import { getInternalComponentID } from '@appbaseio/reactivecore/lib/utils/transform';
+} from '@mitchgillin/reactivecore/lib/actions';
+import { getInternalComponentID } from '@mitchgillin/reactivecore/lib/utils/transform';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import { componentTypes } from '@appbaseio/reactivecore/lib/utils/constants';
+import { componentTypes } from '@mitchgillin/reactivecore/lib/utils/constants';
 import {
 	isEqual,
 	getQueryOptions,
@@ -23,9 +23,9 @@ import {
 	updateInternalQuery,
 	updateCustomQuery,
 	updateDefaultQuery,
-} from '@appbaseio/reactivecore/lib/utils/helper';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
 
-import types from '@appbaseio/reactivecore/lib/utils/types';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 
 import Title from '../../styles/Title';
 import Input from '../../styles/Input';
@@ -50,12 +50,12 @@ class MultiList extends Component {
 		const defaultValue = props.defaultValue || props.value;
 		const currentValueArray = props.selectedValue || defaultValue || [];
 		const currentValue = {};
-		currentValueArray.forEach((item) => {
+		currentValueArray.forEach(item => {
 			currentValue[item] = true;
 		});
 
-		const options
-			= props.options && props.options[props.dataField]
+		const options =
+			props.options && props.options[props.dataField]
 				? this.getOptions(props.options[props.dataField].buckets, props)
 				: [];
 
@@ -88,10 +88,10 @@ class MultiList extends Component {
 			if (showLoadMore && options && options[dataField]) {
 				const { buckets } = options[dataField];
 				const after = options[dataField].after_key;
-				const prevAfter
-					= prevProps.options
-					&& prevProps.options[dataField]
-					&& prevProps.options[dataField].after_key;
+				const prevAfter =
+					prevProps.options &&
+					prevProps.options[dataField] &&
+					prevProps.options[dataField].after_key;
 				// detect the last bucket by checking if the after key is absent
 				const isLastBucket = !after;
 				this.setState(
@@ -130,8 +130,8 @@ class MultiList extends Component {
 				);
 			}
 		});
-		const valueArray
-			= typeof this.state.currentValue === 'object' ? Object.keys(this.state.currentValue) : [];
+		const valueArray =
+			typeof this.state.currentValue === 'object' ? Object.keys(this.state.currentValue) : [];
 		// Treat defaultQuery and customQuery as reactive props
 		if (!isQueryIdentical(valueArray, this.props, prevProps, 'defaultQuery')) {
 			this.updateDefaultQuery();
@@ -164,8 +164,8 @@ class MultiList extends Component {
 		if (this.props.value !== prevProps.value) {
 			this.setValue(this.props.value, true);
 		} else if (
-			!isEqual(selectedValue, this.props.selectedValue)
-			&& !isEqual(this.props.selectedValue, prevProps.selectedValue)
+			!isEqual(selectedValue, this.props.selectedValue) &&
+			!isEqual(this.props.selectedValue, prevProps.selectedValue)
 		) {
 			const { value, onChange } = this.props;
 			if (value === undefined) {
@@ -270,15 +270,15 @@ class MultiList extends Component {
 		let finalValues = null;
 
 		if (
-			selectAllLabel
-			&& ((Array.isArray(value) && value.includes(selectAllLabel))
-				|| (typeof value === 'string' && value === selectAllLabel))
+			selectAllLabel &&
+			((Array.isArray(value) && value.includes(selectAllLabel)) ||
+				(typeof value === 'string' && value === selectAllLabel))
 		) {
 			if (currentValue[selectAllLabel] && hasMounted && !isDefaultValue) {
 				currentValue = {};
 				finalValues = [];
 			} else {
-				this.state.options.forEach((item) => {
+				this.state.options.forEach(item => {
 					currentValue[item.key] = true;
 				});
 				currentValue[selectAllLabel] = true;
@@ -288,7 +288,7 @@ class MultiList extends Component {
 			finalValues = value;
 			currentValue = {};
 			if (value) {
-				value.forEach((item) => {
+				value.forEach(item => {
 					currentValue[item] = true;
 				});
 			}
@@ -358,7 +358,7 @@ class MultiList extends Component {
 		});
 	};
 
-	updateDefaultQuery = (queryOptions) => {
+	updateDefaultQuery = queryOptions => {
 		const value = Object.keys(this.state.currentValue);
 		// Update default query for RS API
 		updateDefaultQuery(this.props.componentId, this.props, value);
@@ -404,7 +404,7 @@ class MultiList extends Component {
 		}
 	};
 
-	handleInputChange = (e) => {
+	handleInputChange = e => {
 		const { value } = e.target;
 		this.setState({
 			searchTerm: value,
@@ -439,7 +439,7 @@ class MultiList extends Component {
 		return null;
 	};
 
-	handleClick = (e) => {
+	handleClick = e => {
 		let currentValue = e;
 		if (isEvent(e)) {
 			currentValue = e.target.value;
@@ -463,7 +463,7 @@ class MultiList extends Component {
 			itemsToRender = this.props.transformData(itemsToRender);
 		}
 
-		const listItems = itemsToRender.filter((item) => {
+		const listItems = itemsToRender.filter(item => {
 			if (String(item.key).length) {
 				if (this.props.showSearch && this.state.searchTerm) {
 					return String(item.key)
@@ -713,9 +713,9 @@ const mapStateToProps = (state, props) => ({
 			: state.aggregations[props.componentId],
 	rawData: state.rawData[props.componentId],
 	selectedValue:
-		(state.selectedValues[props.componentId]
-			&& state.selectedValues[props.componentId].value)
-		|| null,
+		(state.selectedValues[props.componentId] &&
+			state.selectedValues[props.componentId].value) ||
+		null,
 	isLoading: state.isLoading[props.componentId],
 	themePreset: state.config.themePreset,
 	error: state.error[props.componentId],

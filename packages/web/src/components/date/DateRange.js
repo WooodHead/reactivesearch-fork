@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import { updateQuery, setQueryOptions, setCustomQuery } from '@appbaseio/reactivecore/lib/actions';
+import {
+	updateQuery,
+	setQueryOptions,
+	setCustomQuery,
+} from '@mitchgillin/reactivecore/lib/actions';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import {
 	isEqual,
@@ -9,10 +13,10 @@ import {
 	formatDate,
 	updateCustomQuery,
 	checkSomePropChange,
-} from '@appbaseio/reactivecore/lib/utils/helper';
-import types from '@appbaseio/reactivecore/lib/utils/types';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 import XDate from 'xdate';
-import { componentTypes } from '@appbaseio/reactivecore/lib/utils/constants';
+import { componentTypes } from '@mitchgillin/reactivecore/lib/utils/constants';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import { withTheme } from 'emotion-theming';
 
@@ -76,8 +80,8 @@ class DateRange extends Component {
 						] // prettier-ignore
 						: null,
 					selectedValue,
-				)
-				&& !isEqual(prevProps.selectedValue, selectedValue)
+				) &&
+				!isEqual(prevProps.selectedValue, selectedValue)
 			) {
 				const modDate = selectedValue
 					? {
@@ -86,8 +90,8 @@ class DateRange extends Component {
 					} // prettier-ignore
 					: { start: '', end: '' };
 				if (
-					(value === undefined || (value && value.start === '' && value.end === ''))
-					&& !onChange
+					(value === undefined || (value && value.start === '' && value.end === '')) &&
+					!onChange
 				) {
 					this.handleDateChange(modDate, true, this.props);
 				} else if (onChange) {
@@ -110,7 +114,7 @@ class DateRange extends Component {
 		);
 	}
 
-	formatInputDate = (date) => {
+	formatInputDate = date => {
 		const xdate = new XDate(date);
 		return xdate.valid() ? xdate.toString('yyyy-MM-dd') : '';
 	};
@@ -172,11 +176,11 @@ class DateRange extends Component {
 		return query;
 	};
 
-	getEndDateRef = (ref) => {
+	getEndDateRef = ref => {
 		this.endDateRef = ref;
 	};
 
-	getStartDateRef = (ref) => {
+	getStartDateRef = ref => {
 		this.startDateRef = ref;
 	};
 
@@ -260,7 +264,7 @@ class DateRange extends Component {
 		}
 	};
 
-	handleEndDate = (selectedDay) => {
+	handleEndDate = selectedDay => {
 		const { currentDate } = this.state;
 		const { value, onChange } = this.props;
 		const start = currentDate ? currentDate.start : '';
@@ -297,7 +301,7 @@ class DateRange extends Component {
 		}
 	};
 
-	handleDayMouseEnter = (day) => {
+	handleDayMouseEnter = day => {
 		this.setState({
 			dateHovered: day,
 		});
@@ -413,24 +417,24 @@ class DateRange extends Component {
 							onDayChange={this.handleStartDate}
 							classNames={{
 								container:
-									getClassName(this.props.innerClass, 'daypicker-container')
-									|| 'DayPickerInput',
+									getClassName(this.props.innerClass, 'daypicker-container') ||
+									'DayPickerInput',
 								overlayWrapper:
 									getClassName(
 										this.props.innerClass,
 										'daypicker-overlay-wrapper',
 									) || 'DayPickerInput-OverlayWrapper',
 								overlay:
-									getClassName(this.props.innerClass, 'daypicker-overlay')
-									|| 'DayPickerInput-Overlay',
+									getClassName(this.props.innerClass, 'daypicker-overlay') ||
+									'DayPickerInput-Overlay',
 							}}
 							{...this.props.dayPickerInputProps}
 						/>
-						{this.props.showClear
-							&& this.state.currentDate
-							&& this.state.currentDate.start && (
-							<CancelSvg onClick={this.clearDayPickerStart} />
-						)}
+						{this.props.showClear &&
+							this.state.currentDate &&
+							this.state.currentDate.start && (
+								<CancelSvg onClick={this.clearDayPickerStart} />
+							)}
 					</Flex>
 					<Flex justifyContent="center" alignItems="center" basis="20px">
 						-
@@ -468,24 +472,24 @@ class DateRange extends Component {
 							onDayChange={this.handleEndDate}
 							classNames={{
 								container:
-									getClassName(this.props.innerClass, 'daypicker-container')
-									|| 'DayPickerInput',
+									getClassName(this.props.innerClass, 'daypicker-container') ||
+									'DayPickerInput',
 								overlayWrapper:
 									getClassName(
 										this.props.innerClass,
 										'daypicker-overlay-wrapper',
 									) || 'DayPickerInput-OverlayWrapper',
 								overlay:
-									getClassName(this.props.innerClass, 'daypicker-overlay')
-									|| 'DayPickerInput-Overlay',
+									getClassName(this.props.innerClass, 'daypicker-overlay') ||
+									'DayPickerInput-Overlay',
 							}}
 							{...this.props.dayPickerInputProps}
 						/>
-						{this.props.showClear
-							&& this.state.currentDate
-							&& this.state.currentDate.end && (
-							<CancelSvg onClick={this.clearDayPickerEnd} />
-						)}
+						{this.props.showClear &&
+							this.state.currentDate &&
+							this.state.currentDate.end && (
+								<CancelSvg onClick={this.clearDayPickerEnd} />
+							)}
 					</Flex>
 				</Flex>
 			</DateContainer>

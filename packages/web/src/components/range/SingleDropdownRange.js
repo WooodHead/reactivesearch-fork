@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 
-import { updateQuery, setQueryOptions, setCustomQuery } from '@appbaseio/reactivecore/lib/actions';
+import {
+	updateQuery,
+	setQueryOptions,
+	setCustomQuery,
+} from '@mitchgillin/reactivecore/lib/actions';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import {
 	isEqual,
@@ -9,10 +13,10 @@ import {
 	getClassName,
 	getOptionsFromQuery,
 	updateCustomQuery,
-} from '@appbaseio/reactivecore/lib/utils/helper';
-import { componentTypes } from '@appbaseio/reactivecore/lib/utils/constants';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
+import { componentTypes } from '@mitchgillin/reactivecore/lib/utils/constants';
 
-import types from '@appbaseio/reactivecore/lib/utils/types';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 import Title from '../../styles/Title';
 import Container from '../../styles/Container';
 import Dropdown from '../shared/Dropdown';
@@ -49,8 +53,8 @@ class SingleDropdownRange extends Component {
 		if (!isEqual(this.props.value, prevProps.value)) {
 			this.setValue(this.props.value, true);
 		} else if (
-			!isEqual(this.state.currentValue, this.props.selectedValue)
-			&& !isEqual(this.props.selectedValue, prevProps.selectedValue)
+			!isEqual(this.state.currentValue, this.props.selectedValue) &&
+			!isEqual(this.props.selectedValue, prevProps.selectedValue)
 		) {
 			const { value, onChange } = this.props;
 			if (value === undefined) {
@@ -134,7 +138,7 @@ class SingleDropdownRange extends Component {
 		});
 	};
 
-	handleChange = (selectedItem) => {
+	handleChange = selectedItem => {
 		const { value, onChange } = this.props;
 
 		if (value === undefined) {
@@ -210,15 +214,14 @@ SingleDropdownRange.defaultProps = {
 	includeNullValues: false,
 };
 
-
 // Add componentType for SSR
 SingleDropdownRange.componentType = componentTypes.singleDropdownRange;
 
 const mapStateToProps = (state, props) => ({
 	selectedValue:
-		(state.selectedValues[props.componentId]
-			&& state.selectedValues[props.componentId].value)
-		|| null,
+		(state.selectedValues[props.componentId] &&
+			state.selectedValues[props.componentId].value) ||
+		null,
 	themePreset: state.config.themePreset,
 });
 

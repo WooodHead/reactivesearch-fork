@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import types from '@appbaseio/reactivecore/lib/utils/types';
-import { isEqual, getClassName } from '@appbaseio/reactivecore/lib/utils/helper';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
+import { isEqual, getClassName } from '@mitchgillin/reactivecore/lib/utils/helper';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import RangeSlider from './RangeSlider';
 import Input from '../../styles/Input';
@@ -33,7 +33,7 @@ class RangeInput extends Component {
 	static defaultQuery = RangeSlider.defaultQuery;
 	static parseValue = RangeSlider.parseValue;
 
-	handleInputChange = (e) => {
+	handleInputChange = e => {
 		const { name, value } = e.target;
 
 		if (Number.isNaN(value)) {
@@ -87,7 +87,7 @@ class RangeInput extends Component {
 		};
 	}
 
-	handleSliderChange = (sliderValue) => {
+	handleSliderChange = sliderValue => {
 		const [start, end] = sliderValue || [this.props.range.start, this.props.range.end];
 		const { value, onChange } = this.props;
 
@@ -114,9 +114,7 @@ class RangeInput extends Component {
 	};
 
 	render() {
-		const {
-			className, style, themePreset, ...rest
-		} = this.props;
+		const { className, style, themePreset, ...rest } = this.props;
 
 		return (
 			<Container style={style} className={className}>

@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { oneOfType, arrayOf, string, bool, func } from 'prop-types';
-import { getSearchState } from '@appbaseio/reactivecore/lib/utils/helper';
-import types from '@appbaseio/reactivecore/lib/utils/types';
+import { getSearchState } from '@mitchgillin/reactivecore/lib/utils/helper';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 
 import { connect, getComponent } from '../../utils';
 
@@ -21,7 +21,7 @@ const filterByComponentIds = (state, props = {}) => {
 	}
 	if (componentIds instanceof Array) {
 		const filteredState = {};
-		componentIds.forEach((componentId) => {
+		componentIds.forEach(componentId => {
 			filteredState[componentId] = state[componentId];
 		});
 		return filteredState;

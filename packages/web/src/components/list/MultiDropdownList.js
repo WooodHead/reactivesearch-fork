@@ -5,7 +5,7 @@ import {
 	setQueryOptions,
 	setCustomQuery,
 	setDefaultQuery,
-} from '@appbaseio/reactivecore/lib/actions';
+} from '@mitchgillin/reactivecore/lib/actions';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import {
 	isEqual,
@@ -20,11 +20,11 @@ import {
 	updateInternalQuery,
 	updateCustomQuery,
 	updateDefaultQuery,
-} from '@appbaseio/reactivecore/lib/utils/helper';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
 
-import types from '@appbaseio/reactivecore/lib/utils/types';
-import { componentTypes } from '@appbaseio/reactivecore/lib/utils/constants';
-import { getInternalComponentID } from '@appbaseio/reactivecore/lib/utils/transform';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
+import { componentTypes } from '@mitchgillin/reactivecore/lib/utils/constants';
+import { getInternalComponentID } from '@mitchgillin/reactivecore/lib/utils/transform';
 import Title from '../../styles/Title';
 import Container from '../../styles/Container';
 import Button, { loadMoreContainer } from '../../styles/Button';
@@ -47,7 +47,7 @@ class MultiDropdownList extends Component {
 		const defaultValue = props.defaultValue || props.value;
 		const currentValueArray = props.selectedValue || defaultValue || [];
 		const currentValue = {};
-		currentValueArray.forEach((item) => {
+		currentValueArray.forEach(item => {
 			currentValue[item] = true;
 		});
 		const dataField = props.dataField;
@@ -126,8 +126,8 @@ class MultiDropdownList extends Component {
 				);
 			}
 		});
-		const valueArray
-			= typeof this.state.currentValue === 'object' ? Object.keys(this.state.currentValue) : [];
+		const valueArray =
+			typeof this.state.currentValue === 'object' ? Object.keys(this.state.currentValue) : [];
 		// Treat defaultQuery and customQuery as reactive props
 		if (!isQueryIdentical(valueArray, this.props, prevProps, 'defaultQuery')) {
 			this.updateDefaultQuery();
@@ -160,8 +160,8 @@ class MultiDropdownList extends Component {
 		if (this.props.value !== prevProps.value) {
 			this.setValue(this.props.value, true);
 		} else if (
-			!isEqual(selectedValue, this.props.selectedValue)
-			&& !isEqual(this.props.selectedValue, prevProps.selectedValue)
+			!isEqual(selectedValue, this.props.selectedValue) &&
+			!isEqual(this.props.selectedValue, prevProps.selectedValue)
 		) {
 			const { value, onChange } = this.props;
 			if (value === undefined) {
@@ -260,7 +260,7 @@ class MultiDropdownList extends Component {
 				currentValue = {};
 				finalValues = [];
 			} else {
-				this.state.options.forEach((item) => {
+				this.state.options.forEach(item => {
 					currentValue[item.key] = true;
 				});
 				currentValue[selectAllLabel] = true;
@@ -270,7 +270,7 @@ class MultiDropdownList extends Component {
 			finalValues = value;
 			currentValue = {};
 			if (value) {
-				value.forEach((item) => {
+				value.forEach(item => {
 					currentValue[item] = true;
 				});
 			}
@@ -336,7 +336,7 @@ class MultiDropdownList extends Component {
 		});
 	};
 
-	updateDefaultQuery = (queryOptions) => {
+	updateDefaultQuery = queryOptions => {
 		const value = Object.keys(this.state.currentValue);
 		// Update default query for RS API
 		updateDefaultQuery(this.props.componentId, this.props, value);
@@ -385,7 +385,7 @@ class MultiDropdownList extends Component {
 		this.updateQueryOptions(this.props, true);
 	};
 
-	handleChange = (e) => {
+	handleChange = e => {
 		let currentValue = e;
 		if (isEvent(e)) {
 			currentValue = e.target.value;
@@ -418,9 +418,7 @@ class MultiDropdownList extends Component {
 	};
 
 	render() {
-		const {
-			showLoadMore, loadMoreLabel, error, renderError, isLoading, loader,
-		} = this.props;
+		const { showLoadMore, loadMoreLabel, error, renderError, isLoading, loader } = this.props;
 		const { isLastBucket } = this.state;
 		let selectAll = [];
 
@@ -478,8 +476,8 @@ class MultiDropdownList extends Component {
 					showSearch={this.props.showSearch}
 					transformData={this.props.transformData}
 					footer={
-						showLoadMore
-						&& !isLastBucket && (
+						showLoadMore &&
+						!isLastBucket && (
 							<div css={loadMoreContainer}>
 								<Button disabled={isLoading} onClick={this.handleLoadMore}>
 									{loadMoreLabel}
@@ -573,9 +571,9 @@ const mapStateToProps = (state, props) => ({
 			: state.aggregations[props.componentId],
 	rawData: state.rawData[props.componentId],
 	selectedValue:
-		(state.selectedValues[props.componentId]
-			&& state.selectedValues[props.componentId].value)
-		|| null,
+		(state.selectedValues[props.componentId] &&
+			state.selectedValues[props.componentId].value) ||
+		null,
 	isLoading: state.isLoading[props.componentId],
 	themePreset: state.config.themePreset,
 	error: state.error[props.componentId],

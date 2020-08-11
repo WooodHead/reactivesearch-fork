@@ -1,5 +1,5 @@
-import { validProps } from '@appbaseio/reactivecore/lib/utils/constants';
-import { helper } from '@appbaseio/reactivecore';
+import { validProps } from '@mitchgillin/reactivecore/lib/utils/constants';
+import { helper } from '@mitchgillin/reactivecore';
 import connectToStore from './connector';
 
 const {
@@ -9,7 +9,7 @@ const {
 } = helper;
 
 // TODO
-// import { storeKey } from '@appbaseio/reactivecore';
+// import { storeKey } from '@mitchgillin/reactivecore';
 
 export const connect = (...args) => connectToStore(...args);
 // connectToStore(...args, null, {

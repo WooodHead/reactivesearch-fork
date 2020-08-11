@@ -12,7 +12,7 @@ import {
 	setSuggestionsSearchValue,
 	recordSuggestionClick,
 	setCustomHighlightOptions,
-} from '@appbaseio/reactivecore/lib/actions';
+} from '@mitchgillin/reactivecore/lib/actions';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import {
 	debounce,
@@ -28,12 +28,12 @@ import {
 	updateDefaultQuery,
 	getTopSuggestions,
 	getQueryOptions,
-} from '@appbaseio/reactivecore/lib/utils/helper';
-import { getInternalComponentID } from '@appbaseio/reactivecore/lib/utils/transform';
-import { componentTypes } from '@appbaseio/reactivecore/lib/utils/constants';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
+import { getInternalComponentID } from '@mitchgillin/reactivecore/lib/utils/transform';
+import { componentTypes } from '@mitchgillin/reactivecore/lib/utils/constants';
 
-import types from '@appbaseio/reactivecore/lib/utils/types';
-import causes from '@appbaseio/reactivecore/lib/utils/causes';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
+import causes from '@mitchgillin/reactivecore/lib/utils/causes';
 import Title from '../../styles/Title';
 import Input, { suggestionsContainer, suggestions } from '../../styles/Input';
 import SearchSvg from '../shared/SearchSvg';
@@ -105,8 +105,8 @@ class DataSearch extends Component {
 			() => {
 				const queryOptions = DataSearch.highlightQuery(this.props) || {};
 				if (
-					this.props.customHighlight
-					&& typeof this.props.customHighlight === 'function'
+					this.props.customHighlight &&
+					typeof this.props.customHighlight === 'function'
 				) {
 					this.props.setCustomHighlightOptions(
 						this.props.componentId,
@@ -164,8 +164,8 @@ class DataSearch extends Component {
 			// we must only check for the changes introduced by
 			// clear action from SelectedFilters component in which case,
 			// the currentValue will never match the updated selectedValue
-			this.props.selectedValue !== prevProps.selectedValue
-			&& this.state.currentValue !== this.props.selectedValue
+			this.props.selectedValue !== prevProps.selectedValue &&
+			this.state.currentValue !== this.props.selectedValue
 		) {
 			const { value, onChange } = this.props;
 			if (value === undefined) {
@@ -194,7 +194,7 @@ class DataSearch extends Component {
 		return queryOptions;
 	};
 
-	static highlightQuery = (props) => {
+	static highlightQuery = props => {
 		if (props.customHighlight) {
 			return props.customHighlight(props);
 		}
@@ -207,7 +207,7 @@ class DataSearch extends Component {
 		if (typeof highlightField === 'string') {
 			fields[highlightField] = {};
 		} else if (Array.isArray(highlightField)) {
-			highlightField.forEach((item) => {
+			highlightField.forEach(item => {
 				fields[item] = {};
 			});
 		}
@@ -393,7 +393,7 @@ class DataSearch extends Component {
 		checkValueChange(props.componentId, value, props.beforeValueChange, performUpdate);
 	};
 
-	handleTextChange = debounce((value) => {
+	handleTextChange = debounce(value => {
 		if (this.props.autosuggest) {
 			this.updateDefaultQuery(value, this.props);
 		} else {
@@ -428,9 +428,7 @@ class DataSearch extends Component {
 	};
 
 	updateQuery = (value, props) => {
-		const {
-			customQuery, filterLabel, showFilter, URLParams,
-		} = props;
+		const { customQuery, filterLabel, showFilter, URLParams } = props;
 
 		let customQueryOptions;
 		let query = DataSearch.defaultQuery(value, props);
@@ -463,7 +461,7 @@ class DataSearch extends Component {
 		}
 	};
 
-	handleFocus = (event) => {
+	handleFocus = event => {
 		this.setState({
 			isOpen: true,
 		});
@@ -498,7 +496,7 @@ class DataSearch extends Component {
 		}
 	};
 
-	onInputChange = (e) => {
+	onInputChange = e => {
 		const { value: inputValue } = e.target;
 		if (!this.state.isOpen) {
 			this.setState({
@@ -522,7 +520,7 @@ class DataSearch extends Component {
 		this.setValue(this.props.value, true, this.props);
 	};
 
-	onSuggestionSelected = (suggestion) => {
+	onSuggestionSelected = suggestion => {
 		const { value, onChange } = this.props;
 		this.setState({
 			isOpen: false,
@@ -548,7 +546,7 @@ class DataSearch extends Component {
 		}
 	};
 
-	handleStateChange = (changes) => {
+	handleStateChange = changes => {
 		const { isOpen, type } = changes;
 		if (type === Downshift.stateChangeTypes.mouseUp) {
 			this.setState({
@@ -577,12 +575,12 @@ class DataSearch extends Component {
 	handleVoiceResults = ({ results }) => {
 		const { autosuggest } = this.props;
 		if (
-			results
-			&& results[0]
-			&& results[0].isFinal
-			&& results[0][0]
-			&& results[0][0].transcript
-			&& results[0][0].transcript.trim()
+			results &&
+			results[0] &&
+			results[0].isFinal &&
+			results[0][0] &&
+			results[0][0].transcript &&
+			results[0][0].transcript.trim()
 		) {
 			this.isPending = false;
 			this.setValue(results[0][0].transcript.trim(), !autosuggest);
@@ -673,12 +671,12 @@ class DataSearch extends Component {
 		} = this.props;
 		const { isOpen, currentValue } = this.state;
 		if (
-			renderNoSuggestion
-			&& isOpen
-			&& !finalSuggestionsList.length
-			&& !isLoading
-			&& currentValue
-			&& !(renderError && error)
+			renderNoSuggestion &&
+			isOpen &&
+			!finalSuggestionsList.length &&
+			!isLoading &&
+			currentValue &&
+			!(renderError && error)
 		) {
 			return (
 				<SuggestionWrapper
@@ -697,9 +695,7 @@ class DataSearch extends Component {
 	};
 
 	renderLoader = () => {
-		const {
-			loader, isLoading, themePreset, theme, innerClass,
-		} = this.props;
+		const { loader, isLoading, themePreset, theme, innerClass } = this.props;
 		const { currentValue } = this.state;
 		if (isLoading && loader && currentValue) {
 			return (
@@ -717,9 +713,7 @@ class DataSearch extends Component {
 	};
 
 	renderError = () => {
-		const {
-			error, renderError, themePreset, theme, isLoading, innerClass,
-		} = this.props;
+		const { error, renderError, themePreset, theme, isLoading, innerClass } = this.props;
 		const { currentValue } = this.state;
 		if (error && renderError && currentValue && !isLoading) {
 			return (
@@ -803,12 +797,12 @@ class DataSearch extends Component {
 			: [];
 	}
 
-	triggerClickAnalytics = (searchPosition) => {
+	triggerClickAnalytics = searchPosition => {
 		// click analytics would only work client side and after javascript loads
 		this.props.triggerAnalytics(searchPosition);
 	};
 
-	withTriggerQuery = (func) => {
+	withTriggerQuery = func => {
 		if (func) {
 			return e => func(e, this.triggerQuery);
 		}
@@ -853,7 +847,7 @@ class DataSearch extends Component {
 									showIcon={this.props.showIcon}
 									showClear={this.props.showClear}
 									iconPosition={this.props.iconPosition}
-									ref={(c) => {
+									ref={c => {
 										this._inputRef = c;
 									}}
 									{...getInputProps({
@@ -873,8 +867,8 @@ class DataSearch extends Component {
 									themePreset={themePreset}
 								/>
 								{this.renderIcons()}
-								{this.hasCustomRenderer
-									&& this.getComponent({
+								{this.hasCustomRenderer &&
+									this.getComponent({
 										getInputProps,
 										getItemProps,
 										isOpen,
@@ -890,32 +884,32 @@ class DataSearch extends Component {
 									>
 										{hasQuerySuggestionsRenderer(this.props)
 											? this.getComponent(
-												{
-													getInputProps,
-													getItemProps,
-													isOpen,
-													highlightedIndex,
-													...rest,
-												},
-												true,
-											)
+													{
+														getInputProps,
+														getItemProps,
+														isOpen,
+														highlightedIndex,
+														...rest,
+													},
+													true,
+											  )
 											: this.topSuggestions.map((sugg, index) => (
-												<li
-													{...getItemProps({ item: sugg })}
-													key={`${index + 1}-${sugg.value}`}
-													style={{
-														backgroundColor: this.getBackgroundColor(
-															highlightedIndex,
-															index,
-														),
-													}}
-												>
-													<SuggestionItem
-														currentValue={currentValue}
-														suggestion={sugg}
-													/>
-												</li>
-											))}
+													<li
+														{...getItemProps({ item: sugg })}
+														key={`${index + 1}-${sugg.value}`}
+														style={{
+															backgroundColor: this.getBackgroundColor(
+																highlightedIndex,
+																index,
+															),
+														}}
+													>
+														<SuggestionItem
+															currentValue={currentValue}
+															suggestion={sugg}
+														/>
+													</li>
+											  ))}
 										{suggestionsList.slice(0, size).map((item, index) => (
 											<li
 												{...getItemProps({ item })}
@@ -1089,9 +1083,9 @@ DataSearch.componentType = componentTypes.dataSearch;
 
 const mapStateToProps = (state, props) => ({
 	selectedValue:
-		(state.selectedValues[props.componentId]
-			&& state.selectedValues[props.componentId].value)
-		|| null,
+		(state.selectedValues[props.componentId] &&
+			state.selectedValues[props.componentId].value) ||
+		null,
 	suggestions: state.hits[props.componentId] && state.hits[props.componentId].hits,
 	rawData: state.rawData[props.componentId],
 	aggregationData: state.compositeAggregations[props.componentId],

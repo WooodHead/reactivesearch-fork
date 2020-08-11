@@ -14,7 +14,7 @@ import {
 	setDefaultQuery,
 	setComponentProps,
 	updateComponentProps,
-} from '@appbaseio/reactivecore/lib/actions';
+} from '@mitchgillin/reactivecore/lib/actions';
 import {
 	isEqual,
 	checkValueChange,
@@ -24,10 +24,10 @@ import {
 	getOptionsFromQuery,
 	updateCustomQuery,
 	updateDefaultQuery,
-} from '@appbaseio/reactivecore/lib/utils/helper';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
 import Rheostat from 'rheostat/lib/Slider';
-import { componentTypes } from '@appbaseio/reactivecore/lib/utils/constants';
-import types from '@appbaseio/reactivecore/lib/utils/types';
+import { componentTypes } from '@mitchgillin/reactivecore/lib/utils/constants';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 
 import Title from '@appbaseio/reactivesearch/lib/styles/Title';
 import Input, {
@@ -136,11 +136,11 @@ class GeoDistanceSlider extends GeoCode {
 		if (this.props.value && !isEqual(this.props.value, prevProps.value)) {
 			this.setValues(this.props.value);
 		} else if (
-			this.props.selectedValue
-			&& this.props.selectedValue.distance
-			&& this.props.selectedValue.location
-			&& !isEqual(this.state.currentLocation, this.props.selectedValue.location)
-			&& !isEqual(this.props.selectedValue, prevProps.selectedValue)
+			this.props.selectedValue &&
+			this.props.selectedValue.distance &&
+			this.props.selectedValue.location &&
+			!isEqual(this.state.currentLocation, this.props.selectedValue.location) &&
+			!isEqual(this.props.selectedValue, prevProps.selectedValue)
 		) {
 			const { onChange, value } = this.props;
 			if (value === undefined) {
@@ -149,8 +149,8 @@ class GeoDistanceSlider extends GeoCode {
 				onChange(this.props.selectedValue);
 			}
 		} else if (
-			!isEqual(this.props.selectedValue, prevProps.selectedValue)
-			&& !this.props.selectedValue
+			!isEqual(this.props.selectedValue, prevProps.selectedValue) &&
+			!this.props.selectedValue
 		) {
 			const { value, onChange } = this.props;
 			if (value === undefined) {
@@ -183,7 +183,7 @@ class GeoDistanceSlider extends GeoCode {
 		}
 	}
 
-	setValues = (selected) => {
+	setValues = selected => {
 		this.setState({
 			currentLocation: selected.location,
 			currentDistance: selected.distance,
@@ -249,7 +249,7 @@ class GeoDistanceSlider extends GeoCode {
 		);
 	};
 
-	setDistance = (currentDistance) => {
+	setDistance = currentDistance => {
 		this.setState(
 			{
 				currentDistance,
@@ -263,9 +263,7 @@ class GeoDistanceSlider extends GeoCode {
 	};
 
 	updateQuery = (distance, props = this.props) => {
-		const {
-			componentId, customQuery, filterLabel, showFilter, URLParams,
-		} = props;
+		const { componentId, customQuery, filterLabel, showFilter, URLParams } = props;
 		let value = null;
 		if (distance && this.state.currentLocation) {
 			value = {
@@ -303,7 +301,7 @@ class GeoDistanceSlider extends GeoCode {
 		return null;
 	};
 
-	onInputChange = (e) => {
+	onInputChange = e => {
 		const { value } = e.target;
 		const { value: valueProp, onChange } = this.props;
 		if (valueProp === undefined) {
@@ -326,14 +324,14 @@ class GeoDistanceSlider extends GeoCode {
 					componentRestrictions: { country: restrictedCountries },
 					...this.props.serviceOptions,
 				},
-				(res) => {
-					const suggestionsList
-						= (res
-							&& res.map(place => ({
+				res => {
+					const suggestionsList =
+						(res &&
+							res.map(place => ({
 								label: place.description,
 								value: place.description,
-							})))
-						|| [];
+							}))) ||
+						[];
 
 					this.setState({
 						suggestions: suggestionsList,
@@ -347,7 +345,7 @@ class GeoDistanceSlider extends GeoCode {
 		}
 	};
 
-	handleFocus = (event) => {
+	handleFocus = event => {
 		this.setState({
 			isOpen: true,
 		});
@@ -368,7 +366,7 @@ class GeoDistanceSlider extends GeoCode {
 		}
 	};
 
-	handleStateChange = (changes) => {
+	handleStateChange = changes => {
 		const { isOpen, type } = changes;
 		if (type === Downshift.stateChangeTypes.mouseUp) {
 			this.setState({
@@ -377,7 +375,7 @@ class GeoDistanceSlider extends GeoCode {
 		}
 	};
 
-	handleLocation = (data) => {
+	handleLocation = data => {
 		const { value, onChange } = this.props;
 		if (value === undefined) {
 			this.setLocation(data);
@@ -408,9 +406,15 @@ class GeoDistanceSlider extends GeoCode {
 				isOpen={this.state.isOpen}
 				itemToString={i => i}
 				render={({
-					getRootProps, getInputProps, getItemProps, isOpen, highlightedIndex,
+					getRootProps,
+					getInputProps,
+					getItemProps,
+					isOpen,
+					highlightedIndex,
 				}) => (
-					<div {...getRootProps({ css: suggestionsContainer }, { suppressRefError: true })}>
+					<div
+						{...getRootProps({ css: suggestionsContainer }, { suppressRefError: true })}
+					>
 						<Input
 							showIcon={this.props.showIcon}
 							iconPosition={this.props.iconPosition}
@@ -434,10 +438,7 @@ class GeoDistanceSlider extends GeoCode {
 						{isOpen && this.state.suggestions.length ? (
 							<ul
 								css={suggestions(themePreset, theme)}
-								className={getClassName(
-									this.props.innerClass,
-									'list',
-								)}
+								className={getClassName(this.props.innerClass, 'list')}
 							>
 								{suggestionsList.slice(0, 11).map((item, index) => (
 									<li
@@ -601,9 +602,9 @@ GeoDistanceSlider.defaultProps = {
 const mapStateToProps = (state, props) => ({
 	mapKey: state.config.mapKey,
 	selectedValue:
-		(state.selectedValues[props.componentId]
-			&& state.selectedValues[props.componentId].value)
-		|| null,
+		(state.selectedValues[props.componentId] &&
+			state.selectedValues[props.componentId].value) ||
+		null,
 	themePreset: state.config.themePreset,
 });
 

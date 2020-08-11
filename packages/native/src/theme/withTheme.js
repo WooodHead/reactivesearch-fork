@@ -1,15 +1,10 @@
 import React from 'react';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 
-import types from '@appbaseio/reactivecore/lib/utils/types';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 
 export default function withTheme(Component) {
-	const WithTheme = (props, { theming }) => (
-		<Component
-			theming={theming}
-			{...props}
-		/>
-	);
+	const WithTheme = (props, { theming }) => <Component theming={theming} {...props} />;
 
 	WithTheme.contextTypes = {
 		theming: types.style,

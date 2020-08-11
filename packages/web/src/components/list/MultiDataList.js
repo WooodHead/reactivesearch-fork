@@ -4,8 +4,8 @@ import {
 	setQueryOptions,
 	setCustomQuery,
 	setDefaultQuery,
-} from '@appbaseio/reactivecore/lib/actions';
-import { componentTypes } from '@appbaseio/reactivecore/lib/utils/constants';
+} from '@mitchgillin/reactivecore/lib/actions';
+import { componentTypes } from '@mitchgillin/reactivecore/lib/utils/constants';
 import {
 	isEqual,
 	checkValueChange,
@@ -18,10 +18,10 @@ import {
 	updateCustomQuery,
 	updateDefaultQuery,
 	updateInternalQuery,
-} from '@appbaseio/reactivecore/lib/utils/helper';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import { getInternalComponentID } from '@appbaseio/reactivecore/lib/utils/transform';
-import types from '@appbaseio/reactivecore/lib/utils/types';
+import { getInternalComponentID } from '@mitchgillin/reactivecore/lib/utils/transform';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 
 import Title from '../../styles/Title';
 import Input from '../../styles/Input';
@@ -44,7 +44,7 @@ class MultiDataList extends Component {
 		const defaultValue = props.defaultValue || props.value;
 		const currentValueArray = props.selectedValue || defaultValue || [];
 		const currentValue = {};
-		currentValueArray.forEach((item) => {
+		currentValueArray.forEach(item => {
 			currentValue[item] = true;
 		});
 
@@ -70,8 +70,8 @@ class MultiDataList extends Component {
 	}
 
 	componentDidUpdate(prevProps) {
-		const valueArray
-			= typeof this.state.currentValue === 'object' ? Object.keys(this.state.currentValue) : [];
+		const valueArray =
+			typeof this.state.currentValue === 'object' ? Object.keys(this.state.currentValue) : [];
 
 		checkSomePropChange(this.props, prevProps, ['dataField', 'nestedField'], () => {
 			this.updateQuery(valueArray, this.props);
@@ -116,8 +116,8 @@ class MultiDataList extends Component {
 		if (this.props.value !== prevProps.value) {
 			this.setValue(this.props.value || [], true);
 		} else if (
-			!isEqual(selectedValue, this.props.selectedValue)
-			&& !isEqual(this.props.selectedValue, prevProps.selectedValue)
+			!isEqual(selectedValue, this.props.selectedValue) &&
+			!isEqual(this.props.selectedValue, prevProps.selectedValue)
 		) {
 			const { value, onChange } = this.props;
 			if (value === undefined) {
@@ -183,15 +183,15 @@ class MultiDataList extends Component {
 		let finalValues = null;
 
 		if (
-			selectAllLabel
-			&& ((Array.isArray(value) && value.includes(selectAllLabel))
-				|| (typeof value === 'string' && value === selectAllLabel))
+			selectAllLabel &&
+			((Array.isArray(value) && value.includes(selectAllLabel)) ||
+				(typeof value === 'string' && value === selectAllLabel))
 		) {
 			if (currentValue[selectAllLabel] && hasMounted && !isDefaultValue) {
 				currentValue = {};
 				finalValues = [];
 			} else {
-				props.data.forEach((item) => {
+				props.data.forEach(item => {
 					currentValue[item.label] = true;
 				});
 				currentValue[selectAllLabel] = true;
@@ -201,7 +201,7 @@ class MultiDataList extends Component {
 			finalValues = value;
 			currentValue = {};
 			if (value) {
-				value.forEach((item) => {
+				value.forEach(item => {
 					currentValue[item] = true;
 				});
 			}
@@ -246,9 +246,9 @@ class MultiDataList extends Component {
 		checkValueChange(props.componentId, finalValues, props.beforeValueChange, performUpdate);
 	};
 
-	updateDefaultQuery = (queryOptions) => {
-		const valueArray
-			= typeof this.state.currentValue === 'object' ? Object.keys(this.state.currentValue) : [];
+	updateDefaultQuery = queryOptions => {
+		const valueArray =
+			typeof this.state.currentValue === 'object' ? Object.keys(this.state.currentValue) : [];
 		// Update default query for RS API
 		updateDefaultQuery(this.props.componentId, this.props, valueArray);
 		updateInternalQuery(
@@ -295,13 +295,13 @@ class MultiDataList extends Component {
 
 	static generateQueryOptions(props, state) {
 		const queryOptions = getQueryOptions(props);
-		const valueArray
-			= typeof state.currentValue === 'object' ? Object.keys(state.currentValue) : [];
+		const valueArray =
+			typeof state.currentValue === 'object' ? Object.keys(state.currentValue) : [];
 		const includes = state.options.map(item => item.value);
 		return getAggsQuery(valueArray, queryOptions, props, includes);
 	}
 
-	updateQueryOptions = (props) => {
+	updateQueryOptions = props => {
 		const queryOptions = MultiDataList.generateQueryOptions(props, this.state);
 		if (props.defaultQuery) {
 			const value = Object.keys(this.state.currentValue);
@@ -316,7 +316,7 @@ class MultiDataList extends Component {
 		}
 	};
 
-	updateStateOptions = (bucket) => {
+	updateStateOptions = bucket => {
 		if (bucket) {
 			const bucketDictionary = bucket.reduce(
 				(obj, item) => ({
@@ -327,7 +327,7 @@ class MultiDataList extends Component {
 			);
 
 			const { options } = this.state;
-			const newOptions = options.map((item) => {
+			const newOptions = options.map(item => {
 				if (bucketDictionary[item.value]) {
 					return {
 						...item,
@@ -344,7 +344,7 @@ class MultiDataList extends Component {
 		}
 	};
 
-	handleInputChange = (e) => {
+	handleInputChange = e => {
 		const { value } = e.target;
 		this.setState({
 			searchTerm: value,
@@ -370,7 +370,7 @@ class MultiDataList extends Component {
 		return null;
 	};
 
-	handleClick = (e) => {
+	handleClick = e => {
 		let currentValue = e;
 		if (isEvent(e)) {
 			currentValue = e.target.value;
@@ -401,7 +401,7 @@ class MultiDataList extends Component {
 	get listItems() {
 		const { options } = this.state;
 
-		const listItems = options.filter((item) => {
+		const listItems = options.filter(item => {
 			if (this.props.showSearch && this.state.searchTerm) {
 				return item.label.toLowerCase().includes(this.state.searchTerm.toLowerCase());
 			}
@@ -586,9 +586,9 @@ MultiDataList.componentType = componentTypes.multiDataList;
 const mapStateToProps = (state, props) => ({
 	rawData: state.rawData[props.componentId],
 	selectedValue:
-		(state.selectedValues[props.componentId]
-			&& state.selectedValues[props.componentId].value)
-		|| null,
+		(state.selectedValues[props.componentId] &&
+			state.selectedValues[props.componentId].value) ||
+		null,
 	themePreset: state.config.themePreset,
 	options:
 		props.nestedField && state.aggregations[props.componentId]

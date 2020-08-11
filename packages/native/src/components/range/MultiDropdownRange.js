@@ -9,16 +9,16 @@ import {
 	watchComponent,
 	updateQuery,
 	setQueryListener,
-} from '@appbaseio/reactivecore/lib/actions';
+} from '@mitchgillin/reactivecore/lib/actions';
 import {
 	isEqual,
 	checkValueChange,
 	checkPropChange,
 	getClassName,
 	getInnerKey,
-} from '@appbaseio/reactivecore/lib/utils/helper';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
 
-import types from '@appbaseio/reactivecore/lib/utils/types';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 
 import withTheme from '../../theme/withTheme';
 import { connect } from '../../utils';
@@ -327,7 +327,4 @@ const mapDispatchtoProps = dispatch => ({
 		dispatch(setQueryListener(component, onQueryChange, beforeQueryChange)),
 });
 
-export default connect(
-	mapStateToProps,
-	mapDispatchtoProps,
-)(withTheme(MultiDropdownRange));
+export default connect(mapStateToProps, mapDispatchtoProps)(withTheme(MultiDropdownRange));

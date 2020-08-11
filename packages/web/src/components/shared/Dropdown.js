@@ -4,8 +4,8 @@ import { Component } from 'react';
 import Downshift from 'downshift';
 import { withTheme } from 'emotion-theming';
 
-import types from '@appbaseio/reactivecore/lib/utils/types';
-import { getClassName } from '@appbaseio/reactivecore/lib/utils/helper';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
+import { getClassName } from '@mitchgillin/reactivecore/lib/utils/helper';
 
 import Input, { suggestionsContainer, suggestions } from '../../styles/Input';
 import Select, { Tick } from '../../styles/Select';
@@ -33,7 +33,7 @@ class Dropdown extends Component {
 		});
 	};
 
-	onChange = (item) => {
+	onChange = item => {
 		if (this.props.returnsObject) {
 			this.props.onChange(item);
 		} else {
@@ -47,7 +47,7 @@ class Dropdown extends Component {
 		}
 	};
 
-	handleStateChange = (changes) => {
+	handleStateChange = changes => {
 		const { isOpen, type } = changes;
 		if (type === Downshift.stateChangeTypes.mouseUp) {
 			this.setState({
@@ -72,14 +72,14 @@ class Dropdown extends Component {
 		return isDark ? '#424242' : '#fff';
 	};
 
-	handleInputChange = (e) => {
+	handleInputChange = e => {
 		const { value } = e.target;
 		this.setState({
 			searchTerm: value,
 		});
 	};
 
-	renderToString = (value) => {
+	renderToString = value => {
 		if (this.props.customLabelRenderer) {
 			const customLabel = this.props.customLabelRenderer(value);
 			if (typeof customLabel === 'string') {
@@ -124,7 +124,7 @@ class Dropdown extends Component {
 			itemsToRender = transformData(itemsToRender);
 		}
 
-		const dropdownItems = itemsToRender.filter((item) => {
+		const dropdownItems = itemsToRender.filter(item => {
 			if (String(item[labelField]).length) {
 				if (this.props.showSearch && this.state.searchTerm) {
 					return String(item[labelField])
@@ -145,9 +145,16 @@ class Dropdown extends Component {
 				isOpen={this.state.isOpen}
 				itemToString={i => i && i[this.props.labelField]}
 				render={({
-					getRootProps, getButtonProps, getItemProps, isOpen, highlightedIndex, ...rest
+					getRootProps,
+					getButtonProps,
+					getItemProps,
+					isOpen,
+					highlightedIndex,
+					...rest
 				}) => (
-					<div {...getRootProps({ css: suggestionsContainer }, { suppressRefError: true })}>
+					<div
+						{...getRootProps({ css: suggestionsContainer }, { suppressRefError: true })}
+					>
 						<Select
 							{...getButtonProps()}
 							className={getClassName(this.props.innerClass, 'select') || null}
@@ -156,52 +163,62 @@ class Dropdown extends Component {
 							small={this.props.small}
 							themePreset={this.props.themePreset}
 						>
-							{this.props.customLabelRenderer
-								? this.props.customLabelRenderer(selectedItem)
-								: (
-									<div>
-										{selectedItem ? this.renderToString(selectedItem) : placeholder}
-									</div>
-								)}
+							{this.props.customLabelRenderer ? (
+								this.props.customLabelRenderer(selectedItem)
+							) : (
+								<div>
+									{selectedItem ? this.renderToString(selectedItem) : placeholder}
+								</div>
+							)}
 							<Chevron open={isOpen} />
 						</Select>
-						{
-							// eslint-disable-next-line
-							hasCustomRenderer ? customRenderer(itemsToRender, {
-								getButtonProps, getItemProps, isOpen, highlightedIndex, ...rest,
-							}) : isOpen && itemsToRender.length ? (
-								<ul
-									css={suggestions(themePreset, theme)}
-									className={`${
-										this.props.small ? 'small' : ''
-									} ${getClassName(this.props.innerClass, 'list')}`}
-								>
-									{this.props.showSearch ? (
-										<Input
-											id={`${this.props.componentId}-input`}
-											style={{
-												border: 0,
-												borderBottom: '1px solid #ddd',
-											}}
-											showIcon={false}
-											className={getClassName(this.props.innerClass, 'input')}
-											placeholder={this.props.searchPlaceholder}
-											value={this.state.searchTerm}
-											onChange={this.handleInputChange}
-											themePreset={themePreset}
-										/>
-									) : null}
-									{
-										dropdownItems.length ? dropdownItems.map((item, index) => {
-											let selected
-												= this.props.multi
+						{// eslint-disable-next-line
+						hasCustomRenderer ? (
+							customRenderer(itemsToRender, {
+								getButtonProps,
+								getItemProps,
+								isOpen,
+								highlightedIndex,
+								...rest,
+							})
+						) : isOpen && itemsToRender.length ? (
+							<ul
+								css={suggestions(themePreset, theme)}
+								className={`${this.props.small ? 'small' : ''} ${getClassName(
+									this.props.innerClass,
+									'list',
+								)}`}
+							>
+								{this.props.showSearch ? (
+									<Input
+										id={`${this.props.componentId}-input`}
+										style={{
+											border: 0,
+											borderBottom: '1px solid #ddd',
+										}}
+										showIcon={false}
+										className={getClassName(this.props.innerClass, 'input')}
+										placeholder={this.props.searchPlaceholder}
+										value={this.state.searchTerm}
+										onChange={this.handleInputChange}
+										themePreset={themePreset}
+									/>
+								) : null}
+								{dropdownItems.length
+									? dropdownItems.map((item, index) => {
+											let selected =
+												this.props.multi &&
 												// MultiDropdownList
-												&& ((selectedItem && !!selectedItem[item[keyField]])
+												((selectedItem && !!selectedItem[item[keyField]]) ||
 													// MultiDropdownRange
-													|| (Array.isArray(selectedItem)
-														&& selectedItem.find(
-															value => value[labelField] === item[labelField])));
-											if (!this.props.multi) selected = item.key === selectedItem;
+													(Array.isArray(selectedItem) &&
+														selectedItem.find(
+															value =>
+																value[labelField] ===
+																item[labelField],
+														)));
+											if (!this.props.multi)
+												selected = item.key === selectedItem;
 
 											return (
 												<li
@@ -223,7 +240,8 @@ class Dropdown extends Component {
 														)
 													) : (
 														<div>
-															{typeof item[labelField] === 'string' ? (
+															{typeof item[labelField] ===
+															'string' ? (
 																<span
 																	dangerouslySetInnerHTML={{
 																		__html: item[labelField],
@@ -232,19 +250,20 @@ class Dropdown extends Component {
 															) : (
 																item[labelField]
 															)}
-															{this.props.showCount
-																&& item.doc_count && (
-																<span
-																	className={
-																		getClassName(
-																			this.props.innerClass,
-																			'count',
-																		) || null
-																	}
-																>
+															{this.props.showCount &&
+																item.doc_count && (
+																	<span
+																		className={
+																			getClassName(
+																				this.props
+																					.innerClass,
+																				'count',
+																			) || null
+																		}
+																	>
 																		&nbsp;({item.doc_count})
-																</span>
-															)}
+																	</span>
+																)}
 														</div>
 													)}
 													{selected && this.props.multi ? (
@@ -259,11 +278,11 @@ class Dropdown extends Component {
 													) : null}
 												</li>
 											);
-										}) : this.props.renderNoResults && this.props.renderNoResults()}
-									{footer}
-								</ul>
-							) : null
-						}
+									  })
+									: this.props.renderNoResults && this.props.renderNoResults()}
+								{footer}
+							</ul>
+						) : null}
 					</div>
 				)}
 			/>

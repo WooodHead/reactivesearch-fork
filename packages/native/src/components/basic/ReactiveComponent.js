@@ -8,9 +8,9 @@ import {
 	updateQuery,
 	setQueryOptions,
 	setQueryListener,
-} from '@appbaseio/reactivecore/lib/actions';
-import { pushToAndClause, isEqual } from '@appbaseio/reactivecore/lib/utils/helper';
-import types from '@appbaseio/reactivecore/lib/utils/types';
+} from '@mitchgillin/reactivecore/lib/actions';
+import { pushToAndClause, isEqual } from '@mitchgillin/reactivecore/lib/utils/helper';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 
 import { connect } from '../../utils';
 
@@ -20,7 +20,7 @@ class ReactiveComponent extends Component {
 		this.internalComponent = null;
 		this.defaultQuery = null;
 
-		this.setQuery = (obj) => {
+		this.setQuery = obj => {
 			this.props.updateQuery({
 				...obj,
 				componentId: props.componentId,
@@ -84,7 +84,7 @@ class ReactiveComponent extends Component {
 		}
 	}
 
-	setReact = (props) => {
+	setReact = props => {
 		const { react } = props;
 
 		if (react) {
@@ -150,9 +150,9 @@ const mapStateToProps = (state, props) => ({
 	aggregations:
 		(state.aggregations[props.componentId] && state.aggregations[props.componentId]) || null,
 	selectedValue:
-		(state.selectedValues[props.componentId]
-			&& state.selectedValues[props.componentId].value)
-		|| null,
+		(state.selectedValues[props.componentId] &&
+			state.selectedValues[props.componentId].value) ||
+		null,
 });
 
 const mapDispatchtoProps = dispatch => ({
@@ -166,7 +166,4 @@ const mapDispatchtoProps = dispatch => ({
 		dispatch(setQueryListener(component, onQueryChange, beforeQueryChange)),
 });
 
-export default connect(
-	mapStateToProps,
-	mapDispatchtoProps,
-)(ReactiveComponent);
+export default connect(mapStateToProps, mapDispatchtoProps)(ReactiveComponent);

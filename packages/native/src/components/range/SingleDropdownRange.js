@@ -7,15 +7,15 @@ import {
 	watchComponent,
 	updateQuery,
 	setQueryListener,
-} from '@appbaseio/reactivecore/lib/actions';
+} from '@mitchgillin/reactivecore/lib/actions';
 import {
 	isEqual,
 	checkValueChange,
 	checkPropChange,
 	getInnerKey,
-} from '@appbaseio/reactivecore/lib/utils/helper';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
 
-import types from '@appbaseio/reactivecore/lib/utils/types';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 
 import withTheme from '../../theme/withTheme';
 import { connect } from '../../utils';
@@ -183,9 +183,9 @@ SingleDropdownRange.defaultProps = {
 
 const mapStateToProps = (state, props) => ({
 	selectedValue:
-		(state.selectedValues[props.componentId]
-			&& state.selectedValues[props.componentId].value)
-		|| null,
+		(state.selectedValues[props.componentId] &&
+			state.selectedValues[props.componentId].value) ||
+		null,
 });
 
 const mapDispatchtoProps = dispatch => ({
@@ -197,7 +197,4 @@ const mapDispatchtoProps = dispatch => ({
 		dispatch(setQueryListener(component, onQueryChange, beforeQueryChange)),
 });
 
-export default connect(
-	mapStateToProps,
-	mapDispatchtoProps,
-)(withTheme(SingleDropdownRange));
+export default connect(mapStateToProps, mapDispatchtoProps)(withTheme(SingleDropdownRange));

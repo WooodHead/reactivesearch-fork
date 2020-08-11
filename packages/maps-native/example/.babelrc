@@ -9,7 +9,7 @@
 						"alias": {
 							"@appbaseio/reactivesearch-native": "../../native/src",
 							"@appbaseio/reactivemaps-native": "../src",
-							"@appbaseio/reactivecore": "../../reactivecore"
+							"@mitchgillin/reactivecore": "../../reactivecore"
 						}
 					}
 				],

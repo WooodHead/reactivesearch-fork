@@ -1,6 +1,6 @@
-import { getInternalComponentID } from '@appbaseio/reactivecore/lib/utils/transform';
-import { Actions, helper } from '@appbaseio/reactivecore';
-import { componentTypes } from '@appbaseio/reactivecore/lib/utils/constants';
+import { getInternalComponentID } from '@mitchgillin/reactivecore/lib/utils/transform';
+import { Actions, helper } from '@mitchgillin/reactivecore';
+import { componentTypes } from '@mitchgillin/reactivecore/lib/utils/constants';
 
 const {
 	addComponent,

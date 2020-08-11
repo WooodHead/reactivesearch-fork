@@ -5,7 +5,7 @@ import {
 	setQueryOptions,
 	setCustomQuery,
 	setDefaultQuery,
-} from '@appbaseio/reactivecore/lib/actions';
+} from '@mitchgillin/reactivecore/lib/actions';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import {
 	getQueryOptions,
@@ -19,10 +19,10 @@ import {
 	updateInternalQuery,
 	updateCustomQuery,
 	updateDefaultQuery,
-} from '@appbaseio/reactivecore/lib/utils/helper';
-import { componentTypes } from '@appbaseio/reactivecore/lib/utils/constants';
-import { getInternalComponentID } from '@appbaseio/reactivecore/lib/utils/transform';
-import types from '@appbaseio/reactivecore/lib/utils/types';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
+import { componentTypes } from '@mitchgillin/reactivecore/lib/utils/constants';
+import { getInternalComponentID } from '@mitchgillin/reactivecore/lib/utils/transform';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 
 import Title from '../../styles/Title';
 import Container from '../../styles/Container';
@@ -123,8 +123,8 @@ class SingleDropdownList extends Component {
 		if (this.props.value !== prevProps.value) {
 			this.setValue(this.props.value);
 		} else if (
-			this.state.currentValue !== this.props.selectedValue
-			&& this.props.selectedValue !== prevProps.selectedValue
+			this.state.currentValue !== this.props.selectedValue &&
+			this.props.selectedValue !== prevProps.selectedValue
 		) {
 			const { value, onChange } = this.props;
 
@@ -221,7 +221,7 @@ class SingleDropdownList extends Component {
 		});
 	};
 
-	updateDefaultQuery = (queryOptions) => {
+	updateDefaultQuery = queryOptions => {
 		const { currentValue } = this.state;
 		// Update default query for RS API
 		updateDefaultQuery(this.props.componentId, this.props, currentValue);
@@ -230,11 +230,7 @@ class SingleDropdownList extends Component {
 			queryOptions,
 			currentValue,
 			this.props,
-			SingleDropdownList.generateQueryOptions(
-				this.props,
-				this.state.prevAfter,
-				currentValue,
-			),
+			SingleDropdownList.generateQueryOptions(this.props, this.state.prevAfter, currentValue),
 		);
 	};
 
@@ -269,7 +265,7 @@ class SingleDropdownList extends Component {
 		this.updateQueryOptions(this.props, true);
 	};
 
-	handleChange = (e) => {
+	handleChange = e => {
 		let currentValue = e;
 		if (isEvent(e)) {
 			currentValue = e.target.value;
@@ -302,9 +298,7 @@ class SingleDropdownList extends Component {
 	};
 
 	render() {
-		const {
-			showLoadMore, loadMoreLabel, renderError, error, isLoading,
-		} = this.props;
+		const { showLoadMore, loadMoreLabel, renderError, error, isLoading } = this.props;
 		const { isLastBucket } = this.state;
 		let selectAll = [];
 
@@ -362,8 +356,8 @@ class SingleDropdownList extends Component {
 					showSearch={this.props.showSearch}
 					transformData={this.props.transformData}
 					footer={
-						showLoadMore
-						&& !isLastBucket && (
+						showLoadMore &&
+						!isLastBucket && (
 							<div css={loadMoreContainer}>
 								<Button disabled={isLoading} onClick={this.handleLoadMore}>
 									{loadMoreLabel}
@@ -455,9 +449,9 @@ const mapStateToProps = (state, props) => ({
 			? state.aggregations[props.componentId].reactivesearch_nested
 			: state.aggregations[props.componentId],
 	selectedValue:
-		(state.selectedValues[props.componentId]
-			&& state.selectedValues[props.componentId].value)
-		|| '',
+		(state.selectedValues[props.componentId] &&
+			state.selectedValues[props.componentId].value) ||
+		'',
 	isLoading: state.isLoading[props.componentId],
 	themePreset: state.config.themePreset,
 	error: state.error[props.componentId],

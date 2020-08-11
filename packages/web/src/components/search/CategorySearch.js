@@ -13,7 +13,7 @@ import {
 	setSuggestionsSearchValue,
 	recordSuggestionClick,
 	setCustomHighlightOptions,
-} from '@appbaseio/reactivecore/lib/actions';
+} from '@mitchgillin/reactivecore/lib/actions';
 import {
 	debounce,
 	checkValueChange,
@@ -29,11 +29,11 @@ import {
 	updateDefaultQuery,
 	getTopSuggestions,
 	getQueryOptions,
-} from '@appbaseio/reactivecore/lib/utils/helper';
-import { componentTypes } from '@appbaseio/reactivecore/lib/utils/constants';
-import { getInternalComponentID } from '@appbaseio/reactivecore/lib/utils/transform';
-import types from '@appbaseio/reactivecore/lib/utils/types';
-import causes from '@appbaseio/reactivecore/lib/utils/causes';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
+import { componentTypes } from '@mitchgillin/reactivecore/lib/utils/constants';
+import { getInternalComponentID } from '@mitchgillin/reactivecore/lib/utils/transform';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
+import causes from '@mitchgillin/reactivecore/lib/utils/causes';
 import Title from '../../styles/Title';
 import Input, { suggestionsContainer, suggestions } from '../../styles/Input';
 import CancelSvg from '../shared/CancelSvg';
@@ -132,8 +132,8 @@ class CategorySearch extends Component {
 			() => {
 				const queryOptions = CategorySearch.highlightQuery(this.props) || {};
 				if (
-					this.props.customHighlight
-					&& typeof this.props.customHighlight === 'function'
+					this.props.customHighlight &&
+					typeof this.props.customHighlight === 'function'
 				) {
 					this.props.setCustomHighlightOptions(
 						this.props.componentId,
@@ -204,8 +204,8 @@ class CategorySearch extends Component {
 			// we must only check for the changes introduced by
 			// clear action from SelectedFilters component in which case,
 			// the currentValue will never match the updated selectedValue
-			this.props.selectedValue !== prevProps.selectedValue
-			&& this.state.currentValue !== this.props.selectedValue
+			this.props.selectedValue !== prevProps.selectedValue &&
+			this.state.currentValue !== this.props.selectedValue
 		) {
 			const { value, onChange } = this.props;
 			if (value === undefined) {
@@ -258,7 +258,7 @@ class CategorySearch extends Component {
 		return aggsQuery;
 	};
 
-	static highlightQuery = (props) => {
+	static highlightQuery = props => {
 		if (props.customHighlight) {
 			return props.customHighlight(props);
 		}
@@ -271,7 +271,7 @@ class CategorySearch extends Component {
 		if (typeof highlightField === 'string') {
 			fields[highlightField] = {};
 		} else if (Array.isArray(highlightField)) {
-			highlightField.forEach((item) => {
+			highlightField.forEach(item => {
 				fields[item] = {};
 			});
 		}
@@ -459,7 +459,7 @@ class CategorySearch extends Component {
 		checkValueChange(props.componentId, value, props.beforeValueChange, performUpdate);
 	};
 
-	handleTextChange = debounce((value) => {
+	handleTextChange = debounce(value => {
 		if (this.props.autosuggest) {
 			this.updateDefaultQuery(value, this.props);
 		} else {
@@ -497,9 +497,7 @@ class CategorySearch extends Component {
 	};
 
 	updateQuery = (value, props, category = this.state.currentCategory) => {
-		const {
-			customQuery, filterLabel, showFilter, URLParams,
-		} = props;
+		const { customQuery, filterLabel, showFilter, URLParams } = props;
 
 		let customQueryOptions;
 		let query = CategorySearch.defaultQuery(value, props, category);
@@ -532,7 +530,7 @@ class CategorySearch extends Component {
 		}
 	};
 
-	handleFocus = (event) => {
+	handleFocus = event => {
 		this.setState({
 			isOpen: true,
 		});
@@ -566,7 +564,7 @@ class CategorySearch extends Component {
 		}
 	};
 
-	onInputChange = (e) => {
+	onInputChange = e => {
 		const { value: inputValue } = e.target;
 		if (!this.state.isOpen) {
 			this.setState({
@@ -591,13 +589,13 @@ class CategorySearch extends Component {
 		}
 	};
 
-	triggerQuery = (value) => {
+	triggerQuery = value => {
 		const { term: currentValue, category: currentCategory = null } = value;
 		this.isPending = false;
 		this.setValue(currentValue, true, this.props, currentCategory);
 	};
 
-	onSuggestionSelected = (suggestion) => {
+	onSuggestionSelected = suggestion => {
 		const { value, onChange } = this.props;
 		const currentValue = {
 			term: suggestion.value,
@@ -633,7 +631,7 @@ class CategorySearch extends Component {
 		}
 	};
 
-	handleStateChange = (changes) => {
+	handleStateChange = changes => {
 		const { isOpen, type } = changes;
 		if (type === Downshift.stateChangeTypes.mouseUp) {
 			this.setState({
@@ -662,12 +660,12 @@ class CategorySearch extends Component {
 	handleVoiceResults = ({ results }) => {
 		const { autosuggest } = this.props;
 		if (
-			results
-			&& results[0]
-			&& results[0].isFinal
-			&& results[0][0]
-			&& results[0][0].transcript
-			&& results[0][0].transcript.trim()
+			results &&
+			results[0] &&
+			results[0].isFinal &&
+			results[0][0] &&
+			results[0][0].transcript &&
+			results[0][0].transcript.trim()
 		) {
 			this.isPending = false;
 			this.setValue(results[0][0].transcript.trim(), !autosuggest);
@@ -758,12 +756,12 @@ class CategorySearch extends Component {
 		} = this.props;
 		const { isOpen, currentValue } = this.state;
 		if (
-			renderNoSuggestion
-			&& isOpen
-			&& !finalSuggestionsList.length
-			&& !isLoading
-			&& currentValue
-			&& !(renderError && error)
+			renderNoSuggestion &&
+			isOpen &&
+			!finalSuggestionsList.length &&
+			!isLoading &&
+			currentValue &&
+			!(renderError && error)
 		) {
 			return (
 				<SuggestionWrapper
@@ -782,9 +780,7 @@ class CategorySearch extends Component {
 	};
 
 	renderLoader = () => {
-		const {
-			loader, isLoading, themePreset, theme, innerClass,
-		} = this.props;
+		const { loader, isLoading, themePreset, theme, innerClass } = this.props;
 		const { currentValue } = this.state;
 		if (isLoading && loader && currentValue) {
 			return (
@@ -802,9 +798,7 @@ class CategorySearch extends Component {
 	};
 
 	renderError = () => {
-		const {
-			error, renderError, themePreset, theme, isLoading, innerClass,
-		} = this.props;
+		const { error, renderError, themePreset, theme, isLoading, innerClass } = this.props;
 		const { currentValue } = this.state;
 		if (error && renderError && currentValue && !isLoading) {
 			return (
@@ -885,9 +879,9 @@ class CategorySearch extends Component {
 		const filteredCategories = this.filteredCategories;
 
 		if (
-			!this.state.currentValue
-			&& this.props.defaultSuggestions
-			&& this.props.defaultSuggestions.length
+			!this.state.currentValue &&
+			this.props.defaultSuggestions &&
+			this.props.defaultSuggestions.length
 		) {
 			finalSuggestionsList = this.props.defaultSuggestions;
 		} else if (this.state.currentValue) {
@@ -935,12 +929,12 @@ class CategorySearch extends Component {
 			: [];
 	}
 
-	triggerClickAnalytics = (searchPosition) => {
+	triggerClickAnalytics = searchPosition => {
 		// click analytics would only work client side and after javascript loads
 		this.props.triggerAnalytics(searchPosition);
 	};
 
-	withTriggerQuery = (func) => {
+	withTriggerQuery = func => {
 		if (func) {
 			return e => func(e, () => this.triggerQuery(this.props.value));
 		}
@@ -973,9 +967,14 @@ class CategorySearch extends Component {
 							highlightedIndex,
 							...rest
 						}) => (
-							<div {...getRootProps({ css: suggestionsContainer }, { suppressRefError: true })}>
+							<div
+								{...getRootProps(
+									{ css: suggestionsContainer },
+									{ suppressRefError: true },
+								)}
+							>
 								<Input
-									ref={(c) => {
+									ref={c => {
 										this._inputRef = c;
 									}}
 									aria-label={this.props.componentId}
@@ -1002,23 +1001,23 @@ class CategorySearch extends Component {
 								{this.renderIcons()}
 								{this.renderLoader()}
 								{this.renderError()}
-								{this.hasCustomRenderer
-									&& this.getComponent({
+								{this.hasCustomRenderer &&
+									this.getComponent({
 										getInputProps,
 										getItemProps,
 										isOpen,
 										highlightedIndex,
 										...rest,
 									})}
-								{!this.hasCustomRenderer
-									&& isOpen
-									&& finalSuggestionsList.length ? (
-										<ul
-											css={suggestions(themePreset, theme)}
-											className={getClassName(this.props.innerClass, 'list')}
-										>
-											{hasQuerySuggestionsRenderer(this.props)
-												? this.getComponent(
+								{!this.hasCustomRenderer &&
+								isOpen &&
+								finalSuggestionsList.length ? (
+									<ul
+										css={suggestions(themePreset, theme)}
+										className={getClassName(this.props.innerClass, 'list')}
+									>
+										{hasQuerySuggestionsRenderer(this.props)
+											? this.getComponent(
 													{
 														getInputProps,
 														getItemProps,
@@ -1027,8 +1026,8 @@ class CategorySearch extends Component {
 														...rest,
 													},
 													true,
-												)
-												: this.topSuggestions.map((sugg, index) => (
+											  )
+											: this.topSuggestions.map((sugg, index) => (
 													<li
 														{...getItemProps({ item: sugg })}
 														key={`${index + 1}-${sugg.value}`}
@@ -1044,32 +1043,32 @@ class CategorySearch extends Component {
 															suggestion={sugg}
 														/>
 													</li>
-												))}
-											{finalSuggestionsList.slice(0, size).map((item, index) => (
-												<li
-													{...getItemProps({ item })}
-													key={`${index + this.topSuggestions.length + 1}-${
-														item.value
-													}`}
-													style={{
-														backgroundColor: this.getBackgroundColor(
-															highlightedIndex,
-															this.topSuggestions.length + index,
-														),
-													}}
-												>
-													<Text primary={!!item.category}>
-														<SuggestionItem
-															currentValue={currentValue}
-															suggestion={item}
-														/>
-													</Text>
-												</li>
-											))}
-										</ul>
-									) : (
-										this.renderNoSuggestion(finalSuggestionsList)
-									)}
+											  ))}
+										{finalSuggestionsList.slice(0, size).map((item, index) => (
+											<li
+												{...getItemProps({ item })}
+												key={`${index + this.topSuggestions.length + 1}-${
+													item.value
+												}`}
+												style={{
+													backgroundColor: this.getBackgroundColor(
+														highlightedIndex,
+														this.topSuggestions.length + index,
+													),
+												}}
+											>
+												<Text primary={!!item.category}>
+													<SuggestionItem
+														currentValue={currentValue}
+														suggestion={item}
+													/>
+												</Text>
+											</li>
+										))}
+									</ul>
+								) : (
+									this.renderNoSuggestion(finalSuggestionsList)
+								)}
 							</div>
 						)}
 						{...this.props.downShiftProps}
@@ -1077,7 +1076,7 @@ class CategorySearch extends Component {
 				) : (
 					<div css={suggestionsContainer}>
 						<Input
-							ref={(c) => {
+							ref={c => {
 								this._inputRef = c;
 							}}
 							aria-label={this.props.componentId}
@@ -1224,19 +1223,19 @@ CategorySearch.componentType = componentTypes.categorySearch;
 
 const mapStateToProps = (state, props) => ({
 	categories:
-		(state.aggregations[props.componentId]
-			&& state.aggregations[props.componentId][props.categoryField]
-			&& state.aggregations[props.componentId][props.categoryField].buckets)
-		|| [],
+		(state.aggregations[props.componentId] &&
+			state.aggregations[props.componentId][props.categoryField] &&
+			state.aggregations[props.componentId][props.categoryField].buckets) ||
+		[],
 	rawData: state.rawData[props.componentId],
 	selectedValue:
-		(state.selectedValues[props.componentId]
-			&& state.selectedValues[props.componentId].value)
-		|| null,
+		(state.selectedValues[props.componentId] &&
+			state.selectedValues[props.componentId].value) ||
+		null,
 	selectedCategory:
-		(state.selectedValues[props.componentId]
-			&& state.selectedValues[props.componentId].category)
-		|| null,
+		(state.selectedValues[props.componentId] &&
+			state.selectedValues[props.componentId].category) ||
+		null,
 	suggestions: (state.hits[props.componentId] && state.hits[props.componentId].hits) || [],
 	aggregationData: state.compositeAggregations[props.componentId] || [],
 	themePreset: state.config.themePreset,

@@ -1,4 +1,4 @@
-import '@appbaseio/reactivecore/lib/utils/polyfills';
+import '@mitchgillin/reactivecore/lib/utils/polyfills';
 
 import ReactiveBase from './components/basic/ReactiveBase';
 import SelectedFilters from './components/basic/SelectedFilters';

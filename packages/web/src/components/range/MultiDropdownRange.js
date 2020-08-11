@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 
-import { updateQuery, setQueryOptions, setCustomQuery } from '@appbaseio/reactivecore/lib/actions';
+import {
+	updateQuery,
+	setQueryOptions,
+	setCustomQuery,
+} from '@mitchgillin/reactivecore/lib/actions';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import {
 	isEqual,
@@ -9,10 +13,10 @@ import {
 	checkSomePropChange,
 	updateCustomQuery,
 	getOptionsFromQuery,
-} from '@appbaseio/reactivecore/lib/utils/helper';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
 
-import types from '@appbaseio/reactivecore/lib/utils/types';
-import { componentTypes } from '@appbaseio/reactivecore/lib/utils/constants';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
+import { componentTypes } from '@mitchgillin/reactivecore/lib/utils/constants';
 import Title from '../../styles/Title';
 import Container from '../../styles/Container';
 import Dropdown from '../shared/Dropdown';
@@ -29,7 +33,7 @@ class MultiDropdownRange extends Component {
 
 		// selectedValues hold the selected items as keys for O(1) complexity
 		this.selectedValues = {};
-		currentValue.forEach((item) => {
+		currentValue.forEach(item => {
 			this.selectedValues[item.label] = true;
 		});
 
@@ -63,8 +67,8 @@ class MultiDropdownRange extends Component {
 				isDefaultValue: true,
 			});
 		} else if (
-			!isEqual(this.state.currentValue, this.props.selectedValue)
-			&& !isEqual(this.props.selectedValue, prevProps.selectedValue)
+			!isEqual(this.state.currentValue, this.props.selectedValue) &&
+			!isEqual(this.props.selectedValue, prevProps.selectedValue)
 		) {
 			const { value, onChange } = this.props;
 			if (value === undefined) {
@@ -83,7 +87,7 @@ class MultiDropdownRange extends Component {
 
 	// parses range label to get start and end
 	static parseValue = (value, props) =>
-		(value ? props.data.filter(item => value.includes(item.label)) : null);
+		value ? props.data.filter(item => value.includes(item.label)) : null;
 
 	static defaultQuery = (values, props) => {
 		const generateRangeQuery = (dataField, items) => {
@@ -119,9 +123,7 @@ class MultiDropdownRange extends Component {
 		return query;
 	};
 
-	selectItem = ({
-		item, isDefaultValue = false, props = this.props, hasMounted = true,
-	}) => {
+	selectItem = ({ item, isDefaultValue = false, props = this.props, hasMounted = true }) => {
 		let { currentValue } = this.state;
 
 		if (!item) {
@@ -130,7 +132,7 @@ class MultiDropdownRange extends Component {
 		} else if (isDefaultValue) {
 			// checking if the items in defaultSeleted exist in the data prop
 			currentValue = MultiDropdownRange.parseValue(item, props);
-			currentValue.forEach((value) => {
+			currentValue.forEach(value => {
 				this.selectedValues = {
 					...this.selectedValues,
 					[value.label]: true,
@@ -190,7 +192,7 @@ class MultiDropdownRange extends Component {
 		});
 	};
 
-	handleChange = (items) => {
+	handleChange = items => {
 		const { value, onChange } = this.props;
 		if (value === undefined) {
 			this.selectItem({ item: items });

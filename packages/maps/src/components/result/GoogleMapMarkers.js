@@ -1,5 +1,5 @@
 import React from 'react';
-import types from '@appbaseio/reactivecore/lib/utils/types';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 
 import GoogleMapMarker from './GoogleMapMarker';
 
@@ -9,13 +9,13 @@ class GoogleMapMarkers extends React.Component {
 		openMarkers: {},
 	};
 
-	setMarkerOnTop = (markerOnTop) => {
+	setMarkerOnTop = markerOnTop => {
 		this.setState({
 			markerOnTop,
 		});
 	};
 
-	setOpenMarkers = (openMarkers) => {
+	setOpenMarkers = openMarkers => {
 		this.setState({
 			openMarkers,
 		});

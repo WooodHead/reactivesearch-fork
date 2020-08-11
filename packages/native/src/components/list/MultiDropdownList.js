@@ -9,7 +9,7 @@ import {
 	updateQuery,
 	setQueryOptions,
 	setQueryListener,
-} from '@appbaseio/reactivecore/lib/actions';
+} from '@mitchgillin/reactivecore/lib/actions';
 import {
 	isEqual,
 	getQueryOptions,
@@ -19,9 +19,9 @@ import {
 	checkPropChange,
 	checkSomePropChange,
 	getInnerKey,
-} from '@appbaseio/reactivecore/lib/utils/helper';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
 
-import types from '@appbaseio/reactivecore/lib/utils/types';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 
 import CheckboxItem from '../shared/CheckboxItem';
 import withTheme from '../../theme/withTheme';
@@ -95,7 +95,7 @@ class MultiDropdownList extends Component {
 		this.props.removeComponent(this.internalComponent);
 	}
 
-	setReact = (props) => {
+	setReact = props => {
 		const { react } = props;
 		if (react) {
 			const newReact = pushToAndClause(react, this.internalComponent);
@@ -151,7 +151,7 @@ class MultiDropdownList extends Component {
 				currentValue = {};
 				finalValues = [];
 			} else {
-				this.state.options.forEach((item) => {
+				this.state.options.forEach(item => {
 					currentValue[item.key] = true;
 				});
 				currentValue[selectAllLabel] = true;
@@ -161,7 +161,7 @@ class MultiDropdownList extends Component {
 			finalValues = value;
 			currentValue = {};
 			if (value) {
-				value.forEach((item) => {
+				value.forEach(item => {
 					currentValue[item] = true;
 				});
 			}
@@ -219,7 +219,7 @@ class MultiDropdownList extends Component {
 		});
 	};
 
-	updateQueryOptions = (props) => {
+	updateQueryOptions = props => {
 		const queryOptions = getQueryOptions(props);
 		queryOptions.size = 0;
 		queryOptions.aggs = {
@@ -293,8 +293,8 @@ class MultiDropdownList extends Component {
 									.map(item => ({ ...item, key: String(item.key) })),
 							]}
 							renderItem={({ item }) => {
-								const label
-									= this.props.showCount && item.doc_count
+								const label =
+									this.props.showCount && item.doc_count
 										? `${item.key} (${item.doc_count})`
 										: item.key;
 
@@ -397,9 +397,9 @@ MultiDropdownList.defaultProps = {
 const mapStateToProps = (state, props) => ({
 	options: state.aggregations[props.componentId],
 	selectedValue:
-		(state.selectedValues[props.componentId]
-			&& state.selectedValues[props.componentId].value)
-		|| null,
+		(state.selectedValues[props.componentId] &&
+			state.selectedValues[props.componentId].value) ||
+		null,
 });
 
 const mapDispatchtoProps = dispatch => ({
@@ -412,7 +412,4 @@ const mapDispatchtoProps = dispatch => ({
 		dispatch(setQueryListener(component, onQueryChange, beforeQueryChange)),
 });
 
-export default connect(
-	mapStateToProps,
-	mapDispatchtoProps,
-)(withTheme(MultiDropdownList));
+export default connect(mapStateToProps, mapDispatchtoProps)(withTheme(MultiDropdownList));

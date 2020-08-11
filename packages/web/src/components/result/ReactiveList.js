@@ -12,7 +12,7 @@ import {
 	setValue,
 	updateComponentProps,
 	setDefaultQuery,
-} from '@appbaseio/reactivecore/lib/actions';
+} from '@mitchgillin/reactivecore/lib/actions';
 import {
 	isEqual,
 	getQueryOptions,
@@ -23,10 +23,10 @@ import {
 	getCompositeAggsQuery,
 	getResultStats,
 	updateDefaultQuery,
-} from '@appbaseio/reactivecore/lib/utils/helper';
-import types from '@appbaseio/reactivecore/lib/utils/types';
-import { componentTypes } from '@appbaseio/reactivecore/lib/utils/constants';
-import { getInternalComponentID } from '@appbaseio/reactivecore/lib/utils/transform';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
+import { componentTypes } from '@mitchgillin/reactivecore/lib/utils/constants';
+import { getInternalComponentID } from '@mitchgillin/reactivecore/lib/utils/transform';
 import Pagination from './addons/Pagination';
 import PoweredBy from './addons/PoweredBy';
 
@@ -185,12 +185,12 @@ class ReactiveList extends Component {
 			);
 		}
 		if (
-			!isEqual(this.props.sortOptions, prevProps.sortOptions)
-			|| this.props.sortBy !== prevProps.sortBy
-			|| this.props.size !== prevProps.size
-			|| !isEqual(this.props.dataField, prevProps.dataField)
-			|| !isEqual(this.props.includeFields, prevProps.includeFields)
-			|| !isEqual(this.props.excludeFields, prevProps.excludeFields)
+			!isEqual(this.props.sortOptions, prevProps.sortOptions) ||
+			this.props.sortBy !== prevProps.sortBy ||
+			this.props.size !== prevProps.size ||
+			!isEqual(this.props.dataField, prevProps.dataField) ||
+			!isEqual(this.props.includeFields, prevProps.includeFields) ||
+			!isEqual(this.props.excludeFields, prevProps.excludeFields)
 		) {
 			const options = getQueryOptions(this.props);
 			options.from = this.state.from;
@@ -270,9 +270,9 @@ class ReactiveList extends Component {
 			}
 
 			if (
-				this.props.currentPage !== prevProps.currentPage
-				&& this.props.currentPage > 0
-				&& this.props.currentPage <= totalPages
+				this.props.currentPage !== prevProps.currentPage &&
+				this.props.currentPage > 0 &&
+				this.props.currentPage <= totalPages
 			) {
 				this.setPage(this.props.currentPage - 1);
 			}
@@ -282,10 +282,10 @@ class ReactiveList extends Component {
 			if (this.props.hits && prevProps.hits) {
 				if (
 					// new items are loaded (from: 0)
-					this.props.hits.length < prevProps.hits.length
+					this.props.hits.length < prevProps.hits.length ||
 					// new items are loaded and 'from' hasn't changed
-					|| (this.props.hits.length === prevProps.hits.length
-						&& this.props.hits !== prevProps.hits)
+					(this.props.hits.length === prevProps.hits.length &&
+						this.props.hits !== prevProps.hits)
 				) {
 					// query has changed
 					if (this.props.scrollOnChange) {
@@ -300,9 +300,9 @@ class ReactiveList extends Component {
 		}
 
 		if (
-			prevProps.queryLog
-			&& this.props.queryLog
-			&& prevProps.queryLog !== this.props.queryLog
+			prevProps.queryLog &&
+			this.props.queryLog &&
+			prevProps.queryLog !== this.props.queryLog
 		) {
 			// usecase:
 			// - query has changed from non-null prev query
@@ -358,8 +358,8 @@ class ReactiveList extends Component {
 
 		// handle window url history change (on native back and forth interactions)
 		if (
-			this.state.currentPage !== this.props.defaultPage
-			&& this.props.defaultPage !== prevProps.defaultPage
+			this.state.currentPage !== this.props.defaultPage &&
+			this.props.defaultPage !== prevProps.defaultPage
 		) {
 			this.setPage(this.props.defaultPage >= 0 ? this.props.defaultPage : 0);
 		}
@@ -387,9 +387,7 @@ class ReactiveList extends Component {
 
 	// Calculate results
 	getAllData = () => {
-		const {
-			size, promotedResults, aggregationData, customData,
-		} = this.props;
+		const { size, promotedResults, aggregationData, customData } = this.props;
 		const { currentPage } = this.state;
 		const results = parseHits(this.props.hits) || [];
 		const streamResults = parseHits(this.props.streamHits) || [];
@@ -432,7 +430,9 @@ class ReactiveList extends Component {
 	}
 	// Returns the props without default props to apply search relevancy settings for RS API
 	get absProps() {
-		const { originalProps: { includeFields, excludeFields, size } } = this.props;
+		const {
+			originalProps: { includeFields, excludeFields, size },
+		} = this.props;
 		return {
 			includeFields: includeFields || undefined,
 			excludeFields: excludeFields || undefined,
@@ -460,7 +460,7 @@ class ReactiveList extends Component {
 	};
 
 	// only used for SSR
-	static generateQueryOptions = (props) => {
+	static generateQueryOptions = props => {
 		// simulate default (includeFields and excludeFields) props to generate consistent query
 		const options = getQueryOptions({ includeFields: ['*'], excludeFields: [], ...props });
 		const {
@@ -510,12 +510,12 @@ class ReactiveList extends Component {
 	};
 
 	scrollHandler = () => {
-		let renderLoader
-			= window.innerHeight + window.pageYOffset + 300 >= document.body.offsetHeight;
+		let renderLoader =
+			window.innerHeight + window.pageYOffset + 300 >= document.body.offsetHeight;
 		if (this.props.scrollTarget) {
-			renderLoader
-				= this.domNode.clientHeight + this.domNode.scrollTop + 300
-				>= this.domNode.scrollHeight;
+			renderLoader =
+				this.domNode.clientHeight + this.domNode.scrollTop + 300 >=
+				this.domNode.scrollHeight;
 		}
 		if (!this.props.isLoading && renderLoader) {
 			this.loadMore();
@@ -542,7 +542,7 @@ class ReactiveList extends Component {
 		}
 	};
 
-	setPage = (page) => {
+	setPage = page => {
 		// onPageClick will be called everytime a pagination button is clicked
 		if (page !== this.state.currentPage) {
 			const { onPageClick } = this.props;
@@ -576,8 +576,8 @@ class ReactiveList extends Component {
 	renderResultStats = () => {
 		const { hits, promotedResults, total } = this.props;
 
-		const shouldStatsVisible
-			= hits && promotedResults && (hits.length || promotedResults.length);
+		const shouldStatsVisible =
+			hits && promotedResults && (hits.length || promotedResults.length);
 		if (this.props.renderResultStats && shouldStatsVisible) {
 			return this.props.renderResultStats(this.stats);
 		} else if (total) {
@@ -596,7 +596,7 @@ class ReactiveList extends Component {
 		</div>
 	);
 
-	handleSortChange = (e) => {
+	handleSortChange = e => {
 		const index = e.target.value;
 		const options = getQueryOptions(this.props);
 		// This fixes issue #371 (where sorting a multi-result page with infinite loader breaks)
@@ -631,7 +631,7 @@ class ReactiveList extends Component {
 		);
 	};
 
-	updatePageURL = (page) => {
+	updatePageURL = page => {
 		if (this.props.URLParams) {
 			this.props.setPageURL(
 				this.props.componentId,
@@ -643,7 +643,7 @@ class ReactiveList extends Component {
 		}
 	};
 
-	triggerClickAnalytics = (searchPosition) => {
+	triggerClickAnalytics = searchPosition => {
 		this.props.triggerAnalytics(searchPosition);
 	};
 
@@ -671,7 +671,7 @@ class ReactiveList extends Component {
 		return null;
 	};
 
-	withClickIds = (results) => {
+	withClickIds = results => {
 		const { base } = this.getAllData();
 		return results.map((result, index) => ({
 			...result,
@@ -709,9 +709,7 @@ class ReactiveList extends Component {
 	};
 
 	render() {
-		const {
-			renderItem, size, error, renderPagination,
-		} = this.props;
+		const { renderItem, size, error, renderPagination } = this.props;
 		const { currentPage } = this.state;
 		const { filteredResults } = this.getAllData();
 		const paginationProps = {
@@ -744,8 +742,8 @@ class ReactiveList extends Component {
 				{!this.props.isLoading && !error && filteredResults.length === 0
 					? this.renderNoResults()
 					: null}
-				{this.shouldRenderPagination
-				&& ['top', 'both'].indexOf(this.props.paginationAt) !== -1
+				{this.shouldRenderPagination &&
+				['top', 'both'].indexOf(this.props.paginationAt) !== -1
 					? paginationElement
 					: null}
 
@@ -773,8 +771,8 @@ class ReactiveList extends Component {
 						</div>
 					) // prettier-ignore
 					: null}
-				{this.shouldRenderPagination
-				&& ['bottom', 'both'].indexOf(this.props.paginationAt) !== -1
+				{this.shouldRenderPagination &&
+				['bottom', 'both'].indexOf(this.props.paginationAt) !== -1
 					? paginationElement
 					: null}
 
@@ -888,9 +886,9 @@ ReactiveList.componentType = componentTypes.reactiveList;
 
 const mapStateToProps = (state, props) => ({
 	defaultPage:
-		(state.selectedValues[props.componentId]
-			&& state.selectedValues[props.componentId].value - 1)
-		|| -1,
+		(state.selectedValues[props.componentId] &&
+			state.selectedValues[props.componentId].value - 1) ||
+		-1,
 	hits: state.hits[props.componentId] && state.hits[props.componentId].hits,
 	rawData: state.rawData[props.componentId],
 	aggregationData: state.compositeAggregations[props.componentId],
@@ -905,9 +903,9 @@ const mapStateToProps = (state, props) => ({
 	promotedResults: state.promotedResults[props.componentId] || [],
 	customData: state.customData[props.componentId],
 	afterKey:
-		state.aggregations[props.componentId]
-		&& state.aggregations[props.componentId][props.aggregationField]
-		&& state.aggregations[props.componentId][props.aggregationField].after_key,
+		state.aggregations[props.componentId] &&
+		state.aggregations[props.componentId][props.aggregationField] &&
+		state.aggregations[props.componentId][props.aggregationField].after_key,
 });
 
 const mapDispatchtoProps = dispatch => ({
@@ -933,13 +931,17 @@ const ConnectedComponent = connect(
 		<ComponentWrapper internalComponent componentType={componentTypes.reactiveList} {...props}>
 			{() => {
 				const { includeFields, excludeFields, size } = props;
-				return (<ReactiveList
-					ref={props.myForwardedRef}
-					{...props}
-					originalProps={{
-						includeFields, excludeFields, size,
-					}}
-				/>);
+				return (
+					<ReactiveList
+						ref={props.myForwardedRef}
+						{...props}
+						originalProps={{
+							includeFields,
+							excludeFields,
+							size,
+						}}
+					/>
+				);
 			}}
 		</ComponentWrapper>
 	)),

@@ -14,7 +14,7 @@ import {
 	setDefaultQuery,
 	setComponentProps,
 	updateComponentProps,
-} from '@appbaseio/reactivecore/lib/actions';
+} from '@mitchgillin/reactivecore/lib/actions';
 import {
 	isEqual,
 	checkValueChange,
@@ -24,9 +24,9 @@ import {
 	getOptionsFromQuery,
 	updateCustomQuery,
 	updateDefaultQuery,
-} from '@appbaseio/reactivecore/lib/utils/helper';
-import { componentTypes } from '@appbaseio/reactivecore/lib/utils/constants';
-import types from '@appbaseio/reactivecore/lib/utils/types';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
+import { componentTypes } from '@mitchgillin/reactivecore/lib/utils/constants';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 
 import Title from '@appbaseio/reactivesearch/lib/styles/Title';
 import Input, {
@@ -137,11 +137,11 @@ class GeoDistanceDropdown extends GeoCode {
 		if (this.props.value && !isEqual(this.props.value, prevProps.value)) {
 			this.setValues(this.props.value, this.props);
 		} else if (
-			this.props.selectedValue
-			&& this.props.selectedValue.label
-			&& this.props.selectedValue.location
-			&& !isEqual(this.state.currentLocation, this.props.selectedValue.location)
-			&& !isEqual(this.props.selectedValue, prevProps.selectedValue)
+			this.props.selectedValue &&
+			this.props.selectedValue.label &&
+			this.props.selectedValue.location &&
+			!isEqual(this.state.currentLocation, this.props.selectedValue.location) &&
+			!isEqual(this.props.selectedValue, prevProps.selectedValue)
 		) {
 			const { value, onChange } = this.props;
 
@@ -151,8 +151,8 @@ class GeoDistanceDropdown extends GeoCode {
 				onChange(this.props.selectedValue);
 			}
 		} else if (
-			!isEqual(this.props.selectedValue, prevProps.selectedValue)
-			&& !this.props.selectedValue
+			!isEqual(this.props.selectedValue, prevProps.selectedValue) &&
+			!this.props.selectedValue
 		) {
 			const { value, onChange } = this.props;
 			if (value === undefined) {
@@ -253,7 +253,7 @@ class GeoDistanceDropdown extends GeoCode {
 		);
 	};
 
-	setDistance = (currentDistance) => {
+	setDistance = currentDistance => {
 		this.setState(
 			{
 				currentDistance,
@@ -271,9 +271,7 @@ class GeoDistanceDropdown extends GeoCode {
 	};
 
 	updateQuery = (distance, props = this.props) => {
-		const {
-			componentId, customQuery, filterLabel, showFilter, URLParams,
-		} = props;
+		const { componentId, customQuery, filterLabel, showFilter, URLParams } = props;
 		const selectedDistance = this.getSelectedLabel(distance);
 		let value = null;
 		if (selectedDistance) {
@@ -311,7 +309,7 @@ class GeoDistanceDropdown extends GeoCode {
 		return null;
 	};
 
-	onDistanceChange = (value) => {
+	onDistanceChange = value => {
 		const { onChange, value: valueProp } = this.props;
 		if (valueProp === undefined) {
 			this.setDistance(value.distance);
@@ -320,7 +318,7 @@ class GeoDistanceDropdown extends GeoCode {
 		}
 	};
 
-	onInputChange = (e) => {
+	onInputChange = e => {
 		const { value } = e.target;
 		const { onChange, value: propValue } = this.props;
 
@@ -347,14 +345,14 @@ class GeoDistanceDropdown extends GeoCode {
 					componentRestrictions: { country: restrictedCountries },
 					...this.props.serviceOptions,
 				},
-				(res) => {
-					const suggestionsList
-						= (res
-							&& res.map(place => ({
+				res => {
+					const suggestionsList =
+						(res &&
+							res.map(place => ({
 								label: place.description,
 								value: place.description,
-							})))
-						|| [];
+							}))) ||
+						[];
 
 					this.setState({
 						suggestions: suggestionsList,
@@ -368,7 +366,7 @@ class GeoDistanceDropdown extends GeoCode {
 		}
 	};
 
-	handleFocus = (event) => {
+	handleFocus = event => {
 		this.setState({
 			isOpen: true,
 		});
@@ -390,7 +388,7 @@ class GeoDistanceDropdown extends GeoCode {
 		}
 	};
 
-	handleStateChange = (changes) => {
+	handleStateChange = changes => {
 		const { isOpen, type } = changes;
 		if (type === Downshift.stateChangeTypes.mouseUp) {
 			this.setState({
@@ -399,7 +397,7 @@ class GeoDistanceDropdown extends GeoCode {
 		}
 	};
 
-	handleLocation = (data) => {
+	handleLocation = data => {
 		const { value, onChange } = this.props;
 
 		if (value === undefined) {
@@ -434,9 +432,15 @@ class GeoDistanceDropdown extends GeoCode {
 				isOpen={this.state.isOpen}
 				itemToString={i => i}
 				render={({
-					getRootProps, getInputProps, getItemProps, isOpen, highlightedIndex,
+					getRootProps,
+					getInputProps,
+					getItemProps,
+					isOpen,
+					highlightedIndex,
 				}) => (
-					<div {...getRootProps({ css: suggestionsContainer }, { suppressRefError: true })}>
+					<div
+						{...getRootProps({ css: suggestionsContainer }, { suppressRefError: true })}
+					>
 						<Input
 							showIcon={this.props.showIcon}
 							iconPosition={this.props.iconPosition}
@@ -460,10 +464,7 @@ class GeoDistanceDropdown extends GeoCode {
 						{isOpen && this.state.suggestions.length ? (
 							<ul
 								css={suggestions(themePreset, theme)}
-								className={getClassName(
-									this.props.innerClass,
-									'list',
-								)}
+								className={getClassName(this.props.innerClass, 'list')}
 							>
 								{suggestionsList.slice(0, 11).map((item, index) => (
 									<li
@@ -583,9 +584,9 @@ GeoDistanceDropdown.defaultProps = {
 const mapStateToProps = (state, props) => ({
 	mapKey: state.config.mapKey,
 	selectedValue:
-		(state.selectedValues[props.componentId]
-			&& state.selectedValues[props.componentId].value)
-		|| null,
+		(state.selectedValues[props.componentId] &&
+			state.selectedValues[props.componentId].value) ||
+		null,
 	themePreset: state.config.themePreset,
 });
 

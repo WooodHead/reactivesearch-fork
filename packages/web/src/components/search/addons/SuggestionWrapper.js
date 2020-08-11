@@ -1,18 +1,13 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
-import { getClassName } from '@appbaseio/reactivecore/lib/utils/helper';
-import types from '@appbaseio/reactivecore/lib/utils/types';
+import { getClassName } from '@mitchgillin/reactivecore/lib/utils/helper';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 import { noSuggestions } from '../../../styles/Input';
 
-const SuggestionWrapper = ({
-	theme, themePreset, children, innerClassName, innerClass,
-}) => (
+const SuggestionWrapper = ({ theme, themePreset, children, innerClassName, innerClass }) => (
 	<div
 		css={noSuggestions(themePreset, theme)}
-		className={getClassName(
-			innerClass,
-			innerClassName || '',
-		)}
+		className={getClassName(innerClass, innerClassName || '')}
 	>
 		<li>{children}</li>
 	</div>

@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { Button, Text } from 'native-base';
 
-import { setValue, clearValues } from '@appbaseio/reactivecore/lib/actions';
-import types from '@appbaseio/reactivecore/lib/utils/types';
+import { setValue, clearValues } from '@mitchgillin/reactivecore/lib/actions';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 import { connect } from '../../utils';
 
 class SelectedFilters extends Component {
-	remove = (component) => {
+	remove = component => {
 		this.props.setValue(component, null);
 	};
 
@@ -128,7 +128,4 @@ const mapDispatchtoProps = dispatch => ({
 	clearValues: () => dispatch(clearValues()),
 });
 
-export default connect(
-	mapStateToProps,
-	mapDispatchtoProps,
-)(SelectedFilters);
+export default connect(mapStateToProps, mapDispatchtoProps)(SelectedFilters);

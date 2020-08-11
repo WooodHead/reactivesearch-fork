@@ -9,7 +9,7 @@ import {
 	updateQuery,
 	setQueryOptions,
 	setQueryListener,
-} from '@appbaseio/reactivecore/lib/actions';
+} from '@mitchgillin/reactivecore/lib/actions';
 import {
 	debounce,
 	pushToAndClause,
@@ -17,10 +17,10 @@ import {
 	checkPropChange,
 	checkSomePropChange,
 	getInnerKey,
-} from '@appbaseio/reactivecore/lib/utils/helper';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
 
-import types from '@appbaseio/reactivecore/lib/utils/types';
-import getSuggestions from '@appbaseio/reactivecore/lib/utils/suggestions';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
+import getSuggestions from '@mitchgillin/reactivecore/lib/utils/suggestions';
 
 import withTheme from '../../theme/withTheme';
 import { connect } from '../../utils';
@@ -105,7 +105,7 @@ class DataSearch extends Component {
 		this.props.removeComponent(this.internalComponent);
 	}
 
-	setReact = (props) => {
+	setReact = props => {
 		const { react } = props;
 		if (react) {
 			const newReact = pushToAndClause(react, this.internalComponent);
@@ -115,7 +115,7 @@ class DataSearch extends Component {
 		}
 	};
 
-	highlightQuery = (props) => {
+	highlightQuery = props => {
 		if (!props.highlight) {
 			return null;
 		}
@@ -125,7 +125,7 @@ class DataSearch extends Component {
 		if (typeof highlightField === 'string') {
 			fields[highlightField] = {};
 		} else if (Array.isArray(highlightField)) {
-			highlightField.forEach((item) => {
+			highlightField.forEach(item => {
 				fields[item] = {};
 			});
 		}
@@ -218,12 +218,16 @@ class DataSearch extends Component {
 		];
 	};
 
-	onSuggestions = (results) => {
+	onSuggestions = results => {
 		const fields = Array.isArray(this.props.dataField)
 			? this.props.dataField
 			: [this.props.dataField];
 
-		return getSuggestions({ fields, suggestions: results, currentValue: this.state.currentValue.toLowerCase() });
+		return getSuggestions({
+			fields,
+			suggestions: results,
+			currentValue: this.state.currentValue.toLowerCase(),
+		});
 	};
 
 	setValue = (value, isDefaultValue = false, props = this.props) => {
@@ -245,7 +249,7 @@ class DataSearch extends Component {
 		checkValueChange(props.componentId, value, props.beforeValueChange, performUpdate);
 	};
 
-	handleTextChange = debounce((value) => {
+	handleTextChange = debounce(value => {
 		if (this.props.autosuggest) {
 			this.updateQuery(this.internalComponent, value, this.props);
 		} else {
@@ -253,12 +257,12 @@ class DataSearch extends Component {
 		}
 	}, this.props.debounce);
 
-	handleUserSelection = (value) => {
+	handleUserSelection = value => {
 		if (this.props.onValueSelected) this.props.onValueSelected(value);
 		this.selectSuggestion(value.label);
-	}
+	};
 
-	selectSuggestion = (value) => {
+	selectSuggestion = value => {
 		this.setState({
 			suggestions: [],
 		});
@@ -300,9 +304,9 @@ class DataSearch extends Component {
 		let suggestionsList = [];
 
 		if (
-			!this.state.currentValue
-			&& this.props.defaultSuggestions
-			&& this.props.defaultSuggestions.length
+			!this.state.currentValue &&
+			this.props.defaultSuggestions &&
+			this.props.defaultSuggestions.length
 		) {
 			suggestionsList = this.props.defaultSuggestions;
 		} else if (this.state.currentValue) {
@@ -331,7 +335,7 @@ class DataSearch extends Component {
 		);
 	}
 
-	renderDataSearch = (style) => {
+	renderDataSearch = style => {
 		if (this.state.showModal) {
 			return (
 				<Modal
@@ -563,8 +567,8 @@ class DataSearch extends Component {
 										color: '#666',
 										marginLeft: 10,
 										marginRight:
-											this.props.showIcon
-											&& this.props.iconPosition === 'right'
+											this.props.showIcon &&
+											this.props.iconPosition === 'right'
 												? 0
 												: 10,
 										...getInnerKey(this.props.innerStyle, 'icon'),
@@ -645,9 +649,9 @@ DataSearch.defaultProps = {
 const mapStateToProps = (state, props) => ({
 	suggestions: state.hits[props.componentId] && state.hits[props.componentId].hits,
 	selectedValue:
-		(state.selectedValues[props.componentId]
-			&& state.selectedValues[props.componentId].value)
-		|| null,
+		(state.selectedValues[props.componentId] &&
+			state.selectedValues[props.componentId].value) ||
+		null,
 });
 
 const mapDispatchtoProps = dispatch => ({
@@ -660,7 +664,4 @@ const mapDispatchtoProps = dispatch => ({
 		dispatch(setQueryListener(component, onQueryChange, beforeQueryChange)),
 });
 
-export default connect(
-	mapStateToProps,
-	mapDispatchtoProps,
-)(withTheme(DataSearch));
+export default connect(mapStateToProps, mapDispatchtoProps)(withTheme(DataSearch));

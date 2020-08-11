@@ -1,11 +1,11 @@
 import React from 'react';
 import { View } from 'react-native';
 
-import types from '@appbaseio/reactivecore/lib/utils/types';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 
-const Histogram = (props) => {
+const Histogram = props => {
 	let max = props.stats[0].doc_count;
-	props.stats.forEach((item) => {
+	props.stats.forEach(item => {
 		if (max < item.doc_count) {
 			max = item.doc_count;
 		}
@@ -26,7 +26,7 @@ const Histogram = (props) => {
 				paddingHorizontal: props.paddingHorizontal,
 			}}
 		>
-			{range.map((item) => {
+			{range.map(item => {
 				const value = props.stats.find(stat => stat.key === item) || 0;
 
 				return (

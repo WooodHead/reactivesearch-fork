@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { CheckBox, Text } from 'native-base';
-import types from '@appbaseio/reactivecore/lib/utils/types';
-import { getInnerKey } from '@appbaseio/reactivecore/lib/utils/helper';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
+import { getInnerKey } from '@mitchgillin/reactivecore/lib/utils/helper';
 
 import TouchableItem from './TouchableItem';
 

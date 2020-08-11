@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 
-import { updateQuery, setQueryOptions, setCustomQuery } from '@appbaseio/reactivecore/lib/actions';
+import {
+	updateQuery,
+	setQueryOptions,
+	setCustomQuery,
+} from '@mitchgillin/reactivecore/lib/actions';
 import {
 	isEqual,
 	getQueryOptions,
@@ -12,12 +16,12 @@ import {
 	getOptionsFromQuery,
 	getAggsQuery,
 	updateCustomQuery,
-} from '@appbaseio/reactivecore/lib/utils/helper';
-import { getInternalComponentID } from '@appbaseio/reactivecore/lib/utils/transform';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
+import { getInternalComponentID } from '@mitchgillin/reactivecore/lib/utils/transform';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 
-import types from '@appbaseio/reactivecore/lib/utils/types';
-import { componentTypes } from '@appbaseio/reactivecore/lib/utils/constants';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
+import { componentTypes } from '@mitchgillin/reactivecore/lib/utils/constants';
 
 import Title from '../../styles/Title';
 import TagList from '../../styles/TagList';
@@ -33,12 +37,12 @@ class TagCloud extends Component {
 		const currentValueArray = props.selectedValue || defaultValue || [];
 		const currentValue = {};
 
-		currentValueArray.forEach((item) => {
+		currentValueArray.forEach(item => {
 			currentValue[item] = true;
 		});
 
-		const options
-			= props.options && props.options[props.dataField]
+		const options =
+			props.options && props.options[props.dataField]
 				? props.options[props.dataField].buckets
 				: [];
 
@@ -84,8 +88,8 @@ class TagCloud extends Component {
 		if (this.props.value !== prevProps.value) {
 			this.setValue(this.props.value, true, this.props);
 		} else if (
-			!isEqual(selectedValue, this.props.selectedValue)
-			&& !isEqual(this.props.selectedValue, prevProps.selectedValue)
+			!isEqual(selectedValue, this.props.selectedValue) &&
+			!isEqual(this.props.selectedValue, prevProps.selectedValue)
 		) {
 			const { value, onChange } = this.props;
 			if (value === undefined) {
@@ -153,7 +157,7 @@ class TagCloud extends Component {
 				finalValues = value;
 				currentValue = {};
 				if (value) {
-					value.forEach((item) => {
+					value.forEach(item => {
 						currentValue[item] = true;
 					});
 				}
@@ -222,12 +226,12 @@ class TagCloud extends Component {
 		return getAggsQuery('', queryOptions, props);
 	}
 
-	updateQueryOptions = (props) => {
+	updateQueryOptions = props => {
 		const queryOptions = TagCloud.generateQueryOptions(props);
 		props.setQueryOptions(this.internalComponent, queryOptions);
 	};
 
-	handleClick = (item) => {
+	handleClick = item => {
 		const { value, onChange } = this.props;
 
 		if (value === undefined) {
@@ -254,7 +258,7 @@ class TagCloud extends Component {
 		}
 
 		let highestCount = 0;
-		this.state.options.forEach((item) => {
+		this.state.options.forEach(item => {
 			highestCount = item.doc_count > highestCount ? item.doc_count : highestCount;
 		});
 
@@ -269,7 +273,7 @@ class TagCloud extends Component {
 					role="menu"
 					className={getClassName(this.props.innerClass, 'list') || null}
 				>
-					{this.state.options.map((item) => {
+					{this.state.options.map(item => {
 						// eslint-disable-next-line
 						const size = (item.doc_count / highestCount) * (max - min) + min;
 
@@ -283,8 +287,8 @@ class TagCloud extends Component {
 								style={{ fontSize: `${size}em` }}
 								className={
 									this.state.currentValue[item.key]
-										? `${getClassName(this.props.innerClass, 'input')
-												|| ''} active`
+										? `${getClassName(this.props.innerClass, 'input') ||
+												''} active`
 										: getClassName(this.props.innerClass, 'input')
 								}
 								role="menuitem"
@@ -355,18 +359,18 @@ TagCloud.componentType = componentTypes.tagCloud;
 const mapStateToProps = (state, props) => {
 	let options = {};
 	if (props.nestedField) {
-		options
-			= state.aggregations[props.componentId]
-			&& state.aggregations[props.componentId].reactivesearch_nested;
+		options =
+			state.aggregations[props.componentId] &&
+			state.aggregations[props.componentId].reactivesearch_nested;
 	} else {
 		options = state.aggregations[props.componentId];
 	}
 	return {
 		options,
 		selectedValue:
-			(state.selectedValues[props.componentId]
-				&& state.selectedValues[props.componentId].value)
-			|| null,
+			(state.selectedValues[props.componentId] &&
+				state.selectedValues[props.componentId].value) ||
+			null,
 		isLoading: state.isLoading[props.componentId],
 		error: state.error[props.componentId],
 	};

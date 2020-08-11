@@ -11,15 +11,15 @@ import {
 	updateQuery,
 	loadMore,
 	setQueryListener,
-} from '@appbaseio/reactivecore/lib/actions';
+} from '@mitchgillin/reactivecore/lib/actions';
 import {
 	isEqual,
 	getQueryOptions,
 	pushToAndClause,
 	parseHits,
 	getInnerKey,
-} from '@appbaseio/reactivecore/lib/utils/helper';
-import types from '@appbaseio/reactivecore/lib/utils/types';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 
 import List from './addons/List';
 import withTheme from '../../theme/withTheme';
@@ -118,12 +118,12 @@ class ReactiveList extends Component {
 
 	componentWillReceiveProps(nextProps) {
 		if (
-			!isEqual(this.props.sortOptions, nextProps.sortOptions)
-			|| this.props.sortBy !== nextProps.sortBy
-			|| this.props.size !== nextProps.size
-			|| !isEqual(this.props.dataField, nextProps.dataField)
-			|| !isEqual(this.props.includeFields, nextProps.includeFields)
-			|| !isEqual(this.props.excludeFields, nextProps.excludeFields)
+			!isEqual(this.props.sortOptions, nextProps.sortOptions) ||
+			this.props.sortBy !== nextProps.sortBy ||
+			this.props.size !== nextProps.size ||
+			!isEqual(this.props.dataField, nextProps.dataField) ||
+			!isEqual(this.props.includeFields, nextProps.includeFields) ||
+			!isEqual(this.props.excludeFields, nextProps.excludeFields)
 		) {
 			const options = getQueryOptions(nextProps);
 			options.from = this.state.from;
@@ -188,11 +188,11 @@ class ReactiveList extends Component {
 		}
 
 		if (
-			!nextProps.pagination
-			&& this.props.hits
-			&& nextProps.hits
-			&& (this.props.hits.length < nextProps.hits.length
-				|| nextProps.hits.length === nextProps.total)
+			!nextProps.pagination &&
+			this.props.hits &&
+			nextProps.hits &&
+			(this.props.hits.length < nextProps.hits.length ||
+				nextProps.hits.length === nextProps.total)
 		) {
 			this.setState({
 				isLoading: false,
@@ -200,10 +200,10 @@ class ReactiveList extends Component {
 		}
 
 		if (
-			!nextProps.pagination
-			&& nextProps.hits
-			&& this.props.hits
-			&& nextProps.hits.length < this.props.hits.length
+			!nextProps.pagination &&
+			nextProps.hits &&
+			this.props.hits &&
+			nextProps.hits.length < this.props.hits.length
 		) {
 			if (this.listRef) {
 				this.listRef.scrollToOffset({ x: 0, y: 0, animated: false });
@@ -226,7 +226,7 @@ class ReactiveList extends Component {
 		this.props.removeComponent(this.props.componentId);
 	}
 
-	updatePageURL = (page) => {
+	updatePageURL = page => {
 		if (this.props.URLParams) {
 			this.props.setPageURL(
 				this.props.componentId,
@@ -238,7 +238,7 @@ class ReactiveList extends Component {
 		}
 	};
 
-	setReact = (props) => {
+	setReact = props => {
 		const { react } = props;
 		if (react) {
 			const newReact = pushToAndClause(react, this.internalComponent);
@@ -250,9 +250,9 @@ class ReactiveList extends Component {
 
 	loadMore = () => {
 		if (
-			this.props.hits
-			&& !this.props.pagination
-			&& this.props.total !== this.props.hits.length
+			this.props.hits &&
+			!this.props.pagination &&
+			this.props.total !== this.props.hits.length
 		) {
 			const value = this.state.from + this.props.size;
 			const options = getQueryOptions(this.props);
@@ -276,7 +276,7 @@ class ReactiveList extends Component {
 		}
 	};
 
-	setPage = (page) => {
+	setPage = page => {
 		const value = this.props.size * page;
 		const options = getQueryOptions(this.props);
 		this.setState({
@@ -316,7 +316,7 @@ class ReactiveList extends Component {
 		const start = this.getStart();
 		const pages = [];
 
-		for (let i = start; i < (start + this.props.pages) - 1; i += 1) {
+		for (let i = start; i < start + this.props.pages - 1; i += 1) {
 			const activeStyles = {
 				button: {},
 				text: {},
@@ -452,7 +452,7 @@ class ReactiveList extends Component {
 		);
 	};
 
-	setRef = (node) => {
+	setRef = node => {
 		this.listRef = node;
 	};
 
@@ -497,7 +497,7 @@ class ReactiveList extends Component {
 				{this.props.pagination && this.props.paginationAt === 'top'
 					? this.renderPagination()
 					: null}
-				{!this.state.isLoading && (results.length === 0 && streamResults.length === 0)
+				{!this.state.isLoading && results.length === 0 && streamResults.length === 0
 					? this.renderNoResults()
 					: null}
 				{this.props.onAllData ? (
@@ -603,7 +603,4 @@ const mapDispatchtoProps = dispatch => ({
 	loadMore: (component, options, append) => dispatch(loadMore(component, options, append)),
 });
 
-export default connect(
-	mapStateToProps,
-	mapDispatchtoProps,
-)(withTheme(ReactiveList));
+export default connect(mapStateToProps, mapDispatchtoProps)(withTheme(ReactiveList));

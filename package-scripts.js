@@ -33,7 +33,7 @@ module.exports = {
 			// To update reactivecore version
 			default: `${path.resolve(
 				`${__dirname}/scripts/version-update.sh`,
-			)} "@appbaseio/reactivecore" ${reactivecoreVersion.version} ${__dirname}`,
+			)} "@mitchgillin/reactivecore" ${reactivecoreVersion.version} ${__dirname}`,
 		},
 		'upgrade-vue': {
 			description: 'Updates the ReactiveSearch Vue version in all over the mono-repo.',

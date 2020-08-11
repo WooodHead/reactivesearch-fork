@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 
-import { updateQuery, setQueryOptions, setCustomQuery } from '@appbaseio/reactivecore/lib/actions';
+import {
+	updateQuery,
+	setQueryOptions,
+	setCustomQuery,
+} from '@mitchgillin/reactivecore/lib/actions';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import {
 	isEqual,
@@ -9,10 +13,10 @@ import {
 	getClassName,
 	updateCustomQuery,
 	getOptionsFromQuery,
-} from '@appbaseio/reactivecore/lib/utils/helper';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
 
-import types from '@appbaseio/reactivecore/lib/utils/types';
-import { componentTypes } from '@appbaseio/reactivecore/lib/utils/constants';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
+import { componentTypes } from '@mitchgillin/reactivecore/lib/utils/constants';
 import Title from '../../styles/Title';
 import Container from '../../styles/Container';
 import { UL, Radio } from '../../styles/FormControlList';
@@ -48,8 +52,8 @@ class SingleRange extends Component {
 		if (!isEqual(this.props.value, prevProps.value)) {
 			this.setValue(this.props.value);
 		} else if (
-			!isEqual(this.state.currentValue, this.props.selectedValue)
-			&& !isEqual(this.props.selectedValue, prevProps.selectedValue)
+			!isEqual(this.state.currentValue, this.props.selectedValue) &&
+			!isEqual(this.props.selectedValue, prevProps.selectedValue)
 		) {
 			const { value, onChange } = this.props;
 			if (value === undefined) {
@@ -84,8 +88,8 @@ class SingleRange extends Component {
 	};
 
 	setValue = (value, props = this.props, hasMounted = true) => {
-		const currentValue
-			= typeof value === 'string' ? SingleRange.parseValue(value, props) : value;
+		const currentValue =
+			typeof value === 'string' ? SingleRange.parseValue(value, props) : value;
 
 		const performUpdate = () => {
 			const handleUpdates = () => {
@@ -130,7 +134,7 @@ class SingleRange extends Component {
 		});
 	};
 
-	handleClick = (e) => {
+	handleClick = e => {
 		const { value, onChange } = this.props;
 		const { value: rangeValue } = e.target;
 
@@ -154,10 +158,10 @@ class SingleRange extends Component {
 					aria-label={`${this.props.componentId}-items`}
 					role="radiogroup"
 				>
-					{this.props.data.map((item) => {
-						const selected
-							= !!this.state.currentValue
-							&& this.state.currentValue.label === item.label;
+					{this.props.data.map(item => {
+						const selected =
+							!!this.state.currentValue &&
+							this.state.currentValue.label === item.label;
 						return (
 							<li
 								key={item.label}
@@ -231,9 +235,9 @@ SingleRange.componentType = componentTypes.singleRange;
 
 const mapStateToProps = (state, props) => ({
 	selectedValue:
-		(state.selectedValues[props.componentId]
-			&& state.selectedValues[props.componentId].value)
-		|| null,
+		(state.selectedValues[props.componentId] &&
+			state.selectedValues[props.componentId].value) ||
+		null,
 });
 
 const mapDispatchtoProps = dispatch => ({

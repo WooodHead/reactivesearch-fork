@@ -1,5 +1,5 @@
 import React from 'react';
-import types from '@appbaseio/reactivecore/lib/utils/types';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 import MicIcon from '../../../styles/MicIcon';
 import { getComponent, hasCustomRenderer } from '../../../utils';
 import MicSvg from '../../shared/MicSvg';
@@ -22,8 +22,8 @@ class Mic extends React.Component {
 		this.results = [];
 
 		if (typeof window !== 'undefined') {
-			window.SpeechRecognition
-				= window.webkitSpeechRecognition || window.SpeechRecognition || null;
+			window.SpeechRecognition =
+				window.webkitSpeechRecognition || window.SpeechRecognition || null;
 
 			if (!window.SpeechRecognition) {
 				console.error(
@@ -56,9 +56,7 @@ class Mic extends React.Component {
 					status: STATUS.inactive,
 				});
 			}
-			const {
-				onResult, onNoMatch, onError, lang, getInstance,
-			} = this.props;
+			const { onResult, onNoMatch, onError, lang, getInstance } = this.props;
 			const { SpeechRecognition } = window;
 			if (this.instance && status !== STATUS.denied) {
 				this.setState(
@@ -93,7 +91,7 @@ class Mic extends React.Component {
 				this.results.push({ results, timeStamp });
 			};
 			this.instance.onnomatch = e => (onNoMatch ? onNoMatch(e) : console.warn(e));
-			this.instance.onerror = (e) => {
+			this.instance.onerror = e => {
 				if (e.error === 'no-speech' || e.error === 'audio-capture') {
 					this.setState({
 						status: STATUS.inactive,

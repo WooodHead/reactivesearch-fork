@@ -8,7 +8,7 @@ import {
 	updateQuery,
 	setQueryOptions,
 	setQueryListener,
-} from '@appbaseio/reactivecore/lib/actions';
+} from '@mitchgillin/reactivecore/lib/actions';
 import {
 	getQueryOptions,
 	pushToAndClause,
@@ -17,8 +17,8 @@ import {
 	checkPropChange,
 	checkSomePropChange,
 	getInnerKey,
-} from '@appbaseio/reactivecore/lib/utils/helper';
-import types from '@appbaseio/reactivecore/lib/utils/types';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 
 import withTheme from '../../theme/withTheme';
 import { connect } from '../../utils';
@@ -80,7 +80,7 @@ class SingleDropdownList extends Component {
 		this.props.removeComponent(this.internalComponent);
 	}
 
-	setReact = (props) => {
+	setReact = props => {
 		const { react } = props;
 		if (react) {
 			const newReact = pushToAndClause(react, this.internalComponent);
@@ -123,7 +123,7 @@ class SingleDropdownList extends Component {
 		checkValueChange(props.componentId, value, props.beforeValueChange, performUpdate);
 	};
 
-	handleValueChange = (value) => {
+	handleValueChange = value => {
 		this.setValue(value, this.props);
 	};
 
@@ -140,7 +140,7 @@ class SingleDropdownList extends Component {
 		});
 	};
 
-	updateQueryOptions = (props) => {
+	updateQueryOptions = props => {
 		const queryOptions = getQueryOptions(props);
 		queryOptions.size = 0;
 		queryOptions.aggs = {
@@ -197,9 +197,9 @@ class SingleDropdownList extends Component {
 					...this.state.options
 						.filter(item => String(item.key).trim().length)
 						.map(item => ({ ...item, key: String(item.key) })),
-				].map((item) => {
-					const label
-						= this.props.showCount && item.doc_count
+				].map(item => {
+					const label =
+						this.props.showCount && item.doc_count
 							? `${item.key} (${item.doc_count})`
 							: item.key;
 
@@ -258,9 +258,9 @@ SingleDropdownList.defaultProps = {
 const mapStateToProps = (state, props) => ({
 	options: state.aggregations[props.componentId],
 	selectedValue:
-		(state.selectedValues[props.componentId]
-			&& state.selectedValues[props.componentId].value)
-		|| '',
+		(state.selectedValues[props.componentId] &&
+			state.selectedValues[props.componentId].value) ||
+		'',
 });
 
 const mapDispatchtoProps = dispatch => ({
@@ -273,7 +273,4 @@ const mapDispatchtoProps = dispatch => ({
 		dispatch(setQueryListener(component, onQueryChange, beforeQueryChange)),
 });
 
-export default connect(
-	mapStateToProps,
-	mapDispatchtoProps,
-)(withTheme(SingleDropdownList));
+export default connect(mapStateToProps, mapDispatchtoProps)(withTheme(SingleDropdownList));

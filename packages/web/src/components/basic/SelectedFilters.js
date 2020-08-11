@@ -3,10 +3,10 @@ import { jsx } from '@emotion/core';
 import React, { Component } from 'react';
 import { withTheme } from 'emotion-theming';
 
-import { setValue, clearValues } from '@appbaseio/reactivecore/lib/actions';
-import { componentTypes, CLEAR_ALL } from '@appbaseio/reactivecore/lib/utils/constants';
-import types from '@appbaseio/reactivecore/lib/utils/types';
-import { getClassName, handleA11yAction } from '@appbaseio/reactivecore/lib/utils/helper';
+import { setValue, clearValues } from '@mitchgillin/reactivecore/lib/actions';
+import { componentTypes, CLEAR_ALL } from '@mitchgillin/reactivecore/lib/utils/constants';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
+import { getClassName, handleA11yAction } from '@mitchgillin/reactivecore/lib/utils/helper';
 import Button, { filters } from '../../styles/Button';
 import Container from '../../styles/Container';
 import Title from '../../styles/Title';
@@ -22,8 +22,8 @@ class SelectedFilters extends Component {
 		if (props.showClearAll === true) {
 			this._showClearAll = CLEAR_ALL.ALWAYS;
 		} else {
-			this._showClearAll
-				= props.showClearAll === false ? CLEAR_ALL.NEVER : props.showClearAll;
+			this._showClearAll =
+				props.showClearAll === false ? CLEAR_ALL.NEVER : props.showClearAll;
 		}
 	}
 
@@ -55,11 +55,11 @@ class SelectedFilters extends Component {
 			return arrayToRender.join(', ');
 		} else if (value && typeof value === 'object') {
 			// TODO: support for NestedList
-			let label
-				= (typeof value.label === 'string' ? value.label : value.value)
-				|| value.key
-				|| value.distance
-				|| null;
+			let label =
+				(typeof value.label === 'string' ? value.label : value.value) ||
+				value.key ||
+				value.distance ||
+				null;
 			if (value.location) {
 				label = `${value.location} - ${label}`;
 			}
@@ -106,12 +106,12 @@ class SelectedFilters extends Component {
 	hasFilters = () =>
 		Object.keys(this.props.selectedValues)
 			.filter(id => this.props.components.includes(id))
-			.some((component) => {
+			.some(component => {
 				const { value } = this.props.selectedValues[component];
-				const isResultComponent
-					= this.props.componentProps[component]
-					&& this.props.componentProps[component].componentType
-						=== componentTypes.reactiveList;
+				const isResultComponent =
+					this.props.componentProps[component] &&
+					this.props.componentProps[component].componentType ===
+						componentTypes.reactiveList;
 				const isArray = Array.isArray(value);
 				return ((isArray && value.length) || (!isArray && value)) && !isResultComponent;
 			});
@@ -127,8 +127,8 @@ class SelectedFilters extends Component {
 		if (this._showClearAll === CLEAR_ALL.ALWAYS) {
 			hasFilters = this.hasFilters();
 		} else {
-			hasFilters
-				= this._showClearAll === CLEAR_ALL.DEFAULT ? !!filtersToRender.length : false;
+			hasFilters =
+				this._showClearAll === CLEAR_ALL.DEFAULT ? !!filtersToRender.length : false;
 		}
 
 		return (

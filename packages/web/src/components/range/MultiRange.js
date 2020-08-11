@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 
-import { updateQuery, setQueryOptions, setCustomQuery } from '@appbaseio/reactivecore/lib/actions';
+import {
+	updateQuery,
+	setQueryOptions,
+	setCustomQuery,
+} from '@mitchgillin/reactivecore/lib/actions';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import {
 	isEqual,
@@ -9,18 +13,14 @@ import {
 	getClassName,
 	updateCustomQuery,
 	getOptionsFromQuery,
-} from '@appbaseio/reactivecore/lib/utils/helper';
-import { componentTypes } from '@appbaseio/reactivecore/lib/utils/constants';
-import types from '@appbaseio/reactivecore/lib/utils/types';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
+import { componentTypes } from '@mitchgillin/reactivecore/lib/utils/constants';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 
 import Title from '../../styles/Title';
 import Container from '../../styles/Container';
 import { UL, Checkbox } from '../../styles/FormControlList';
-import {
-	connect,
-	getRangeQueryWithNullValues,
-	parseValueArray,
-} from '../../utils';
+import { connect, getRangeQueryWithNullValues, parseValueArray } from '../../utils';
 import ComponentWrapper from '../basic/ComponentWrapper';
 
 class MultiRange extends Component {
@@ -32,7 +32,7 @@ class MultiRange extends Component {
 		const currentValue = MultiRange.parseValue(value, props);
 
 		const selectedValues = {};
-		currentValue.forEach((item) => {
+		currentValue.forEach(item => {
 			selectedValues[item.label] = true;
 		});
 
@@ -69,8 +69,8 @@ class MultiRange extends Component {
 				isDefaultValue: true,
 			});
 		} else if (
-			!isEqual(this.state.currentValue, this.props.selectedValue)
-			&& !isEqual(this.props.selectedValue, prevProps.selectedValue)
+			!isEqual(this.state.currentValue, this.props.selectedValue) &&
+			!isEqual(this.props.selectedValue, prevProps.selectedValue)
 		) {
 			const { value, onChange } = this.props;
 
@@ -92,7 +92,7 @@ class MultiRange extends Component {
 
 	// parses range label to get start and end
 	static parseValue = (value, props) =>
-		(value ? props.data.filter(item => value.includes(item.label)) : null);
+		value ? props.data.filter(item => value.includes(item.label)) : null;
 
 	static defaultQuery = (values, props) => {
 		const generateRangeQuery = (dataField, items) => {
@@ -128,9 +128,7 @@ class MultiRange extends Component {
 		return query;
 	};
 
-	selectItem = ({
-		item, isDefaultValue = false, props = this.props, hasMounted = true,
-	}) => {
+	selectItem = ({ item, isDefaultValue = false, props = this.props, hasMounted = true }) => {
 		let { currentValue, selectedValues } = this.state;
 		if (!item) {
 			currentValue = [];
@@ -198,7 +196,7 @@ class MultiRange extends Component {
 		});
 	};
 
-	handleClick = (e) => {
+	handleClick = e => {
 		const { value, onChange } = this.props;
 
 		const { value: rangeValue } = e.target;
@@ -222,7 +220,7 @@ class MultiRange extends Component {
 					role="listbox"
 					aria-label={`${this.props.componentId}-items`}
 				>
-					{this.props.data.map((item) => {
+					{this.props.data.map(item => {
 						const isChecked = !!this.state.selectedValues[item.label];
 						return (
 							<li

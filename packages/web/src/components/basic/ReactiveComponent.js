@@ -5,7 +5,7 @@ import {
 	setQueryOptions,
 	setCustomQuery,
 	setDefaultQuery,
-} from '@appbaseio/reactivecore/lib/actions';
+} from '@mitchgillin/reactivecore/lib/actions';
 import {
 	parseHits,
 	isEqual,
@@ -16,10 +16,10 @@ import {
 	getResultStats,
 	updateCustomQuery,
 	updateDefaultQuery,
-} from '@appbaseio/reactivecore/lib/utils/helper';
-import types from '@appbaseio/reactivecore/lib/utils/types';
-import { getInternalComponentID } from '@appbaseio/reactivecore/lib/utils/transform';
-import { componentTypes } from '@appbaseio/reactivecore/lib/utils/constants';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
+import { getInternalComponentID } from '@mitchgillin/reactivecore/lib/utils/transform';
+import { componentTypes } from '@mitchgillin/reactivecore/lib/utils/constants';
 import { connect, getComponent, hasCustomRenderer } from '../../utils';
 import ComponentWrapper from '../basic/ComponentWrapper';
 
@@ -28,7 +28,7 @@ class ReactiveComponent extends Component {
 		super(props);
 		this.internalComponent = null;
 		this.defaultQuery = null;
-		this.setQuery = (data) => {
+		this.setQuery = data => {
 			if (!data) {
 				console.error('setQuery accepts the arguments of shape { query, options, value }.');
 				return;
@@ -180,8 +180,8 @@ class ReactiveComponent extends Component {
 		}
 
 		if (
-			this.props.customQuery
-			&& !isEqual(this.props.customQuery(this.props), prevProps.customQuery(this.props))
+			this.props.customQuery &&
+			!isEqual(this.props.customQuery(this.props), prevProps.customQuery(this.props))
 		) {
 			const { query, ...queryOptions } = this.props.customQuery(this.props) || {};
 
@@ -212,9 +212,7 @@ class ReactiveComponent extends Component {
 	}
 
 	getData() {
-		const {
-			hits, aggregations, aggregationData, promotedResults, rawData,
-		} = this.props;
+		const { hits, aggregations, aggregationData, promotedResults, rawData } = this.props;
 		let filteredResults = parseHits(hits);
 		if (promotedResults.length) {
 			const ids = promotedResults.map(item => item._id).filter(Boolean);
@@ -300,9 +298,9 @@ const mapStateToProps = (state, props) => ({
 	hits: (state.hits[props.componentId] && state.hits[props.componentId].hits) || [],
 	rawData: state.rawData[props.componentId],
 	selectedValue:
-		(state.selectedValues[props.componentId]
-			&& state.selectedValues[props.componentId].value)
-		|| null,
+		(state.selectedValues[props.componentId] &&
+			state.selectedValues[props.componentId].value) ||
+		null,
 	isLoading: state.isLoading[props.componentId],
 	error: state.error[props.componentId],
 	promotedResults: state.promotedResults[props.componentId] || [],

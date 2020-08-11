@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
-import types from '@appbaseio/reactivecore/lib/utils/types';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 
 import Histogram, { histogramContainer } from '../../../styles/Histogram';
 
@@ -15,9 +15,9 @@ const getWidth = (index, range, item, props) => {
 	return `${(diff / fullRange) * 100}%`;
 };
 
-const HistogramContainer = (props) => {
+const HistogramContainer = props => {
 	let max = props.stats[0].doc_count;
-	props.stats.forEach((item) => {
+	props.stats.forEach(item => {
 		if (max < item.doc_count) {
 			max = item.doc_count;
 		}

@@ -9,15 +9,15 @@ import {
 	watchComponent,
 	updateQuery,
 	setQueryListener,
-} from '@appbaseio/reactivecore/lib/actions';
+} from '@mitchgillin/reactivecore/lib/actions';
 import {
 	isEqual,
 	checkValueChange,
 	checkPropChange,
 	getInnerKey,
 	formatDate,
-} from '@appbaseio/reactivecore/lib/utils/helper';
-import types from '@appbaseio/reactivecore/lib/utils/types';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 
 import withTheme from '../../theme/withTheme';
 import { connect } from '../../utils';
@@ -65,8 +65,8 @@ class DatePicker extends Component {
 			};
 			this.handleDateChange(currentDate, nextProps);
 		} else if (
-			this.props.selectedValue !== nextProps.selectedValue
-			&& !nextProps.selectedValue
+			this.props.selectedValue !== nextProps.selectedValue &&
+			!nextProps.selectedValue
 		) {
 			this.handleDateChange(null, nextProps);
 		}
@@ -151,17 +151,17 @@ class DatePicker extends Component {
 					startingDay: true,
 					endingDay: true,
 					color:
-						this.props.innerProps
-						&& this.props.innerProps.calendar
-						&& this.props.innerProps.calendar.theme
-						&& this.props.innerProps.calendar.theme.selectedDayBackgroundColor
+						this.props.innerProps &&
+						this.props.innerProps.calendar &&
+						this.props.innerProps.calendar.theme &&
+						this.props.innerProps.calendar.theme.selectedDayBackgroundColor
 							? this.props.innerProps.calendar.theme.selectedDayBackgroundColor
 							: this.props.theming.primaryColor,
 					textColor:
-						this.props.innerProps
-						&& this.props.innerProps.calendar
-						&& this.props.innerProps.calendar.theme
-						&& this.props.innerProps.calendar.theme.selectedDayTextColor
+						this.props.innerProps &&
+						this.props.innerProps.calendar &&
+						this.props.innerProps.calendar.theme &&
+						this.props.innerProps.calendar.theme.selectedDayTextColor
 							? this.props.innerProps.calendar.theme.selectedDayTextColor
 							: this.props.theming.primaryTextColor,
 				},
@@ -342,7 +342,4 @@ const mapDispatchtoProps = dispatch => ({
 		dispatch(setQueryListener(component, onQueryChange, beforeQueryChange)),
 });
 
-export default connect(
-	mapStateToProps,
-	mapDispatchtoProps,
-)(withTheme(DatePicker));
+export default connect(mapStateToProps, mapDispatchtoProps)(withTheme(DatePicker));

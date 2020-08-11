@@ -1,8 +1,8 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
 import React from 'react';
-import { getClassName, handleA11yAction } from '@appbaseio/reactivecore/lib/utils/helper';
-import types from '@appbaseio/reactivecore/lib/utils/types';
+import { getClassName, handleA11yAction } from '@mitchgillin/reactivecore/lib/utils/helper';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 
 import Button, { pagination } from '../../../styles/Button';
 
@@ -22,28 +22,28 @@ const buildPaginationDOM = (props, position) => {
 		fragmentName,
 		showEndPage,
 	} = props;
-	let start
-		= position === 'start'
+	let start =
+		position === 'start'
 			? getStartPage(pages, currentPage, showEndPage)
-			: Math.max(2, Math.ceil((totalPages - ((pages - 1) / 2)) + 1));
+			: Math.max(2, Math.ceil(totalPages - (pages - 1) / 2 + 1));
 	const paginationButtons = [];
 	if (start <= totalPages) {
 		let totalPagesToShow = pages < totalPages ? start + (pages - 1) : totalPages + 1;
 		if (showEndPage) {
-			totalPagesToShow
-				= position === 'start'
+			totalPagesToShow =
+				position === 'start'
 					? start + (Math.ceil(pages / 2) - (pages % 2))
 					: totalPages + 1;
 		}
-		if (currentPage > (totalPages - pages) + 2) {
-			start = Math.max(2, (totalPages - pages) + 2);
+		if (currentPage > totalPages - pages + 2) {
+			start = Math.max(2, totalPages - pages + 2);
 			totalPagesToShow = start + pages;
 		}
 		for (let i = start; i < Math.min(totalPages + 1, totalPagesToShow); i += 1) {
 			const primary = currentPage === i - 1;
 			const innerClassName = getClassName(innerClass, 'button');
-			const className
-				= innerClassName || primary ? `${innerClassName} ${primary ? 'active' : ''}` : null;
+			const className =
+				innerClassName || primary ? `${innerClassName} ${primary ? 'active' : ''}` : null;
 			const pageBtn = (
 				<Button
 					className={className}
@@ -51,7 +51,7 @@ const buildPaginationDOM = (props, position) => {
 					key={i - 1}
 					tabIndex="0"
 					onKeyPress={event => handleA11yAction(event, () => setPage(i - 1))}
-					onClick={(e) => {
+					onClick={e => {
 						e.preventDefault();
 						setPage(i - 1);
 					}}
@@ -71,11 +71,9 @@ const buildPaginationDOM = (props, position) => {
 
 class Pagination extends React.PureComponent {
 	buildIntermediatePaginationDom() {
-		const {
-			showEndPage, currentPage, totalPages, pages,
-		} = this.props;
+		const { showEndPage, currentPage, totalPages, pages } = this.props;
 		if (!showEndPage) return buildPaginationDOM(this.props, 'start');
-		if (currentPage <= (totalPages - pages) + 2 || totalPages <= pages) {
+		if (currentPage <= totalPages - pages + 2 || totalPages <= pages) {
 			return buildPaginationDOM(this.props, 'start');
 		}
 		return null;
@@ -95,14 +93,14 @@ class Pagination extends React.PureComponent {
 			return null;
 		}
 
-		const onPrevPage = (e) => {
+		const onPrevPage = e => {
 			e.preventDefault();
 			if (currentPage) {
 				setPage(currentPage - 1);
 			}
 		};
 
-		const onNextPage = (e) => {
+		const onNextPage = e => {
 			e.preventDefault();
 			if (currentPage < totalPages - 1) {
 				setPage(currentPage + 1);
@@ -111,8 +109,8 @@ class Pagination extends React.PureComponent {
 
 		const innerClassName = getClassName(innerClass, 'button');
 		const primary = currentPage === 0;
-		const className
-			= innerClassName || primary ? `${innerClassName} ${primary ? 'active' : ''}` : null;
+		const className =
+			innerClassName || primary ? `${innerClassName} ${primary ? 'active' : ''}` : null;
 
 		let prevHrefProp = {};
 		let nextHrefProp = {};
@@ -149,7 +147,7 @@ class Pagination extends React.PureComponent {
 						className={className}
 						primary={primary}
 						onKeyPress={event => handleA11yAction(event, () => setPage(0))}
-						onClick={(e) => {
+						onClick={e => {
 							e.preventDefault();
 							setPage(0);
 						}}

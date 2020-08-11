@@ -1,7 +1,7 @@
 import VueTypes from 'vue-types';
 import NoSSR from 'vue-no-ssr';
-import { Actions, helper } from '@appbaseio/reactivecore';
-import { componentTypes } from '@appbaseio/reactivecore/lib/utils/constants';
+import { Actions, helper } from '@mitchgillin/reactivecore';
+import { componentTypes } from '@mitchgillin/reactivecore/lib/utils/constants';
 import Container from '../../styles/Container';
 import { connect, updateCustomQuery, getValidPropsKeys, isQueryIdentical } from '../../utils/index';
 import Title from '../../styles/Title';

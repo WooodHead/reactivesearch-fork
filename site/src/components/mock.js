@@ -8,7 +8,7 @@ export const mockDataSearchFull = `<pre style='color:#000020;'><span style='colo
 	watchComponent<span style='color:#308080; '>,</span>
 	updateQuery<span style='color:#308080; '>,</span>
 	setQueryOptions
-<span style='color:#406080; '>}</span> from <span style='color:#800000; '>"</span><span style='color:#1060b6; '>@appbaseio/reactivecore/lib/actions</span><span style='color:#800000; '>"</span><span style='color:#406080; '>;</span>
+<span style='color:#406080; '>}</span> from <span style='color:#800000; '>"</span><span style='color:#1060b6; '>@mitchgillin/reactivecore/lib/actions</span><span style='color:#800000; '>"</span><span style='color:#406080; '>;</span>
 <span style='color:#200080; font-weight:bold; '>import</span> <span style='color:#406080; '>{</span>
 	debounce<span style='color:#308080; '>,</span>
 	pushToAndClause<span style='color:#308080; '>,</span>
@@ -16,7 +16,7 @@ export const mockDataSearchFull = `<pre style='color:#000020;'><span style='colo
 	checkPropChange<span style='color:#308080; '>,</span>
 	checkSomePropChange<span style='color:#308080; '>,</span>
 	getClassName
-<span style='color:#406080; '>}</span> from <span style='color:#800000; '>"</span><span style='color:#1060b6; '>@appbaseio/reactivecore/lib/utils/helper</span><span style='color:#800000; '>"</span><span style='color:#406080; '>;</span>
+<span style='color:#406080; '>}</span> from <span style='color:#800000; '>"</span><span style='color:#1060b6; '>@mitchgillin/reactivecore/lib/utils/helper</span><span style='color:#800000; '>"</span><span style='color:#406080; '>;</span>
 
 <span style='color:#200080; font-weight:bold; '>import</span> <span style='color:#406080; '>{</span> getSuggestions <span style='color:#406080; '>}</span> from <span style='color:#800000; '>"</span><span style='color:#1060b6; '>../../utils</span><span style='color:#800000; '>"</span><span style='color:#406080; '>;</span>
 

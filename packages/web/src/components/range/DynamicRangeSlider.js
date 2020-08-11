@@ -11,7 +11,7 @@ import {
 	setComponentProps,
 	setCustomQuery,
 	updateComponentProps,
-} from '@appbaseio/reactivecore/lib/actions';
+} from '@mitchgillin/reactivecore/lib/actions';
 
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import {
@@ -23,10 +23,10 @@ import {
 	pushToAndClause,
 	updateCustomQuery,
 	getOptionsFromQuery,
-} from '@appbaseio/reactivecore/lib/utils/helper';
-import types from '@appbaseio/reactivecore/lib/utils/types';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 import Rheostat from 'rheostat/lib/Slider';
-import { componentTypes } from '@appbaseio/reactivecore/lib/utils/constants';
+import { componentTypes } from '@mitchgillin/reactivecore/lib/utils/constants';
 
 import HistogramContainer from './addons/HistogramContainer';
 import RangeLabel from './addons/RangeLabel';
@@ -93,10 +93,10 @@ class DynamicRangeSlider extends Component {
 			);
 		});
 		if (
-			!isEqual(this.props.range, prevProps.range)
-			&& this.props.range
-			&& this.props.range.start >= 0
-			&& this.props.range.end > 0
+			!isEqual(this.props.range, prevProps.range) &&
+			this.props.range &&
+			this.props.range.start >= 0 &&
+			this.props.range.end > 0
 		) {
 			// when range prop is changed
 			// it will happen due to initial mount (or) due to subscription
@@ -123,8 +123,8 @@ class DynamicRangeSlider extends Component {
 				]);
 			}
 		} else if (
-			this.props.range
-			&& !isEqual(
+			this.props.range &&
+			!isEqual(
 				this.props.value && this.props.value(this.props.range.start, this.props.range.end),
 				prevProps.value && prevProps.value(this.props.range.start, this.props.range.end),
 			)
@@ -133,9 +133,9 @@ class DynamicRangeSlider extends Component {
 			const { start, end } = this.props.value(this.props.range.start, this.props.range.end);
 			this.handleChange([start, end]);
 		} else if (
-			this.props.range
-			&& this.props.selectedValue === null
-			&& prevProps.selectedValue
+			this.props.range &&
+			this.props.selectedValue === null &&
+			prevProps.selectedValue
 		) {
 			// when the filter is reset
 			this.handleChange([this.props.range.start, this.props.range.end]);
@@ -192,7 +192,7 @@ class DynamicRangeSlider extends Component {
 		this.props.removeComponent(this.internalMatchAllComponent);
 	}
 
-	setReact = (props) => {
+	setReact = props => {
 		const { react } = props;
 		if (react) {
 			props.watchComponent(this.internalRangeComponent, props.react);
@@ -217,7 +217,7 @@ class DynamicRangeSlider extends Component {
 	};
 
 	// value parser for SSR
-	static parseValue = (value) => {
+	static parseValue = value => {
 		if (Array.isArray(value)) return value;
 		return value ? [value().start, value().end] : null;
 	};
@@ -345,7 +345,7 @@ class DynamicRangeSlider extends Component {
 		}
 	};
 
-	handleDrag = (values) => {
+	handleDrag = values => {
 		if (this.props.onDrag) {
 			const { min, max, values: currentValue } = values;
 			this.props.onDrag(currentValue, [min, max]);
@@ -406,13 +406,13 @@ class DynamicRangeSlider extends Component {
 		}
 	};
 
-	updateRange = (range) => {
+	updateRange = range => {
 		this.setState({
 			range,
 		});
 	};
 
-	updateRangeQueryOptions = (props) => {
+	updateRangeQueryOptions = props => {
 		let queryOptions = {};
 		const { nestedField } = props;
 		if (nestedField) {
@@ -585,31 +585,31 @@ DynamicRangeSlider.componentType = componentTypes.dynamicRangeSlider;
 const mapStateToProps = (state, props) => {
 	let aggregation = state.aggregations[props.componentId];
 	if (props.nestedField) {
-		aggregation
-			= state.aggregations[props.componentId] && state.aggregations[props.componentId].inner;
+		aggregation =
+			state.aggregations[props.componentId] && state.aggregations[props.componentId].inner;
 	}
 	let options = aggregation && aggregation[props.dataField];
 	let range = state.aggregations[`${props.componentId}__range__internal`];
 	if (props.nestedField) {
-		options
-			= options && aggregation[props.dataField] && aggregation[props.dataField].buckets
+		options =
+			options && aggregation[props.dataField] && aggregation[props.dataField].buckets
 				? aggregation[props.dataField].buckets
 				: [];
-		range
-			= range
-			&& state.aggregations[`${props.componentId}__range__internal`][props.nestedField].min
+		range =
+			range &&
+			state.aggregations[`${props.componentId}__range__internal`][props.nestedField].min
 				? {
 					start: state.aggregations[`${props.componentId}__range__internal`][props.nestedField].min.value,
 					end: state.aggregations[`${props.componentId}__range__internal`][props.nestedField].max.value,
 				} // prettier-ignore
 				: null;
 	} else {
-		options
-			= options && aggregation[props.dataField].buckets
+		options =
+			options && aggregation[props.dataField].buckets
 				? aggregation[props.dataField].buckets
 				: [];
-		range
-			= range && state.aggregations[`${props.componentId}__range__internal`].min
+		range =
+			range && state.aggregations[`${props.componentId}__range__internal`].min
 				? {
 					start: state.aggregations[`${props.componentId}__range__internal`].min.value,
 					end: state.aggregations[`${props.componentId}__range__internal`].max.value,

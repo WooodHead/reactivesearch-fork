@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { setHeaders, setValue } from '@appbaseio/reactivecore/lib/actions';
-import types from '@appbaseio/reactivecore/lib/utils/types';
-import { isEqual } from '@appbaseio/reactivecore/lib/utils/helper';
+import { setHeaders, setValue } from '@mitchgillin/reactivecore/lib/actions';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
+import { isEqual } from '@mitchgillin/reactivecore/lib/utils/helper';
 
 import Base from '../../styles/Base';
 import { connect } from '../../utils';
@@ -17,12 +17,12 @@ class URLParamsProvider extends Component {
 			// remove inactive components from selectedValues
 			Object.keys(this.currentSelectedState)
 				.filter(item => !activeComponents.includes(item))
-				.forEach((component) => {
+				.forEach(component => {
 					this.props.setValue(component, null);
 				});
 
 			// update active components in selectedValues
-			Array.from(this.params.entries()).forEach((item) => {
+			Array.from(this.params.entries()).forEach(item => {
 				try {
 					const [component, value] = item;
 					const { label, showFilter, URLParams } = this.props.selectedValues[
@@ -53,11 +53,11 @@ class URLParamsProvider extends Component {
 
 			currentComponents
 				.filter(component => this.props.selectedValues[component].URLParams)
-				.forEach((component) => {
+				.forEach(component => {
 					// prevents empty history pollution on initial load
 					if (
-						this.hasValidValue(this.props.selectedValues[component])
-						|| this.hasValidValue(prevProps.selectedValues[component])
+						this.hasValidValue(this.props.selectedValues[component]) ||
+						this.hasValidValue(prevProps.selectedValues[component])
 					) {
 						const selectedValues = this.props.selectedValues[component];
 						const prevValues = prevProps.selectedValues[component];
@@ -89,8 +89,8 @@ class URLParamsProvider extends Component {
 							this.pushToHistory();
 						}
 					} else if (
-						!this.hasValidValue(this.props.selectedValues[component])
-						&& urlComponents.includes(component)
+						!this.hasValidValue(this.props.selectedValues[component]) &&
+						urlComponents.includes(component)
 					) {
 						// doesn't have a valid value, but the url has a (stale) valid value set
 						this.params.delete(component);
@@ -101,13 +101,13 @@ class URLParamsProvider extends Component {
 			// remove unmounted components
 			Object.keys(this.props.selectedValues)
 				.filter(component => !currentComponents.includes(component))
-				.forEach((component) => {
+				.forEach(component => {
 					this.params.delete(component);
 					this.pushToHistory();
 				});
 
 			if (!currentComponents.length) {
-				Array.from(this.params.keys()).forEach((item) => {
+				Array.from(this.params.keys()).forEach(item => {
 					this.params.delete(item);
 				});
 				this.pushToHistory();
@@ -175,9 +175,9 @@ class URLParamsProvider extends Component {
 			: window.location.search;
 		this.params = new URLSearchParams(this.searchString);
 		if (
-			!value
-			|| (typeof value === 'string' && value.trim() === '')
-			|| (Array.isArray(value) && value.length === 0)
+			!value ||
+			(typeof value === 'string' && value.trim() === '') ||
+			(Array.isArray(value) && value.length === 0)
 		) {
 			this.params.delete(component);
 			this.pushToHistory();

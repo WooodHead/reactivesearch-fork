@@ -2,7 +2,7 @@
 import { jsx } from '@emotion/core';
 import { Component } from 'react';
 import ReactDOMServer from 'react-dom/server';
-import types from '@appbaseio/reactivecore/lib/utils/types';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 import { connect, ReactReduxContext } from '@appbaseio/reactivesearch/lib/utils';
 
 import { MapPin, mapPinWrapper } from './addons/styles/MapPin';
@@ -204,7 +204,7 @@ class ReactiveOpenStreetMap extends Component {
 					},
 				}}
 				touchZoom
-				ref={(elem) => {
+				ref={elem => {
 					if (!this.state.mapRef) {
 						this.setState({
 							mapRef: elem.leafletElement,
@@ -297,7 +297,4 @@ const mapStateToProps = state => ({
 	analytics: state.analytics,
 });
 
-export default connect(
-	mapStateToProps,
-	null,
-)(ReactiveOpenStreetMap);
+export default connect(mapStateToProps, null)(ReactiveOpenStreetMap);

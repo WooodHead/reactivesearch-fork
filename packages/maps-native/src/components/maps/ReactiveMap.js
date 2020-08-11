@@ -13,15 +13,15 @@ import {
 	loadMore,
 	setMapData,
 	setQueryListener,
-} from '@appbaseio/reactivecore/lib/actions';
+} from '@mitchgillin/reactivecore/lib/actions';
 import {
 	isEqual,
 	getQueryOptions,
 	pushToAndClause,
 	parseHits,
 	getInnerKey,
-} from '@appbaseio/reactivecore/lib/utils/helper';
-import types from '@appbaseio/reactivecore/lib/utils/types';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 import { connect } from '../../utils';
 import MarkerWithLabel from './addons/MarkerWithLabel';
 
@@ -54,9 +54,9 @@ class ReactiveMap extends Component {
 			{ label: 'Unsaturated Browns', value: UnsaturatedBrowns },
 		];
 
-		const currentMapStyle
-			= this.mapStyles.find(style => style.label === props.defaultMapStyle)
-			|| this.mapStyles[0];
+		const currentMapStyle =
+			this.mapStyles.find(style => style.label === props.defaultMapStyle) ||
+			this.mapStyles[0];
 
 		this.state = {
 			currentMapStyle,
@@ -113,9 +113,9 @@ class ReactiveMap extends Component {
 
 	componentWillReceiveProps(nextProps) {
 		if (
-			this.props.sortBy !== nextProps.sortBy
-			|| this.props.size !== nextProps.size
-			|| !isEqual(this.props.dataField, nextProps.dataField)
+			this.props.sortBy !== nextProps.sortBy ||
+			this.props.size !== nextProps.size ||
+			!isEqual(this.props.dataField, nextProps.dataField)
 		) {
 			const options = getQueryOptions(nextProps);
 			options.from = this.state.from;
@@ -165,11 +165,11 @@ class ReactiveMap extends Component {
 		}
 
 		if (
-			!nextProps.pagination
-			&& this.props.hits
-			&& nextProps.hits
-			&& (this.props.hits.length < nextProps.hits.length
-				|| nextProps.hits.length === nextProps.total)
+			!nextProps.pagination &&
+			this.props.hits &&
+			nextProps.hits &&
+			(this.props.hits.length < nextProps.hits.length ||
+				nextProps.hits.length === nextProps.total)
 		) {
 			this.setState({
 				isLoading: false,
@@ -177,10 +177,10 @@ class ReactiveMap extends Component {
 		}
 
 		if (
-			!nextProps.pagination
-			&& nextProps.hits
-			&& this.props.hits
-			&& nextProps.hits.length < this.props.hits.length
+			!nextProps.pagination &&
+			nextProps.hits &&
+			this.props.hits &&
+			nextProps.hits.length < this.props.hits.length
 		) {
 			if (nextProps.onPageChange) {
 				nextProps.onPageChange();
@@ -201,8 +201,8 @@ class ReactiveMap extends Component {
 		if (this.props.defaultMapStyle !== nextProps.defaultMapStyle) {
 			this.setState({
 				currentMapStyle:
-					this.mapStyles.find(style => style.label === nextProps.defaultMapStyle)
-					|| this.mapStyles[0],
+					this.mapStyles.find(style => style.label === nextProps.defaultMapStyle) ||
+					this.mapStyles[0],
 			});
 		}
 	}
@@ -212,7 +212,7 @@ class ReactiveMap extends Component {
 		this.props.removeComponent(this.internalComponent);
 	}
 
-	setReact = (props) => {
+	setReact = props => {
 		const { react } = props;
 		if (react) {
 			const newReact = pushToAndClause(react, this.internalComponent);
@@ -222,7 +222,7 @@ class ReactiveMap extends Component {
 		}
 	};
 
-	getHitsCenter = (hits) => {
+	getHitsCenter = hits => {
 		const data = hits.map(hit => hit[this.props.dataField]);
 
 		if (data.length) {
@@ -232,7 +232,7 @@ class ReactiveMap extends Component {
 			let Y = 0.0;
 			let Z = 0.0;
 
-			data.forEach((location) => {
+			data.forEach(location => {
 				if (location) {
 					let lat = 0.0;
 					let lng = 0.0;
@@ -242,9 +242,9 @@ class ReactiveMap extends Component {
 						lng = (location[1] * Math.PI) / 180;
 					} else {
 						lat = (location.lat * Math.PI) / 180;
-						lng
-							= ((location.lng !== undefined ? location.lng : location.lon) * Math.PI)
-							/ 180;
+						lng =
+							((location.lng !== undefined ? location.lng : location.lon) * Math.PI) /
+							180;
 					}
 
 					const a = Math.cos(lat) * Math.cos(lng);
@@ -262,7 +262,7 @@ class ReactiveMap extends Component {
 			Z /= numCoords;
 
 			const lng = Math.atan2(Y, X);
-			const hyp = Math.sqrt((X * X) + (Y * Y));
+			const hyp = Math.sqrt(X * X + Y * Y);
 			const lat = Math.atan2(Z, hyp);
 
 			const newX = (lat * 180) / Math.PI;
@@ -278,9 +278,9 @@ class ReactiveMap extends Component {
 
 	loadMore = () => {
 		if (
-			this.props.hits
-			&& !this.props.pagination
-			&& this.props.total !== this.props.hits.length
+			this.props.hits &&
+			!this.props.pagination &&
+			this.props.total !== this.props.hits.length
 		) {
 			const value = this.state.from + this.props.size;
 			const options = getQueryOptions(this.props);
@@ -304,7 +304,7 @@ class ReactiveMap extends Component {
 		}
 	};
 
-	setPage = (page) => {
+	setPage = page => {
 		const value = this.props.size * page;
 		const options = getQueryOptions(this.props);
 		options.from = this.state.from;
@@ -333,7 +333,7 @@ class ReactiveMap extends Component {
 		}
 	};
 
-	getPosition = (result) => {
+	getPosition = result => {
 		if (result) {
 			return this.parseLocation(result[this.props.dataField]);
 		}
@@ -355,13 +355,13 @@ class ReactiveMap extends Component {
 		};
 	}
 
-	setMapStyle = (currentMapStyle) => {
+	setMapStyle = currentMapStyle => {
 		this.setState({
 			currentMapStyle,
 		});
 	};
 
-	getCenter = (hits) => {
+	getCenter = hits => {
 		if (this.props.center) {
 			return this.parseLocation(this.props.center);
 		}
@@ -378,7 +378,7 @@ class ReactiveMap extends Component {
 		return this.parseLocation(this.props.defaultCenter);
 	};
 
-	getRegion = (hitsToRender) => {
+	getRegion = hitsToRender => {
 		const center = this.getCenter(hitsToRender);
 		return {
 			latitude: center.lat,
@@ -402,7 +402,7 @@ class ReactiveMap extends Component {
 		let markers = [];
 
 		if (this.props.showMarkers) {
-			markers = resultsToRender.map((item) => {
+			markers = resultsToRender.map(item => {
 				const { lat, lng } = this.getPosition(item);
 				const markerProps = {
 					key: item._id,
@@ -461,7 +461,7 @@ class ReactiveMap extends Component {
 		);
 	};
 
-	setPage = (page) => {
+	setPage = page => {
 		const value = this.props.size * page;
 		const options = getQueryOptions(this.props);
 		this.setState({
@@ -501,7 +501,7 @@ class ReactiveMap extends Component {
 		const start = this.getStart();
 		const pages = [];
 
-		for (let i = start; i < (start + this.props.pages) - 1; i += 1) {
+		for (let i = start; i < start + this.props.pages - 1; i += 1) {
 			const activeStyles = {
 				button: {},
 				text: {},
@@ -731,9 +731,9 @@ const mapStateToProps = (state, props) => ({
 	hits: (state.hits[props.componentId] && state.hits[props.componentId].hits) || [],
 	streamHits: state.streamHits[props.componentId] || [],
 	currentPage:
-		(state.selectedValues[`${props.componentId}-page`]
-			&& state.selectedValues[`${props.componentId}-page`].value - 1)
-		|| 0,
+		(state.selectedValues[`${props.componentId}-page`] &&
+			state.selectedValues[`${props.componentId}-page`].value - 1) ||
+		0,
 	time: (state.hits[props.componentId] && state.hits[props.componentId].time) || 0,
 	total: state.hits[props.componentId] && state.hits[props.componentId].total,
 });
@@ -753,7 +753,4 @@ const mapDispatchtoProps = dispatch => ({
 		dispatch(setMapData(component, geoQuery, mustExecute)),
 });
 
-export default connect(
-	mapStateToProps,
-	mapDispatchtoProps,
-)(ReactiveMap);
+export default connect(mapStateToProps, mapDispatchtoProps)(ReactiveMap);

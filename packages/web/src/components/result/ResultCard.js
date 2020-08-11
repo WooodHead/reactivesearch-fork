@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import types from '@appbaseio/reactivecore/lib/utils/types';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 import Title from '../../styles/Title';
 import Card, { Image } from '../../styles/Card';
 
@@ -12,9 +12,7 @@ class ResultCard extends Component {
 	static Description = ({ children, ...props }) => <article {...props}>{children}</article>;
 
 	render() {
-		const {
-			children, href, target, ...props
-		} = this.props;
+		const { children, href, target, ...props } = this.props;
 
 		return (
 			<Card

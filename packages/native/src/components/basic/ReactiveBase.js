@@ -3,9 +3,9 @@ import { createProvider } from 'react-redux';
 import { Container } from 'native-base';
 import Appbase from 'appbase-js';
 
-import configureStore, { storeKey } from '@appbaseio/reactivecore';
+import configureStore, { storeKey } from '@mitchgillin/reactivecore';
 
-import types from '@appbaseio/reactivecore/lib/utils/types';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 
 import ThemeProvider from '../../theme/ThemeProvider';
 import theme from '../../theme';
@@ -23,8 +23,8 @@ class ReactiveBase extends Component {
 
 		this.type = props.type ? props.type : '*';
 
-		const credentials
-			= props.url && props.url.trim() !== '' && !props.credentials ? null : props.credentials;
+		const credentials =
+			props.url && props.url.trim() !== '' && !props.credentials ? null : props.credentials;
 
 		const config = {
 			url: props.url && props.url.trim() !== '' ? props.url : 'https://scalr.api.appbase.io',

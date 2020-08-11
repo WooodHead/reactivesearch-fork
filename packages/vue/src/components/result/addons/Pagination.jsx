@@ -1,4 +1,4 @@
-import { helper } from '@appbaseio/reactivecore';
+import { helper } from '@mitchgillin/reactivecore';
 import Button, { pagination } from '../../../styles/Button';
 import types from '../../../utils/vueTypes';
 

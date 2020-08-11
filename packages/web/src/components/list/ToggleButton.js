@@ -2,7 +2,11 @@
 import { jsx } from '@emotion/core';
 import React, { Component } from 'react';
 
-import { updateQuery, setQueryOptions, setCustomQuery } from '@appbaseio/reactivecore/lib/actions';
+import {
+	updateQuery,
+	setQueryOptions,
+	setCustomQuery,
+} from '@mitchgillin/reactivecore/lib/actions';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import {
 	isEqual,
@@ -12,9 +16,9 @@ import {
 	getOptionsFromQuery,
 	handleA11yAction,
 	updateCustomQuery,
-} from '@appbaseio/reactivecore/lib/utils/helper';
-import types from '@appbaseio/reactivecore/lib/utils/types';
-import { componentTypes } from '@appbaseio/reactivecore/lib/utils/constants';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
+import { componentTypes } from '@mitchgillin/reactivecore/lib/utils/constants';
 
 import Title from '../../styles/Title';
 import Container from '../../styles/Container';
@@ -52,8 +56,8 @@ class ToggleButton extends Component {
 		} else if (this.props.multiSelect) {
 			// for multiselect selectedValue will be an array
 			if (
-				!isEqual(this.state.currentValue, this.props.selectedValue)
-				&& !isEqual(prevProps.selectedValue, this.props.selectedValue)
+				!isEqual(this.state.currentValue, this.props.selectedValue) &&
+				!isEqual(prevProps.selectedValue, this.props.selectedValue)
 			) {
 				const { value, onChange } = this.props;
 				if (value === undefined) {
@@ -75,8 +79,8 @@ class ToggleButton extends Component {
 				? this.state.currentValue[0].value
 				: null;
 			if (
-				!isEqual(currentValue, this.props.selectedValue)
-				&& !isEqual(prevProps.selectedValue, this.props.selectedValue)
+				!isEqual(currentValue, this.props.selectedValue) &&
+				!isEqual(prevProps.selectedValue, this.props.selectedValue)
 			) {
 				const { value, onChange } = this.props;
 				if (value === undefined) {
@@ -225,7 +229,7 @@ class ToggleButton extends Component {
 						{this.props.title}
 					</Title>
 				)}
-				{this.props.data.map((item) => {
+				{this.props.data.map(item => {
 					const isSelected = this.state.currentValue.some(
 						value => value.value === item.value,
 					);
@@ -289,9 +293,9 @@ ToggleButton.componentType = componentTypes.toggleButton;
 
 const mapStateToProps = (state, props) => ({
 	selectedValue:
-		(state.selectedValues[props.componentId]
-			&& state.selectedValues[props.componentId].value)
-		|| null,
+		(state.selectedValues[props.componentId] &&
+			state.selectedValues[props.componentId].value) ||
+		null,
 });
 
 const mapDispatchtoProps = dispatch => ({

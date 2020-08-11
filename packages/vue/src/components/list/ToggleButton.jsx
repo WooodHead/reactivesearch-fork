@@ -1,5 +1,5 @@
-import { Actions, helper } from '@appbaseio/reactivecore';
-import { componentTypes } from '@appbaseio/reactivecore/lib/utils/constants';
+import { Actions, helper } from '@mitchgillin/reactivecore';
+import { componentTypes } from '@mitchgillin/reactivecore/lib/utils/constants';
 import types from '../../utils/vueTypes';
 import Title from '../../styles/Title';
 import Container from '../../styles/Container';

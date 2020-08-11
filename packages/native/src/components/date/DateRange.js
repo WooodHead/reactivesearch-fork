@@ -9,15 +9,15 @@ import {
 	watchComponent,
 	updateQuery,
 	setQueryListener,
-} from '@appbaseio/reactivecore/lib/actions';
+} from '@mitchgillin/reactivecore/lib/actions';
 import {
 	isEqual,
 	checkValueChange,
 	checkPropChange,
 	getInnerKey,
 	formatDate,
-} from '@appbaseio/reactivecore/lib/utils/helper';
-import types from '@appbaseio/reactivecore/lib/utils/types';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 
 import withTheme from '../../theme/withTheme';
 import { connect } from '../../utils';
@@ -78,8 +78,8 @@ class DateRange extends Component {
 			startDate = nextProps.defaultSelected.start;
 			endDate = nextProps.defaultSelected.end || null;
 		} else if (
-			!isEqual(this.props.selectedValue, nextProps.selectedValue)
-			&& !isEqual(this.state.currentDate, nextProps.selectedValue)
+			!isEqual(this.props.selectedValue, nextProps.selectedValue) &&
+			!isEqual(this.state.currentDate, nextProps.selectedValue)
 		) {
 			startDate = nextProps.selectedValue ? nextProps.selectedValue.start : null;
 			endDate = nextProps.selectedValue ? nextProps.selectedValue.end : null;
@@ -101,8 +101,8 @@ class DateRange extends Component {
 				},
 			);
 		} else if (
-			this.props.selectedValue !== nextProps.selectedValue
-			&& !nextProps.selectedValue
+			this.props.selectedValue !== nextProps.selectedValue &&
+			!nextProps.selectedValue
 		) {
 			this.handleDateChange(null);
 		}
@@ -191,10 +191,10 @@ class DateRange extends Component {
 
 		if (selectedDate) {
 			if (
-				currentDate
-				&& currentDate.start
-				&& !currentDate.end
-				&& currentDate.start.timestamp < selectedDate.timestamp
+				currentDate &&
+				currentDate.start &&
+				!currentDate.end &&
+				currentDate.start.timestamp < selectedDate.timestamp
 			) {
 				currentDate.end = selectedDate;
 
@@ -271,17 +271,17 @@ class DateRange extends Component {
 				[this.state.currentDate.start.dateString]: {
 					startingDay: true,
 					color:
-						this.props.innerProps
-						&& this.props.innerProps.calendar
-						&& this.props.innerProps.calendar.theme
-						&& this.props.innerProps.calendar.theme.selectedDayBackgroundColor
+						this.props.innerProps &&
+						this.props.innerProps.calendar &&
+						this.props.innerProps.calendar.theme &&
+						this.props.innerProps.calendar.theme.selectedDayBackgroundColor
 							? this.props.innerProps.calendar.theme.selectedDayBackgroundColor
 							: this.props.theming.primaryColor,
 					textColor:
-						this.props.innerProps
-						&& this.props.innerProps.calendar
-						&& this.props.innerProps.calendar.theme
-						&& this.props.innerProps.calendar.theme.selectedDayTextColor
+						this.props.innerProps &&
+						this.props.innerProps.calendar &&
+						this.props.innerProps.calendar.theme &&
+						this.props.innerProps.calendar.theme.selectedDayTextColor
 							? this.props.innerProps.calendar.theme.selectedDayTextColor
 							: this.props.theming.primaryTextColor,
 				},
@@ -291,20 +291,20 @@ class DateRange extends Component {
 					new XDate(this.state.currentDate.start.timestamp),
 					new XDate(this.state.currentDate.end.timestamp),
 				);
-				range.forEach((date) => {
+				range.forEach(date => {
 					markedDates[date] = {
 						color:
-							this.props.innerProps
-							&& this.props.innerProps.calendar
-							&& this.props.innerProps.calendar.theme
-							&& this.props.innerProps.calendar.theme.selectedDayBackgroundColor
+							this.props.innerProps &&
+							this.props.innerProps.calendar &&
+							this.props.innerProps.calendar.theme &&
+							this.props.innerProps.calendar.theme.selectedDayBackgroundColor
 								? this.props.innerProps.calendar.theme.selectedDayBackgroundColor
 								: this.props.theming.primaryColor,
 						textColor:
-							this.props.innerProps
-							&& this.props.innerProps.calendar
-							&& this.props.innerProps.calendar.theme
-							&& this.props.innerProps.calendar.theme.selectedDayTextColor
+							this.props.innerProps &&
+							this.props.innerProps.calendar &&
+							this.props.innerProps.calendar.theme &&
+							this.props.innerProps.calendar.theme.selectedDayTextColor
 								? this.props.innerProps.calendar.theme.selectedDayTextColor
 								: this.props.theming.primaryTextColor,
 					};
@@ -312,17 +312,17 @@ class DateRange extends Component {
 				markedDates[this.state.currentDate.end.dateString] = {
 					endingDay: true,
 					color:
-						this.props.innerProps
-						&& this.props.innerProps.calendar
-						&& this.props.innerProps.calendar.theme
-						&& this.props.innerProps.calendar.theme.selectedDayBackgroundColor
+						this.props.innerProps &&
+						this.props.innerProps.calendar &&
+						this.props.innerProps.calendar.theme &&
+						this.props.innerProps.calendar.theme.selectedDayBackgroundColor
 							? this.props.innerProps.calendar.theme.selectedDayBackgroundColor
 							: this.props.theming.primaryColor,
 					textColor:
-						this.props.innerProps
-						&& this.props.innerProps.calendar
-						&& this.props.innerProps.calendar.theme
-						&& this.props.innerProps.calendar.theme.selectedDayTextColor
+						this.props.innerProps &&
+						this.props.innerProps.calendar &&
+						this.props.innerProps.calendar.theme &&
+						this.props.innerProps.calendar.theme.selectedDayTextColor
 							? this.props.innerProps.calendar.theme.selectedDayTextColor
 							: this.props.theming.primaryTextColor,
 				};
@@ -507,7 +507,4 @@ const mapDispatchtoProps = dispatch => ({
 		dispatch(setQueryListener(component, onQueryChange, beforeQueryChange)),
 });
 
-export default connect(
-	mapStateToProps,
-	mapDispatchtoProps,
-)(withTheme(DateRange));
+export default connect(mapStateToProps, mapDispatchtoProps)(withTheme(DateRange));

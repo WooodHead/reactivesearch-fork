@@ -8,7 +8,7 @@
 					{
 						"alias": {
 							"@appbaseio/reactivesearch-native": "../src",
-							"@appbaseio/reactivecore": "../../reactivecore"
+							"@mitchgillin/reactivecore": "../../reactivecore"
 						}
 					}
 				]

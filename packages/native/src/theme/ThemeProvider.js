@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import types from '@appbaseio/reactivecore/lib/utils/types';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 
 class ThemeProvider extends Component {
 	getChildContext() {

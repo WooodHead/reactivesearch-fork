@@ -2,7 +2,11 @@
 import { jsx } from '@emotion/core';
 import React, { Component } from 'react';
 
-import { updateQuery, setQueryOptions, setCustomQuery } from '@appbaseio/reactivecore/lib/actions';
+import {
+	updateQuery,
+	setQueryOptions,
+	setCustomQuery,
+} from '@mitchgillin/reactivecore/lib/actions';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import {
 	checkValueChange,
@@ -11,9 +15,9 @@ import {
 	getClassName,
 	getOptionsFromQuery,
 	updateCustomQuery,
-} from '@appbaseio/reactivecore/lib/utils/helper';
-import types from '@appbaseio/reactivecore/lib/utils/types';
-import { componentTypes } from '@appbaseio/reactivecore/lib/utils/constants';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
+import { componentTypes } from '@mitchgillin/reactivecore/lib/utils/constants';
 
 import Title from '../../styles/Title';
 import Button, { numberBoxContainer } from '../../styles/Button';
@@ -27,8 +31,8 @@ class NumberBox extends Component {
 		super(props);
 
 		this.type = 'term';
-		const currentValue
-			= props.selectedValue || props.defaultValue || props.value || props.data.start;
+		const currentValue =
+			props.selectedValue || props.defaultValue || props.value || props.data.start;
 		this.state = {
 			currentValue,
 		};

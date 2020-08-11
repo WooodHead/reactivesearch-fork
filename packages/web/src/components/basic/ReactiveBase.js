@@ -6,10 +6,10 @@ import Appbase from 'appbase-js';
 import 'url-search-params-polyfill';
 import { ThemeProvider } from 'emotion-theming';
 
-import configureStore from '@appbaseio/reactivecore';
-import { checkSomePropChange } from '@appbaseio/reactivecore/lib/utils/helper';
-import { updateAnalyticsConfig } from '@appbaseio/reactivecore/lib/actions/analytics';
-import types from '@appbaseio/reactivecore/lib/utils/types';
+import configureStore from '@mitchgillin/reactivecore';
+import { checkSomePropChange } from '@mitchgillin/reactivecore/lib/utils/helper';
+import { updateAnalyticsConfig } from '@mitchgillin/reactivecore/lib/actions/analytics';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 import URLParamsProvider from './URLParamsProvider';
 
 import getTheme from '../../styles/theme';
@@ -78,21 +78,22 @@ class ReactiveBase extends Component {
 			`${process.env.VERSION || require('../../../package.json').version}.`,
 			'If you think this is a problem with Reactivesearch, please try updating',
 			"to the latest version. If you're already at the latest version, please open",
-			'an issue at https://github.com/appbaseio/reactivesearch/issues', error, errorInfo,
+			'an issue at https://github.com/appbaseio/reactivesearch/issues',
+			error,
+			errorInfo,
 		);
 	}
 
-	setStore = (props) => {
+	setStore = props => {
 		this.type = props.type ? props.type : '*';
 
-		const credentials
-			= props.url && props.url.trim() !== '' && !props.credentials ? null : props.credentials;
+		const credentials =
+			props.url && props.url.trim() !== '' && !props.credentials ? null : props.credentials;
 
 		const appbaseConfig = {
 			searchStateHeader: props.searchStateHeader, // for backward compatibility
 			...props.analyticsConfig, // TODO: remove in 4.0
 			...props.appbaseConfig,
-
 		};
 		const config = {
 			url: props.url && props.url.trim() !== '' ? props.url : 'https://scalr.api.appbase.io',
@@ -100,7 +101,9 @@ class ReactiveBase extends Component {
 			credentials,
 			type: this.type,
 			transformRequest: props.transformRequest,
-			analytics: props.appbaseConfig ? props.appbaseConfig.recordAnalytics : !!props.analytics,
+			analytics: props.appbaseConfig
+				? props.appbaseConfig.recordAnalytics
+				: !!props.analytics,
 			enableAppbase: props.enableAppbase,
 			analyticsConfig: appbaseConfig,
 			graphQLUrl: props.graphQLUrl,
@@ -117,7 +120,7 @@ class ReactiveBase extends Component {
 		const params = new URLSearchParams(queryParams);
 		let selectedValues = {};
 
-		Array.from(params.keys()).forEach((key) => {
+		Array.from(params.keys()).forEach(key => {
 			try {
 				const parsedParams = JSON.parse(params.get(key));
 				const selectedValue = {};

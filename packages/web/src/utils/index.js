@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect as connectToStore } from 'react-redux';
-import { isEqual } from '@appbaseio/reactivecore/lib/utils/helper';
-import { validProps } from '@appbaseio/reactivecore/lib/utils/constants';
+import { isEqual } from '@mitchgillin/reactivecore/lib/utils/helper';
+import { validProps } from '@mitchgillin/reactivecore/lib/utils/constants';
 
 export const ReactReduxContext = React.createContext(null);
 
@@ -75,7 +75,7 @@ export const getValidPropsKeys = (props = {}) =>
  * Handles the caret position for input components
  * @param {HTMLInputElement} e
  */
-export const handleCaretPosition = (e) => {
+export const handleCaretPosition = e => {
 	if (window) {
 		const caret = e.target.selectionStart;
 		const element = e.target;

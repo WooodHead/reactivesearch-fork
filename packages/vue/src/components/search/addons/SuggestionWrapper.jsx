@@ -1,4 +1,4 @@
-import { helper } from '@appbaseio/reactivecore';
+import { helper } from '@mitchgillin/reactivecore';
 import { noSuggestions } from '../../../styles/Input';
 import types from '../../../utils/vueTypes';
 

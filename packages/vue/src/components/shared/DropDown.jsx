@@ -1,4 +1,4 @@
-import { helper } from '@appbaseio/reactivecore';
+import { helper } from '@mitchgillin/reactivecore';
 import VueTypes from 'vue-types';
 import Downshift from '../basic/DownShift.jsx';
 import Input, { suggestionsContainer, suggestions } from '../../styles/Input';

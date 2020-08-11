@@ -2,9 +2,13 @@
 import { jsx } from '@emotion/core';
 import React, { Component } from 'react';
 
-import { updateQuery, setQueryOptions, setCustomQuery } from '@appbaseio/reactivecore/lib/actions';
+import {
+	updateQuery,
+	setQueryOptions,
+	setCustomQuery,
+} from '@mitchgillin/reactivecore/lib/actions';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import { componentTypes } from '@appbaseio/reactivecore/lib/utils/constants';
+import { componentTypes } from '@mitchgillin/reactivecore/lib/utils/constants';
 import {
 	checkValueChange,
 	checkSomePropChange,
@@ -13,8 +17,8 @@ import {
 	isEqual,
 	updateCustomQuery,
 	getOptionsFromQuery,
-} from '@appbaseio/reactivecore/lib/utils/helper';
-import types from '@appbaseio/reactivecore/lib/utils/types';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 import { element } from 'prop-types';
 
 import Title from '../../styles/Title';
@@ -59,8 +63,8 @@ class RatingsFilter extends Component {
 		if (!isEqual(this.props.value, prevProps.value)) {
 			this.setValue({ value: this.props.value });
 		} else if (
-			!isEqual(this.state.currentValue, this.props.selectedValue)
-			&& !isEqual(this.props.selectedValue, prevProps.selectedValue)
+			!isEqual(this.state.currentValue, this.props.selectedValue) &&
+			!isEqual(this.props.selectedValue, prevProps.selectedValue)
 		) {
 			const { value, onChange } = this.props;
 			if (value === undefined) {
@@ -79,7 +83,7 @@ class RatingsFilter extends Component {
 		}
 	}
 
-	getIncludeUnratedFromData = (range) => {
+	getIncludeUnratedFromData = range => {
 		if (!this.props.data || !range) return false;
 		const dataObj = this.props.data.find(
 			data => data.start === range[0] && data.end === range[1],
@@ -88,7 +92,7 @@ class RatingsFilter extends Component {
 	};
 
 	// parses range label to get start and end
-	static parseValue = (value) => {
+	static parseValue = value => {
 		if (Array.isArray(value)) return value;
 		return value ? [value.start, value.end] : null;
 	};
@@ -114,9 +118,7 @@ class RatingsFilter extends Component {
 		return query;
 	};
 
-	setValue = ({
-		value, props = this.props, hasMounted = true, includeUnrated = false,
-	}) => {
+	setValue = ({ value, props = this.props, hasMounted = true, includeUnrated = false }) => {
 		const performUpdate = () => {
 			const handleUpdates = () => {
 				this.updateQuery(value, props, includeUnrated);
@@ -177,10 +179,8 @@ class RatingsFilter extends Component {
 					</Title>
 				)}
 				<ul css={ratingsList}>
-					{this.props.data.map((item) => {
-						const {
-							start, end, label, ...rest
-						} = item;
+					{this.props.data.map(item => {
+						const { start, end, label, ...rest } = item;
 						return (
 							<li
 								role="menuitem"
@@ -252,9 +252,9 @@ RatingsFilter.componentType = componentTypes.ratingsFilter;
 
 const mapStateToProps = (state, props) => ({
 	selectedValue:
-		(state.selectedValues[props.componentId]
-			&& state.selectedValues[props.componentId].value)
-		|| null,
+		(state.selectedValues[props.componentId] &&
+			state.selectedValues[props.componentId].value) ||
+		null,
 });
 
 const mapDispatchtoProps = dispatch => ({

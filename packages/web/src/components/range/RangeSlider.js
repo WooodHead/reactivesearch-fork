@@ -1,7 +1,11 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
 import React, { Component } from 'react';
-import { updateQuery, setQueryOptions, setCustomQuery } from '@appbaseio/reactivecore/lib/actions';
+import {
+	updateQuery,
+	setQueryOptions,
+	setCustomQuery,
+} from '@mitchgillin/reactivecore/lib/actions';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import {
 	isEqual,
@@ -11,11 +15,11 @@ import {
 	getClassName,
 	getOptionsFromQuery,
 	updateCustomQuery,
-} from '@appbaseio/reactivecore/lib/utils/helper';
-import types from '@appbaseio/reactivecore/lib/utils/types';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 import Rheostat from 'rheostat/lib/Slider';
-import { componentTypes } from '@appbaseio/reactivecore/lib/utils/constants';
-import { getInternalComponentID } from '@appbaseio/reactivecore/lib/utils/transform';
+import { componentTypes } from '@mitchgillin/reactivecore/lib/utils/constants';
+import { getInternalComponentID } from '@mitchgillin/reactivecore/lib/utils/transform';
 import HistogramContainer from './addons/HistogramContainer';
 import RangeLabel from './addons/RangeLabel';
 import SliderHandle from './addons/SliderHandle';
@@ -76,8 +80,8 @@ class RangeSlider extends Component {
 			const value = RangeSlider.parseValue(this.props.value, this.props);
 			this.handleChange(value, this.props);
 		} else if (
-			!isEqual(this.state.currentValue, this.props.selectedValue)
-			&& !isEqual(this.props.selectedValue, prevProps.selectedValue)
+			!isEqual(this.state.currentValue, this.props.selectedValue) &&
+			!isEqual(this.props.selectedValue, prevProps.selectedValue)
 		) {
 			const { value, onChange } = this.props;
 
@@ -144,7 +148,7 @@ class RangeSlider extends Component {
 		return snapPoints;
 	};
 
-	getValidInterval = (props) => {
+	getValidInterval = props => {
 		const min = Math.ceil((props.range.end - props.range.start) / 100) || 1;
 		if (!props.interval) {
 			return min;
@@ -157,7 +161,7 @@ class RangeSlider extends Component {
 		return props.interval;
 	};
 
-	histogramQuery = (props) => {
+	histogramQuery = props => {
 		const query = {
 			[props.dataField]: {
 				histogram: {
@@ -240,7 +244,7 @@ class RangeSlider extends Component {
 		}
 	};
 
-	handleDrag = (values) => {
+	handleDrag = values => {
 		if (this.props.onDrag) {
 			const { min, max, values: currentValue } = values;
 			this.props.onDrag(currentValue, [min, max]);
@@ -275,7 +279,7 @@ class RangeSlider extends Component {
 		});
 	};
 
-	updateQueryOptions = (props) => {
+	updateQueryOptions = props => {
 		if (props.showHistogram) {
 			const { customQuery } = props;
 			const queryOptions = {
@@ -421,8 +425,8 @@ RangeSlider.defaultProps = {
 RangeSlider.componentType = componentTypes.rangeSlider;
 
 const mapStateToProps = (state, props) => {
-	const aggregation
-		= props.nestedField && state.aggregations[props.componentId]
+	const aggregation =
+		props.nestedField && state.aggregations[props.componentId]
 			? state.aggregations[props.componentId].inner
 			: state.aggregations[props.componentId];
 

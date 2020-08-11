@@ -9,7 +9,7 @@ import {
 	updateQuery,
 	setQueryOptions,
 	setQueryListener,
-} from '@appbaseio/reactivecore/lib/actions';
+} from '@mitchgillin/reactivecore/lib/actions';
 import {
 	isEqual,
 	checkValueChange,
@@ -17,8 +17,8 @@ import {
 	checkSomePropChange,
 	pushToAndClause,
 	getInnerKey,
-} from '@appbaseio/reactivecore/lib/utils/helper';
-import types from '@appbaseio/reactivecore/lib/utils/types';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 
 import Histogram from './addons/Histogram';
 import withTheme from '../../theme/withTheme';
@@ -92,9 +92,7 @@ class RangeSlider extends Component {
 		const upperLimit = Math.floor((nextProps.range.end - nextProps.range.start) / 2);
 		if (nextProps.stepValue < 1 || nextProps.stepValue > upperLimit) {
 			console.warn(
-				`stepValue for RangeSlider ${
-					nextProps.componentId
-				} should be greater than 0 and less than or equal to ${upperLimit}`,
+				`stepValue for RangeSlider ${nextProps.componentId} should be greater than 0 and less than or equal to ${upperLimit}`,
 			);
 			return false;
 		}
@@ -106,7 +104,7 @@ class RangeSlider extends Component {
 		this.props.removeComponent(this.internalComponent);
 	}
 
-	setReact = (props) => {
+	setReact = props => {
 		const { react } = props;
 		if (react) {
 			const newReact = pushToAndClause(react, this.internalComponent);
@@ -131,15 +129,13 @@ class RangeSlider extends Component {
 		return null;
 	};
 
-	getValidInterval = (props) => {
+	getValidInterval = props => {
 		const min = Math.ceil((props.range.end - props.range.start) / 100) || 1;
 		if (!props.interval) {
 			return min;
 		} else if (props.interval < min) {
 			console.error(
-				`${
-					props.componentId
-				}: interval prop's value should be greater than or equal to ${min}`,
+				`${props.componentId}: interval prop's value should be greater than or equal to ${min}`,
 			);
 			return min;
 		}
@@ -156,7 +152,7 @@ class RangeSlider extends Component {
 		},
 	});
 
-	setWidth = (width) => {
+	setWidth = width => {
 		const margin = Platform.OS === 'ios' ? 30 : 12;
 		this.setState({
 			width: width - margin,
@@ -204,7 +200,7 @@ class RangeSlider extends Component {
 		});
 	};
 
-	updateQueryOptions = (props) => {
+	updateQueryOptions = props => {
 		if (props.showHistogram) {
 			const queryOptions = {
 				size: 0,
@@ -242,8 +238,8 @@ class RangeSlider extends Component {
 							stats={this.state.stats}
 							range={this.props.range}
 							interval={
-								this.props.interval
-								|| Math.ceil((this.props.range.end - this.props.range.start) / 10)
+								this.props.interval ||
+								Math.ceil((this.props.range.end - this.props.range.start) / 10)
 							}
 							paddingHorizontal={Platform.OS === 'ios' ? 15 : 6}
 							barStyle={getInnerKey(this.props.innerStyle, 'histogramBar')}
@@ -313,8 +309,8 @@ RangeSlider.defaultProps = {
 
 const mapStateToProps = (state, props) => ({
 	options: state.aggregations[props.componentId]
-		? state.aggregations[props.componentId][props.dataField]
-		  && state.aggregations[props.componentId][props.dataField].buckets // eslint-disable-line
+		? state.aggregations[props.componentId][props.dataField] &&
+		  state.aggregations[props.componentId][props.dataField].buckets // eslint-disable-line
 		: [],
 	selectedValue: state.selectedValues[props.componentId]
 		? state.selectedValues[props.componentId].value
@@ -332,7 +328,4 @@ const mapDispatchtoProps = dispatch => ({
 		dispatch(setQueryListener(component, onQueryChange, beforeQueryChange)),
 });
 
-export default connect(
-	mapStateToProps,
-	mapDispatchtoProps,
-)(withTheme(RangeSlider));
+export default connect(mapStateToProps, mapDispatchtoProps)(withTheme(RangeSlider));

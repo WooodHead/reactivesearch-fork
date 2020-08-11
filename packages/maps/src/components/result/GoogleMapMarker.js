@@ -4,7 +4,7 @@ import React from 'react';
 import { MarkerWithLabel } from 'react-google-maps/lib/components/addons/MarkerWithLabel';
 import { InfoWindow, Marker } from 'react-google-maps';
 
-import types from '@appbaseio/reactivecore/lib/utils/types';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 import { connect, ReactReduxContext } from '@appbaseio/reactivesearch/lib/utils';
 
 import { MapPin, MapPinArrow, mapPinWrapper } from './addons/styles/MapPin';
@@ -15,15 +15,15 @@ class GoogleMapMarker extends React.Component {
 
 	shouldComponentUpdate(nextProps) {
 		if (
-			nextProps.markerOnTop === this.props.marker._id
-			|| (this.props.marker._id === this.props.markerOnTop && nextProps.markerOnTop === null)
+			nextProps.markerOnTop === this.props.marker._id ||
+			(this.props.marker._id === this.props.markerOnTop && nextProps.markerOnTop === null)
 		) {
 			return true;
 		}
 
 		if (
-			this.props.openMarkers[this.props.marker._id]
-			!== nextProps.openMarkers[this.props.marker._id]
+			this.props.openMarkers[this.props.marker._id] !==
+			nextProps.openMarkers[this.props.marker._id]
 		) {
 			return true;
 		}
@@ -33,9 +33,7 @@ class GoogleMapMarker extends React.Component {
 
 	triggerAnalytics = () => {
 		// click analytics would only work client side and after javascript loads
-		const {
-			config, analytics, headers, index,
-		} = this.props;
+		const { config, analytics, headers, index } = this.props;
 
 		triggerClickAnalytics({
 			config,
@@ -237,7 +235,4 @@ GoogleMapMarker.propTypes = {
 	headers: types.headers,
 };
 
-export default connect(
-	mapStateToProps,
-	null,
-)(GoogleMapMarker);
+export default connect(mapStateToProps, null)(GoogleMapMarker);

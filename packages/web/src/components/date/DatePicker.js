@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import { updateQuery, setQueryOptions, setCustomQuery } from '@appbaseio/reactivecore/lib/actions';
+import {
+	updateQuery,
+	setQueryOptions,
+	setCustomQuery,
+} from '@mitchgillin/reactivecore/lib/actions';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import {
 	isEqual,
@@ -9,9 +13,9 @@ import {
 	formatDate,
 	getOptionsFromQuery,
 	updateCustomQuery,
-} from '@appbaseio/reactivecore/lib/utils/helper';
-import types from '@appbaseio/reactivecore/lib/utils/types';
-import { componentTypes } from '@appbaseio/reactivecore/lib/utils/constants';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
+import { componentTypes } from '@mitchgillin/reactivecore/lib/utils/constants';
 import XDate from 'xdate';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import { withTheme } from 'emotion-theming';
@@ -53,8 +57,8 @@ class DatePicker extends Component {
 		if (!isEqual(this.props.value, prevProps.value)) {
 			this.handleDateChange(this.props.value, true, this.props);
 		} else if (
-			!isEqual(this.formatInputDate(this.state.currentDate), this.props.selectedValue)
-			&& !isEqual(this.props.selectedValue, prevProps.selectedValue)
+			!isEqual(this.formatInputDate(this.state.currentDate), this.props.selectedValue) &&
+			!isEqual(this.props.selectedValue, prevProps.selectedValue)
 		) {
 			this.handleDateChange(this.props.selectedValue || '', true, this.props);
 		}
@@ -220,14 +224,14 @@ class DatePicker extends Component {
 						onDayChange={this.handleDayPicker}
 						classNames={{
 							container:
-								getClassName(this.props.innerClass, 'daypicker-container')
-								|| 'DayPickerInput',
+								getClassName(this.props.innerClass, 'daypicker-container') ||
+								'DayPickerInput',
 							overlayWrapper:
-								getClassName(this.props.innerClass, 'daypicker-overlay-wrapper')
-								|| 'DayPickerInput-OverlayWrapper',
+								getClassName(this.props.innerClass, 'daypicker-overlay-wrapper') ||
+								'DayPickerInput-OverlayWrapper',
 							overlay:
-								getClassName(this.props.innerClass, 'daypicker-overlay')
-								|| 'DayPickerInput-Overlay',
+								getClassName(this.props.innerClass, 'daypicker-overlay') ||
+								'DayPickerInput-Overlay',
 						}}
 						{...this.props.dayPickerInputProps}
 					/>

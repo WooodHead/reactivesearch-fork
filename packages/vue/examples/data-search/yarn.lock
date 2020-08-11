@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@appbaseio/reactivecore@^6.0.3":
+"@mitchgillin/reactivecore@^6.0.3":
   version "6.0.3"
-  resolved "https://registry.yarnpkg.com/@appbaseio/reactivecore/-/reactivecore-6.0.3.tgz#6bb4f94806beba3da8ea48498ca47d56860b59c4"
+  resolved "https://registry.yarnpkg.com/@mitchgillin/reactivecore/-/reactivecore-6.0.3.tgz#6bb4f94806beba3da8ea48498ca47d56860b59c4"
   dependencies:
     prop-types "^15.6.0"
     redux "^4.0.0"
@@ -14,7 +14,7 @@
   version "1.0.0-alpha.1"
   resolved "https://registry.yarnpkg.com/@appbaseio/reactivesearch-vue/-/reactivesearch-vue-1.0.0-alpha.1.tgz#c4a8dae984d820d4cfef9f41b623ff69a7646bab"
   dependencies:
-    "@appbaseio/reactivecore" "^6.0.3"
+    "@mitchgillin/reactivecore" "^6.0.3"
     appbase-js "^4.0.2-beta.2"
     babel-helper-vue-jsx-merge-props "^2.0.3"
     emotion "^9.2.12"

@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
 import React from 'react';
-import types from '@appbaseio/reactivecore/lib/utils/types';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 import { element } from 'prop-types';
 
 import Star from './Star';
@@ -14,20 +14,20 @@ function StarRating(props) {
 			{Array(props.stars)
 				.fill('')
 				.map((_, index) =>
-					(icon ? (
+					icon ? (
 						<React.Fragment key={index}>{icon}</React.Fragment> // eslint-disable-line
 					) : (
 						<Star key={index} /> // eslint-disable-line
-					)),
+					),
 				)}
 			{Array(5 - props.stars)
 				.fill('')
 				.map((_, index) =>
-					(dimmedIcon ? (
+					dimmedIcon ? (
 						<React.Fragment key={index}>{dimmedIcon}</React.Fragment> // eslint-disable-line
 					) : (
 						<Star key={index} css={whiteStar} /> // eslint-disable-line
-					)),
+					),
 				)}
 		</div>
 	);

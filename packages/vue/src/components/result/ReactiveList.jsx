@@ -1,6 +1,6 @@
-import { Actions, helper } from '@appbaseio/reactivecore';
+import { Actions, helper } from '@mitchgillin/reactivecore';
 import VueTypes from 'vue-types';
-import { componentTypes } from '@appbaseio/reactivecore/lib/utils/constants';
+import { componentTypes } from '@mitchgillin/reactivecore/lib/utils/constants';
 import Pagination from './addons/Pagination.jsx';
 import PoweredBy from './addons/PoweredBy.jsx';
 import ComponentWrapper from '../basic/ComponentWrapper.jsx';

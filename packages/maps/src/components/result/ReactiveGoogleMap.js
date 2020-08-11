@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { withGoogleMap, GoogleMap } from 'react-google-maps';
 import MarkerClusterer from 'react-google-maps/lib/components/addons/MarkerClusterer';
-import { getInnerKey } from '@appbaseio/reactivecore/lib/utils/helper';
-import types from '@appbaseio/reactivecore/lib/utils/types';
+import { getInnerKey } from '@mitchgillin/reactivecore/lib/utils/helper';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 
 import Dropdown from '@appbaseio/reactivesearch/lib/components/shared/Dropdown';
 
@@ -17,7 +17,7 @@ const LightMonochrome = require('./addons/styles/LightMonochrome');
 const MidnightCommander = require('./addons/styles/MidnightCommander');
 const UnsaturatedBrowns = require('./addons/styles/UnsaturatedBrowns');
 
-const MapComponent = withGoogleMap((props) => {
+const MapComponent = withGoogleMap(props => {
 	const { children, onMapMounted, ...allProps } = props;
 
 	return (
@@ -41,9 +41,9 @@ class ReactiveGoogleMap extends Component {
 			{ label: 'Unsaturated Browns', value: UnsaturatedBrowns },
 		];
 
-		const currentMapStyle
-			= this.mapStyles.find(style => style.label === props.defaultMapStyle)
-			|| this.mapStyles[0];
+		const currentMapStyle =
+			this.mapStyles.find(style => style.label === props.defaultMapStyle) ||
+			this.mapStyles[0];
 
 		this.state = {
 			currentMapStyle,
@@ -58,7 +58,7 @@ class ReactiveGoogleMap extends Component {
 		}
 	}
 
-	handleStyleChange = (newStyle) => {
+	handleStyleChange = newStyle => {
 		this.setState(prevState => ({
 			currentMapStyle:
 				this.mapStyles.find(style => style.label === newStyle) || this.mapStyles[0],
@@ -72,14 +72,14 @@ class ReactiveGoogleMap extends Component {
 		}));
 	};
 
-	setMapStyle = (currentMapStyle) => {
+	setMapStyle = currentMapStyle => {
 		this.setState(prevState => ({
 			currentMapStyle,
 			updaterKey: prevState.updaterKey + 1,
 		}));
 	};
 
-	renderMap = (params) => {
+	renderMap = params => {
 		if (typeof window === 'undefined' || (window && typeof window.google === 'undefined')) {
 			return null;
 		}
@@ -106,7 +106,7 @@ class ReactiveGoogleMap extends Component {
 				<MapComponent
 					containerElement={<div style={style} />}
 					mapElement={<div style={{ height: '100%' }} />}
-					onMapMounted={(ref) => {
+					onMapMounted={ref => {
 						this.setState({
 							mapRef: ref,
 						});

@@ -6,7 +6,7 @@ import {
 	loadMore,
 	setCustomQuery,
 	setDefaultQuery,
-} from '@appbaseio/reactivecore/lib/actions';
+} from '@mitchgillin/reactivecore/lib/actions';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import {
 	getQueryOptions,
@@ -20,11 +20,11 @@ import {
 	updateInternalQuery,
 	updateCustomQuery,
 	updateDefaultQuery,
-} from '@appbaseio/reactivecore/lib/utils/helper';
+} from '@mitchgillin/reactivecore/lib/utils/helper';
 
-import types from '@appbaseio/reactivecore/lib/utils/types';
-import { componentTypes } from '@appbaseio/reactivecore/lib/utils/constants';
-import { getInternalComponentID } from '@appbaseio/reactivecore/lib/utils/transform';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
+import { componentTypes } from '@mitchgillin/reactivecore/lib/utils/constants';
+import { getInternalComponentID } from '@mitchgillin/reactivecore/lib/utils/transform';
 import Title from '../../styles/Title';
 import Input from '../../styles/Input';
 import Button, { loadMoreContainer } from '../../styles/Button';
@@ -80,10 +80,10 @@ class SingleList extends Component {
 			if (showLoadMore && options && options[dataField]) {
 				const { buckets } = options[dataField];
 				const after = options[dataField].after_key;
-				const prevAfter
-					= prevProps.options
-					&& prevProps.options[dataField]
-					&& prevProps.options[dataField].after_key;
+				const prevAfter =
+					prevProps.options &&
+					prevProps.options[dataField] &&
+					prevProps.options[dataField].after_key;
 				// detect the last bucket by checking if the
 				// after key is absent
 				const isLastBucket = !after;
@@ -127,8 +127,8 @@ class SingleList extends Component {
 		if (this.props.value !== prevProps.value) {
 			this.setValue(this.props.value);
 		} else if (
-			this.state.currentValue !== this.props.selectedValue
-			&& this.props.selectedValue !== prevProps.selectedValue
+			this.state.currentValue !== this.props.selectedValue &&
+			this.props.selectedValue !== prevProps.selectedValue
 		) {
 			const { value, onChange } = this.props;
 
@@ -247,7 +247,7 @@ class SingleList extends Component {
 		});
 	};
 
-	updateDefaultQuery = (queryOptions) => {
+	updateDefaultQuery = queryOptions => {
 		const { currentValue } = this.state;
 		updateDefaultQuery(this.props.componentId, this.props, currentValue);
 		updateInternalQuery(
@@ -255,11 +255,7 @@ class SingleList extends Component {
 			queryOptions,
 			currentValue,
 			this.props,
-			SingleList.generateQueryOptions(
-				this.props,
-				this.state.prevAfter,
-				currentValue,
-			),
+			SingleList.generateQueryOptions(this.props, this.state.prevAfter, currentValue),
 		);
 	};
 
@@ -290,7 +286,7 @@ class SingleList extends Component {
 		}
 	};
 
-	handleInputChange = (e) => {
+	handleInputChange = e => {
 		const { value } = e.target;
 		this.setState({
 			searchTerm: value,
@@ -325,7 +321,7 @@ class SingleList extends Component {
 		return null;
 	};
 
-	handleClick = (e) => {
+	handleClick = e => {
 		let currentValue = e;
 		if (isEvent(e)) {
 			currentValue = e.target.value;
@@ -348,7 +344,7 @@ class SingleList extends Component {
 			itemsToRender = this.props.transformData(itemsToRender);
 		}
 
-		const listItems = itemsToRender.filter((item) => {
+		const listItems = itemsToRender.filter(item => {
 			if (String(item.key).length) {
 				if (this.props.showSearch && this.state.searchTerm) {
 					return String(item.key)
@@ -586,9 +582,9 @@ const mapStateToProps = (state, props) => ({
 			? state.aggregations[props.componentId].reactivesearch_nested
 			: state.aggregations[props.componentId],
 	selectedValue:
-		(state.selectedValues[props.componentId]
-			&& state.selectedValues[props.componentId].value)
-		|| '',
+		(state.selectedValues[props.componentId] &&
+			state.selectedValues[props.componentId].value) ||
+		'',
 	themePreset: state.config.themePreset,
 	isLoading: state.isLoading[props.componentId],
 	error: state.error[props.componentId],

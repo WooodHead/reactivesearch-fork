@@ -1,7 +1,7 @@
-import { Actions, helper, causes } from '@appbaseio/reactivecore';
+import { Actions, helper, causes } from '@mitchgillin/reactivecore';
 import VueTypes from 'vue-types';
-import { componentTypes } from '@appbaseio/reactivecore/lib/utils/constants';
-import { getQueryOptions } from '@appbaseio/reactivecore/lib/utils/helper';
+import { componentTypes } from '@mitchgillin/reactivecore/lib/utils/constants';
+import { getQueryOptions } from '@mitchgillin/reactivecore/lib/utils/helper';
 import {
 	connect,
 	getComponent,

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { TouchableNativeFeedback, TouchableOpacity, Platform, View } from 'react-native';
 
-import types from '@appbaseio/reactivecore/lib/utils/types';
+import types from '@mitchgillin/reactivecore/lib/utils/types';
 
 const LOLLIPOP = 21;
 
@@ -11,9 +11,7 @@ class TouchableItem extends Component {
 	};
 
 	render() {
-		const {
-			style, pressOpacity, pressColor, ...rest
-		} = this.props;
+		const { style, pressOpacity, pressColor, ...rest } = this.props;
 
 		if (Platform.OS === 'android' && Platform.Version >= LOLLIPOP) {
 			return (
